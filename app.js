@@ -8,6 +8,7 @@ ddoc =
     [ {from:"/", to:'index.html'}
     , {from:"/search", to:'search.html'}
     , {from:"/search/", to:'search.html'}
+    , {from:"/api/zip", to: "../../../zipcodes/_design/zipcodes/_view/by_zipcode"}
     , {from:"/api", to:'../../'}
     , {from:"/api/*", to:'../../*'}
     , {from:"/*", to:'*'}

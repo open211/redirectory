@@ -9,6 +9,8 @@
   <link href="layout.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="jquery-1.5.min.js"></script>
 	<script type="text/javascript" src="jquery.mustache.js"></script>
+	<script type="text/javascript" src="polymaps.min.js"></script>
+	<script type="text/javascript" src="maptip.js"></script>
   <script language="javascript" type="text/javascript" src="sammy/sammy.js"></script>
   <script language="javascript" type="text/javascript" src="site.js"></script>
   <script type="text/javascript">
@@ -66,15 +68,14 @@
 			<section class="odd">
 
 				<h3>Hello World</h3>
-        <p>put info here</p>
         <p>
-        <pre><code>  {
-    "docs": [
-      {"name": "barry", "type": "human"},
-      {"name": "carl",  "type": "human"},
-      {"name": "ethel", "type": "robot"}
-    ]
-  }</code></pre>
+          <div class="map_header">Directory</div>
+          <div class="map_container"></div>
+          <div id="dialog">
+            <ul></ul>
+          </div>
+        </p>
+
         </p>
 			</section>
 		</div>
@@ -83,12 +84,6 @@
 			<a href='https://github.com/tilgovi/redirectory'>Fork this project on Github</a>. The <a href="http://github.com/michenriksen/css3buttons">pretty CSS3 Buttons</a> were created by <a href="http://michaelhenriksen.dk" title="Website of Michael Henriksen">Michael Henriksen</a>
 		</footer>
 	</div>
-
-  <script type='text/mustache' id="testTemplate">
-    <div id="database" class="single_database">
-      {{hello_world}}
-    </div>
-  </script>
   
 </body>
 </html>

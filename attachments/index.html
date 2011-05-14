@@ -1,21 +1,94 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="shortcut icon" type="image/png" href="favicon.png" />
-    
-    <title>Re-Directory Referral System</title>
-    <link href="layout.css" rel="stylesheet" type="text/css" />
-    <script language="javascript" type="text/javascript" src="jquery-1.4.4.min.js"></script>
-    <script language="javascript" type="text/javascript" src="sammy/sammy.js"></script>
-    <script language="javascript" type="text/javascript" src="site.js"></script>
-  </head>
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="utf-8"> 
+	<title>Re-Directory Referral System</title>
+	<link rel="stylesheet" href="reset.css" media="screen">
+	<link rel="stylesheet" href="demo.css" media="screen">
+	<link rel="stylesheet" href="css3buttons.css" media="screen"> 
+  <link href="layout.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="jquery-1.5.min.js"></script>
+	<script type="text/javascript" src="jquery.mustache.js"></script>
+  <script language="javascript" type="text/javascript" src="sammy/sammy.js"></script>
+  <script language="javascript" type="text/javascript" src="site.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      
+      function inVhost() {
+        var vhost = false;
+        if ( document.location.pathname.indexOf( "_design" ) === -1 ) {
+          vhost = true;
+        }
+        return vhost;
+      }
+      
+      if ( inVhost() ) {
+        $.extend(couch.defaults, {
+          // these need to be defined in rewrites.json
+          couch: "couch", // requires secure_rewrites = false
+          db: "api",
+          design: "ddoc",
+          host: document.location.href.split( "/" )[ 2 ]
+        })
+      } else {    
+        var db = document.location.href.split( '/' )[ 3 ],
+            ddoc = unescape( document.location.href ).split( '/' )[ 5 ];
+        $.extend(couch.defaults, {
+          vhost: false,
+          couch: "/",
+          db: db,
+          design: ddoc,
+          host: document.location.href.split( "/" )[ 2 ]
+        })
+      }
+      
+      /** uses $.mustache to render a template out to a target DOM
+       *  template == camelcase ID (minus the word Template) of the DOM object containg your mustache template
+       *  target == ID of the DOM node you wish to render the template into
+       *  data == data object to pass into the mustache template when rendering
+       */
+      function render( template, target, data ) {
+        if ( !data ) var data = {};
+        $( "#" + target ).html( $.mustache( $( "#" + template + "Template" ).text(), data ) );        
+      }
+
+      
+    })
+  </script>
+</head> 
+<body>
+	<div class="container">
+		<header>
+			<h1 id="title">Re-Directory Referral System</h1>
+		</header>
+		
+		<div id="main">
+			<section class="odd">
+
+				<h3>Hello World</h3>
+        <p>put info here</p>
+        <p>
+        <pre><code>  {
+    "docs": [
+      {"name": "barry", "type": "human"},
+      {"name": "carl",  "type": "human"},
+      {"name": "ethel", "type": "robot"}
+    ]
+  }</code></pre>
+        </p>
+			</section>
+		</div>
+		
+		<footer>
+			<a href='https://github.com/tilgovi/redirectory'>Fork this project on Github</a>. The <a href="http://github.com/michenriksen/css3buttons">pretty CSS3 Buttons</a> were created by <a href="http://michaelhenriksen.dk" title="Website of Michael Henriksen">Michael Henriksen</a>
+		</footer>
+	</div>
+
+  <script type='text/mustache' id="testTemplate">
+    <div id="database" class="single_database">
+      {{hello_world}}
+    </div>
+  </script>
   
-  <body>
-    
-  </body>
+</body>
 </html>

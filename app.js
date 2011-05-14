@@ -31,6 +31,12 @@ ddoc.views = {
     map : function(doc) {
       if(doc.name) emit(doc._id, doc.name);
     }
+  },
+
+  district : {
+    map : function(doc) {
+      if(doc.district) emit(doc._id, doc.district);
+    }
   }
 
 };

@@ -13,6 +13,23 @@
 	<script type="text/javascript" src="maptip.js"></script>
   <script language="javascript" type="text/javascript" src="site.js"></script>
   <script type="text/javascript">
+      
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+    
     $(function() {
       
       function inVhost() {
@@ -42,7 +59,7 @@
           host: document.location.href.split( "/" )[ 2 ]
         })
       }
-      
+
       
     })
   </script>
@@ -62,7 +79,6 @@
             <ul></ul>
           </div>
         </p>
-
         </p>
 			</section>
 		</div>
@@ -71,6 +87,5 @@
 			<a href='https://github.com/tilgovi/redirectory'>Fork this project on Github</a>. The <a href="http://github.com/michenriksen/css3buttons">pretty CSS3 Buttons</a> were created by <a href="http://michaelhenriksen.dk" title="Website of Michael Henriksen">Michael Henriksen</a>
 		</footer>
 	</div>
-  
 </body>
 </html>

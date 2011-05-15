@@ -13,16 +13,7 @@ path, circle {
 }
 
 .map_container {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  left: 0px;
-  bottom: 0px;
-}
-  
-svg.map {
-  border-bottom: 1px solid #333;
-  border-right: 1px solid #333;
+  width: 100%;
 }
 
 .map_header {

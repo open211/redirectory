@@ -1,15 +1,3 @@
-body {
-  overflow: hidden;
-  background-color: #f4f4f4;
-  font-family: georgia;
-}
-
-h2 {
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 40px;
-  font-weight: bold;
-}
-
 .loading {
   background-image: url("../images/ajax-loader.gif");
   background-position: 5px right;

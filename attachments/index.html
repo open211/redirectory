@@ -11,7 +11,6 @@
 	<script type="text/javascript" src="jquery.mustache.js"></script>
 	<script type="text/javascript" src="polymaps.min.js"></script>
 	<script type="text/javascript" src="maptip.js"></script>
-  <script language="javascript" type="text/javascript" src="sammy/sammy.js"></script>
   <script language="javascript" type="text/javascript" src="site.js"></script>
   <script type="text/javascript">
     $(function() {
@@ -44,16 +43,6 @@
         })
       }
       
-      /** uses $.mustache to render a template out to a target DOM
-       *  template == camelcase ID (minus the word Template) of the DOM object containg your mustache template
-       *  target == ID of the DOM node you wish to render the template into
-       *  data == data object to pass into the mustache template when rendering
-       */
-      function render( template, target, data ) {
-        if ( !data ) var data = {};
-        $( "#" + target ).html( $.mustache( $( "#" + template + "Template" ).text(), data ) );        
-      }
-
       
     })
   </script>
@@ -67,9 +56,7 @@
 		<div id="main">
 			<section class="odd">
 
-				<h3>Hello World</h3>
         <p>
-          <div class="map_header">Directory</div>
           <div class="map_container"></div>
           <div id="dialog">
             <ul></ul>

@@ -8,10 +8,24 @@
 	<link rel="stylesheet" href="css3buttons.css" media="screen"> 
   <link href="layout.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="jquery-1.5.min.js"></script>
-	<script type="text/javascript" src="jquery.mustache.js"></script>
-  <script language="javascript" type="text/javascript" src="sammy/sammy.js"></script>
-  <script language="javascript" type="text/javascript" src="site.js"></script>
   <script type="text/javascript">
+      
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+    
     $(function() {
       
       function inVhost() {
@@ -42,16 +56,10 @@
         })
       }
       
-      /** uses $.mustache to render a template out to a target DOM
-       *  template == camelcase ID (minus the word Template) of the DOM object containg your mustache template
-       *  target == ID of the DOM node you wish to render the template into
-       *  data == data object to pass into the mustache template when rendering
-       */
-      function render( template, target, data ) {
-        if ( !data ) var data = {};
-        $( "#" + target ).html( $.mustache( $( "#" + template + "Template" ).text(), data ) );        
-      }
-
+      $('.ui-dform-form').submit(function(e){
+        console.log(this.serializeObject());
+        e.preventDefault();
+      })
       
     })
   </script>
@@ -65,16 +73,14 @@
 		<div id="main">
 			<section class="odd">
 
-				<h3>Hello World</h3>
-        <p>put info here</p>
-        <p>
-        <pre><code>  {
-    "docs": [
-      {"name": "barry", "type": "human"},
-      {"name": "carl",  "type": "human"},
-      {"name": "ethel", "type": "robot"}
-    ]
-  }</code></pre>
+				<h3>Find a service</h3>
+        <form action="#" method="get" class="ui-dform-form">
+           <label for="txt-username" class="ui-dform-label">
+             Zip Code
+           </label>
+           <input type="text" name="username" id="txt-username" class="ui-dform-text">
+           <input type="submit" class="ui-dform-submit" value="Login">
+         </form>
         </p>
 			</section>
 		</div>
@@ -83,12 +89,5 @@
 			<a href='https://github.com/tilgovi/redirectory'>Fork this project on Github</a>. The <a href="http://github.com/michenriksen/css3buttons">pretty CSS3 Buttons</a> were created by <a href="http://michaelhenriksen.dk" title="Website of Michael Henriksen">Michael Henriksen</a>
 		</footer>
 	</div>
-
-  <script type='text/mustache' id="testTemplate">
-    <div id="database" class="single_database">
-      {{hello_world}}
-    </div>
-  </script>
-  
 </body>
 </html>

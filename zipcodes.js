@@ -48,8 +48,14 @@ ddoc.views = {
         return { 'type': 'Point', 'coordinates': [y/f, x/f] };
       };
       
-      if(doc.zipcode && doc.geometry) {        
-        emit(doc.zipcode, centroid(doc.geometry));
+      if(doc.zipcode && doc.geometry) {       
+        var one_mile = 1;
+        var centroid = centroid(doc.geometry);
+        var lat = centroid.coordinates[1]
+          , lon = centroid.coordinates[0];
+        bbox = (lon - one_mile) + "," + (lat - one_mile) + "," + (lon + one_mile) + "," + (lat + one_mile)
+        
+        emit(doc.zipcode, {centroid: centroid, bbox: bbox});
       }
     }
   }

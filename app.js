@@ -6,8 +6,7 @@ ddoc =
   { _id:'_design/app'
   , rewrites :
     [ {from:"/", to:'index.html'}
-    , {from:"/search", to:'search.html'}
-    , {from:"/search/", to:'search.html'}
+    , {from:"/api/search", to:'_spatiallist/search/by_name'}
     , {from:"/api/zip", to: "../../../zipcodes/_design/zipcodes/_view/by_zipcode"}
     , {from:"/api", to:'../../'}
     , {from:"/api/*", to:'../../*'}
@@ -41,6 +40,14 @@ ddoc.views = {
   }
 
 };
+
+ddoc.spatial = { 
+  by_name: function(doc) {
+    if(doc.name && doc.geometry) {        
+      emit(doc.geometry, doc.name);
+    }
+  }
+}
 
 ddoc.lists = {
 
@@ -76,7 +83,7 @@ ddoc.lists = {
       if(terms.some(function(term) {
         return (query.indexOf(term) != -1);
       })) {
-        send(prefix + row.id);
+        send(prefix + '"' + row.id + '"');
         if(!prefix) prefix = ',\n';
       }
     }

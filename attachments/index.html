@@ -1,308 +1,100 @@
-<!doctype html> 
-<html lang="en"> 
+<!doctype html>
+<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>  <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>  <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head> 
 	<meta charset="utf-8"> 
 	<title>Re-Directory Referral System</title>
-	<link rel="stylesheet" href="reset.css" media="screen">
-	<link rel="stylesheet" href="demo.css" media="screen">
 	<link rel="stylesheet" href="css3buttons.css" media="screen"> 
   <link href="layout.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="jquery-1.5.min.js"></script>
 	<script type="text/javascript" src="jquery.mustache.js"></script>
 	<script type="text/javascript" src="polymaps.min.js"></script>
 	<script type="text/javascript" src="maptip.js"></script>
-  <script type="text/javascript">
-      
-    $.fn.serializeObject = function() {
-        var o = {};
-        var a = this.serializeArray();
-        $.each(a, function() {
-            if (o[this.name]) {
-                if (!o[this.name].push) {
-                    o[this.name] = [o[this.name]];
-                }
-                o[this.name].push(this.value || '');
-            } else {
-                o[this.name] = this.value || '';
-            }
-        });
-        return o;
-    };
-    
-    function showLoader() {
-      $('.map_header').first().addClass('loading');  
-    }
-
-    function hideLoader() {
-      $('.map_header').first().removeClass('loading');  
-    }
-
-    var map, po, currentData, geoJson, db, config;
-    
-
-    function createMap(config) {
-      po = org.polymaps;
-      geoJson = po.geoJson();
-      config.mapContainer = $('div.map_container');
-
-      var featuresCache = {};
-      map = po.map()
-          .container(config.mapContainer[0].appendChild(po.svg("svg")))
-          .zoom(config.mapStartZoom)
-          .center({lat: config.mapCenterLat, lon: config.mapCenterLon})
-          .add(po.interact())
-          .add(po.hash());
-
-      map.add(po.image()
-          .url(po.url("http://{S}tile.cloudmade.com"
-          + "/d3394c6c242a4f26bb7dd4f7e132e5ff" // http://cloudmade.com/register
-          + "/998/256/{Z}/{X}/{Y}.png")
-          .repeat(false)
-          .hosts(["a.", "b.", "c.", ""])));
-
-      map.add(po.compass()
-          .pan("none"));
-
-      showDataset();
-    }
-
-    function randomColor(colors) {
-      var sick_neon_colors = ["#CB3301", "#FF0066", "#FF6666", "#FEFF99", "#FFFF67", "#CCFF66", "#99FE00", "#EC8EED", "#FF99CB", "#FE349A", "#CC99FE", "#6599FF", "#03CDFF"];
-      return sick_neon_colors[Math.floor(Math.random()*sick_neon_colors.length)];
-    };
-
-    function load(e){
-      var cssObj = randColor = randomColor();
-      for (var i = 0; i < e.features.length; i++) {
-        var feature = e.features[i];
-        if( feature.data.geometry.type == 'LineString' || feature.data.geometry.type == 'MultiLineString' ) {
-          cssObj = {
-            fill: 'none',
-            stroke: randColor,
-            strokeWidth:2,
-            opacity: .9 
-          }
-        } else {
-          cssObj = {
-            fill: randColor,
-            opacity: .9 
-          }
-        }
-        $( feature.element )
-          .css( cssObj )
-      }
-
-      var counts = {};
-      $.each(e.features, function( i, feature) {
-        var type = this.data.geometry.type.toLowerCase(),
-            el = this.element,
-            $el   = $(el),
-            $cir  = $(el.firstChild),
-            text  = po.svg('text'),
-            props = this.data.properties,
-            check = $('span.check[data-code=' + props.code + ']'),
-            inact = check.hasClass('inactive');
-        if(!counts[props.code]) {
-          counts[props.code] = 0
-        } 
-        counts[props.code]++
-        $el.bind('click', {props: props, geo: this.data.geometry}, onPointClick)      
-        text.setAttribute("text-anchor", "middle")
-        text.setAttribute("dy", ".35em")
-        text.appendChild(document.createTextNode(props.code))
-        el.appendChild(text)
-      })
-    }
-
-    function fetchFeatures(bbox, callback) {
-      $.ajax({
-        url: "http://rectangl.es/api/_design/app/_spatiallist/geojson/full",
-        dataType: 'jsonp',
-        data: {bbox: "-180,-90,180,90", query: "center"},
-        success: callback
-      });
-    }
-
-    var showDataset = function() {
-      var bbox = getBB();
-      showLoader();
-      fetchFeatures( bbox, function( data ){
-        var feature = po.geoJson()
-              .features( data.features )
-              .on( "show", load );
-        map.add( feature );
-        hideLoader();
-      })
-    }
-
-    var getBB = function(){
-      return map.extent()[0].lon + "," + map.extent()[0].lat + "," + map.extent()[1].lon + "," + map.extent()[1].lat;
-    }
-
-    var formatMetadata = function(data) {
-      out = '<dl>';
-      $.each(data, function(key, val) {
-        if (typeof(val) == 'string' && key[0] != '_') {
-          out = out + '<dt>' + key + '<dd>' + val;
-        } else if (typeof(val) == 'object' && key != "geometry" && val != null) {
-          if (key == 'properties') {
-            $.each(val, function(attr, value){
-              out = out + '<dt>' + attr + '<dd>' + value;
-            })
-          } else {
-            out = out + '<dt>' + key + '<dd>' + val.join(', ');
-          }
-        }
-      });
-      out = out + '</dl>';
-      return out;
-    }
-
-    var onPointClick = function( event ) {
-      var coor = event.data.geo.coordinates,
-        props = event.data.props;
-      if (event.data.geo.type === "Point") {
-        var centroid = event.data.geo;
-      } else {
-        var centroid = gju.centroid(event.data.geo);
-      }
-
-      config.mapContainer
-        .maptip(this)
-        .map(map)
-        .data(props)
-        .location({lat: centroid.coordinates[1], lon: centroid.coordinates[0]})
-        .classNames(function(d) {
-          return d.code
-        })
-        .top(function(tip) {
-          var point = tip.props.map.locationPoint(this.props.location)
-          return parseFloat(point.y - 30)
-        })
-        .left(function(tip) {
-          var radius = tip.target.getAttribute('r'),
-              point = tip.props.map.locationPoint(this.props.location)
-          return parseFloat(point.x + (radius / 2.0) + 20)
-        })
-        .content(function(d) {
-          var self = this,
-            props = d,
-            cnt = $('<div/>'),
-            hdr = $('<h2/>'),
-            bdy = $('<p/>'),
-            check = $('#sbar span[data-code=' + props.code + ']'),
-            ctype = check.next().clone(),
-            otype = check.closest('li.group').attr('data-code'),
-            close = $('<span/>').addClass('close').text('x')
-
-          hdr.append($('<span/>').addClass('badge').text('E').attr('data-code', otype))
-            .append("properties")
-            .append(ctype)
-            .append(close)
-            .addClass(otype) 
-
-          bdy.html(formatMetadata(props))
-          bdy.append($('<span />')
-            .addClass('date')
-            .text(props.properties))
-
-          cnt.append($('<div/>'))
-          cnt.append(hdr).append(bdy) 
-
-          close.click(function() {
-            self.hide()
-          })   
-
-          return cnt
-        }).render()    
-    };
-    
-    
-    $(function() {
-      
-      // Should probably abstract out the couch url and the db prefix and the version and the starting map center.
-      config = {
-      	dbPrefix: '',
-      	mapCenterLat: 42.3584308,
-      	mapCenterLon: -71.0597732,
-      	mapStartZoom: 14,
-        db: "api", // relative vhost links defined in rewrites.json
-        design: "ddoc",
-        vhost: true,
-        couchUrl: "",
-        host: "http://" + window.location.href.split( "/" )[ 2 ],  
-      };
-
-      // vhosts are when you mask couchapps behind a pretty URL
-      function inVhost() {
-        var vhost = false;
-        if ( document.location.pathname.indexOf( "_design" ) === -1 ) {
-          vhost = true;
-        }
-        return vhost;
-      }
-      
-      config.mapCenterLon = -122.6762071;
-      config.mapCenterLat = 45.5234515;
-      createMap(config);
-      
-      $("#new_message").submit(function() {
-        // save the message to couchdb
-        var input = $("input[name=message]", this);
-        var bbox = "-123.41126245426732,36.773141256603736,-121.41126245426732,38.773141256603736";
-        $.getJSON('http://rectangl.es/api/zip?key="' + input.val() + '"', function(data) {
-          var center = data.rows[0].value.centroid.coordinates;
-          console.log(center)
-          map.center({lat: center[1], lon: center[0]})
-          $.getJSON('http://rectangl.es/api/search?bbox=' + data.rows[0].value.bbox + "&query=center", function(doc) {
-            var list = $('.results')
-            doc.map(function(d) {
-              list.append('<li>' + d + '</li>');
-            })
-          })
-        })
-
-      });
-
-      
-    })
-  </script>
+	<script type="text/javascript" src="site.js"></script>
 </head> 
 <body>
-	<div class="container">
-		<header>
-			<h1 id="title">Re-Directory Referral System</h1>
-		</header>
-		
-		<div id="main">
-			<section class="odd">
-
-        <p>
-          <div class="map_container"></div>
-          <div id="dialog">
-            <ul></ul>
-          </div>
-        </p>
-        
-        <p>
-            <form id="new_message">
-              <label for="message">Search:</label> 
-              <input type="text" name="message" value="">
-              <p><input type="submit" value="Save &rarr;"></p>
-            </form>
-        </p>
-        
-        <p>
-          <ul class="results">
-            
+  <!-- <div id="management_banner">woo<a class="so" href="#">Sign out</a></div> -->
+  <div id="container" class="container_12">
+    <header id="page_header">
+      <div id="header_content">
+        <h2 class="logo_title"><a href="/">Redirectory Project</a></h2> 
+        <nav id="header_nav" class="clearfix">
+          <ul id="main_nav" class="grid_12 alpha">
+            <li class="current"><a href="">Home</a></li>
+            <li><a href="#">Cities</a></li>
+            <li><a href="#">Get Involved</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Developers</a></li>
           </ul>
-        </p>
-			</section>
-		</div>
-		
-		<footer>
-			<a href='https://github.com/tilgovi/redirectory'>Fork this project on Github</a>. The <a href="http://github.com/michenriksen/css3buttons">pretty CSS3 Buttons</a> were created by <a href="http://michaelhenriksen.dk" title="Website of Michael Henriksen">Michael Henriksen</a>
-		</footer>
-	</div>
+        </nav>
+      </div>
+    </header>
+    <div id="main" role="main">
+      <div id="main_content">
+        <div id="index_cta" class="cta map_container">
+          <div class="info grid_4">
+            <h1>Community edited social services directory</h1>
+            <h2>Building a free and open database for every city to use</h2>
+          </div>
+          <a href="#" class="cta grid_4">Learn more &raquo;</a>
+        </div>
+        <div id="content_wrapper" class="npt clearfix">
+          <div class="grid_8 alpha">
+            <h2>Welcome to the Redirectory Project</h2>
+            <h5 class="intro a">The Redirectory Project is a free and open directory of social services and resources that anyone can edit.</h5>
+            <p>Many social services organizations experience a high amount of referrals to other programs due to inquiries that are for resources that the organization isn't equipped to handle, such as an individual visiting a shelter in search of food when in fact the shelter only supplies showers and beds.</p>
+            <p>By creating a directory of resources we can help both the staff of social programs and those that they are serving to be more informed when searching for the correct social services.</p>
+            <p>You can help build a rich directory of information about resources available in your community</p>
+            <h4>What you can do to help:</h4>
+            <ol class="icon_list">
+              <li>See if Redirectory is in your city <em>(<a href="#cities">view active cities</a>)</em></li>
+              <li>If it is, you can add or edit a social service in your city <em>(see <a href="#editing">our editing tips</a>)</em></li>
+              <li>If your city isn't yet active you can learn how to add your city to Redirectory</li>
+            </ol>
+            <p></p>
+            <a href="#" class="alpha cta grid_6">Ok, let's add my city! &raquo;</a>
+          </div>
+          <div class="grid_4 omega">
+            <h5>Newest Cities</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer id="page_footer" class="clearfix">
+      <div id="footer_highlight"></div>
+      <div id="footer_content">
+        <div class="grid_4 alpha">
+          <h4>About</h4>
+          <p>The Redirectory Project is a free and open project built by <a href="http://twitter.com/tilgovi">Randall Leeds</a>, <a href="http://twitter.com/maxogden">Max Ogden</a> and <a href="http://twitter.com/briantrice">Brian Rice</a> and endorsed by <a href="http://www.codeforamerica.org">Code for America</a> to create a detailed directory of social services that anyone can edit or use.</a>
+          </p>
+          <p>
+            <a href="http://www.codeforamerica.org/" class="grid_2 alpha"><img class="png_bg" src="images/cfa_logo.png" width="140" /></a>
+          </p>
+        </div>
+        <div class="grid_4">
+          <h4>Mission</h4>
+          <p>Many cities have existing social services that aren't easily searchable by hours of operation, location and available resources. You can help out by adding to our directory.</p>
+          <p>All information collected by the Redirectory Project is public domain and can be used by anyone. See the <a href="#developers">Developers</a> page for more information on how to access the data.</p>
+        </div>
+        <div class="grid_4 omega">
+          <h4>Getting Involved</h4>
+          <p>Getting involved is easy &ndash; first check and see if your city is participating by viewing our list of <a href="#cities">active cities</a>. If your city is listed you can view our <a href="#editing">editing tips</a> to learn how to add information to the directory. If your city isn't yet active you can learn how to <a href="#getinvolved">get your city listed in Redirectory</a></p>
+        </div>
+        <div class="clear"></div>
+        <nav id="footer_nav" class="grid_5 alpha">
+          <ul id="footer_quick_nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">Cities</a></li>
+            <li><a href="#">Get Involved</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Developers</a></li>
+            <li><a href="#">Terms of Use</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+  </div> 
 </body>
 </html>

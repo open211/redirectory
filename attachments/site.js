@@ -47,25 +47,21 @@ function createMap(config) {
   showDataset();
 }
 
-function randomColor(colors) {
-  var sick_neon_colors = ["#CB3301", "#FF0066", "#FF6666", "#FEFF99", "#FFFF67", "#CCFF66", "#99FE00", "#EC8EED", "#FF99CB", "#FE349A", "#CC99FE", "#6599FF", "#03CDFF"];
-  return sick_neon_colors[Math.floor(Math.random()*sick_neon_colors.length)];
-};
 
 function load(e){
-  var cssObj = randColor = randomColor();
+  var cssObj = objColor = "#AFDE41";
   for (var i = 0; i < e.features.length; i++) {
     var feature = e.features[i];
     if( feature.data.geometry.type == 'LineString' || feature.data.geometry.type == 'MultiLineString' ) {
       cssObj = {
         fill: 'none',
-        stroke: randColor,
+        stroke: objColor,
         strokeWidth:2,
         opacity: .9 
       }
     } else {
       cssObj = {
-        fill: randColor,
+        fill: objColor,
         opacity: .9 
       }
     }

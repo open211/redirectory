@@ -35,12 +35,11 @@ function createMap(config) {
       .container(config.mapContainer[0].appendChild(po.svg("svg")))
       .zoom(config.mapStartZoom)
       .center({lat: config.mapCenterLat, lon: config.mapCenterLon})
-      .add(po.interact())
 
   map.add(po.image()
       .url(po.url("http://{S}tile.cloudmade.com"
       + "/d3394c6c242a4f26bb7dd4f7e132e5ff" // http://cloudmade.com/register
-      + "/998/256/{Z}/{X}/{Y}.png")
+      + "/37608/256/{Z}/{X}/{Y}.png")
       .repeat(false)
       .hosts(["a.", "b.", "c.", ""])));
 
@@ -95,7 +94,7 @@ function fetchFeatures(bbox, callback) {
   $.ajax({
     url: "http://rectangl.es/api/_design/app/_spatiallist/geojson/full",
     dataType: 'jsonp',
-    data: {bbox: "-180,-90,180,90", query: "center"},
+    data: {bbox: getBB()},
     success: callback
   });
 }
@@ -202,7 +201,7 @@ $(function() {
   	dbPrefix: '',
   	mapCenterLat: 42.3584308,
   	mapCenterLon: -71.0597732,
-  	mapStartZoom: 14,
+  	mapStartZoom: 13,
     db: "api", // relative vhost links defined in rewrites.json
     design: "ddoc",
     vhost: true,

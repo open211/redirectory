@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="jquery.mustache.js"></script>
 	<script type="text/javascript" src="polymaps.min.js"></script>
 	<script type="text/javascript" src="maptip.js"></script>
+	<script type="text/javascript" src="sammy/sammy.js"></script>
 	<script type="text/javascript" src="site.js"></script>
 </head> 
 <body>
@@ -22,44 +23,17 @@
         <h2 class="logo_title">Redirectory Project</h2> 
         <nav id="header_nav" class="clearfix">
           <ul id="main_nav" class="grid_12 alpha">
-            <li class="current"><a href="">Home</a></li>
-            <li><a href="#">Cities</a></li>
-            <li><a href="#">Get Involved</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Developers</a></li>
+            <li class="current"><a href="#home">Home</a></li>
+            <li><a href="#cities">Cities</a></li>
+            <li><a href="#getinvolved">Get Involved</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#developers">Developers</a></li>
           </ul>
         </nav>
       </div>
     </header>
     <div id="main" role="main">
       <div id="main_content">
-        <div id="index_cta" class="cta map_container">
-          <div class="info grid_4">
-            <h1>Community edited social services directory</h1>
-            <h2>Building an open platform that any city can use</h2>
-          </div>
-          <a href="#" class="cta grid_4">Learn more &raquo;</a>
-        </div>
-        <div id="content_wrapper" class="npt clearfix">
-          <div class="grid_8 alpha">
-            <h2>Welcome to the Redirectory Project</h2>
-            <h5 class="intro a">The Redirectory Project is a free and open directory of social services and resources that anyone can edit</h5>
-            <p>Many social services organizations experience a high amount of referrals to other programs due to inquiries that are for resources that the organization isn't equipped to handle, such as an individual visiting a shelter in search of food when in fact the shelter only supplies showers and beds.</p>
-            <p>By creating a directory of resources we can help both the staff of social programs and those that they are serving to be more informed when searching for the correct social services.</p>
-            <p>You can help build a rich directory of information about resources available in your community. Redirectory makes that information searchable by internet, mobile browser, phone call or SMS.</p>
-            <h4>What you can do to help:</h4>
-            <ol class="icon_list">
-              <li>See if Redirectory is in your city <em>(<a href="#cities">view active cities</a>)</em></li>
-              <li>If it is, you can add or edit a social service in your city <em>(see <a href="#editing">our editing tips</a>)</em></li>
-              <li>If your city isn't yet active you can learn how to add your city to Redirectory</li>
-            </ol>
-            <p></p>
-            <a href="#" class="alpha cta grid_6">Ok, let's get my city involved! &raquo;</a>
-          </div>
-          <div class="grid_4 omega">
-            <h5>Newest Cities</h5>
-          </div>
-        </div>
       </div>
     </div>
     <footer id="page_footer" class="clearfix">
@@ -85,16 +59,66 @@
         <div class="clear"></div>
         <nav id="footer_nav" class="grid_5 alpha">
           <ul id="footer_quick_nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="#">Cities</a></li>
-            <li><a href="#">Get Involved</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Developers</a></li>
-            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#/">Home</a></li>
+            <li><a href="#citites">Cities</a></li>
+            <li><a href="#getinvolved">Get Involved</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#developers">Developers</a></li>
+            <li><a href="#terms">Terms of Use</a></li>
           </ul>
         </nav>
       </div>
     </footer>
   </div> 
+  
+  <script id="homeTemplate" type="text/mustache">
+    <div id="index_cta" class="cta map_container">
+      <div class="info grid_4">
+        <h1>Community edited social services directory</h1>
+        <h2>Building an open platform that any city can use</h2>
+      </div>
+      <a href="#" class="cta grid_4">Learn more &raquo;</a>
+    </div>
+    <div id="content_wrapper" class="npt clearfix">
+      <div class="grid_8 alpha">
+        <h2>Welcome to the Redirectory Project</h2>
+        <h5 class="intro a">The Redirectory Project is a free and open directory of social services and resources that anyone can edit</h5>
+        <p>Many social services organizations experience a high amount of referrals to other programs due to inquiries that are for resources that the organization isn't equipped to handle, such as an individual visiting a shelter in search of food when in fact the shelter only supplies showers and beds.</p>
+        <p>By creating a directory of resources we can help both the staff of social programs and those that they are serving to be more informed when searching for the correct social services.</p>
+        <p>You can help build a rich directory of information about resources available in your community. Redirectory makes that information searchable by internet, mobile browser, phone call or SMS.</p>
+        <h4>What you can do to help:</h4>
+        <ol class="icon_list">
+          <li>See if Redirectory is in your city <em>(<a href="#cities">view active cities</a>)</em></li>
+          <li>If it is, you can add or edit a social service in your city <em>(see <a href="#editing">our editing tips</a>)</em></li>
+          <li>If your city isn't yet active you can learn how to add your city to Redirectory</li>
+        </ol>
+        <p></p>
+        <a href="#" class="alpha cta grid_6">Ok, let's get my city involved! &raquo;</a>
+      </div>
+      <div class="grid_4 omega">
+        <h5>Newest Cities</h5>
+      </div>
+    </div>
+  </script>
+  
+  <script id="citiesTemplate" type="text/mustache">
+    cities
+  </script>
+  
+  <script id="getinvolvedTemplate" type="text/mustache">
+    get involved
+  </script>
+  
+  <script id="aboutTemplate" type="text/mustache">
+    about
+  </script>
+  
+  <script id="developersTemplate" type="text/mustache">
+    developers
+  </script>
+  
+  <script id="termsTemplate" type="text/mustache">
+    terms
+  </script>
 </body>
 </html>

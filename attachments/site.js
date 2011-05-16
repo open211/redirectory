@@ -1,3 +1,5 @@
+var map, app = {}, po, currentData, geoJson, db, config;
+
 $.fn.serializeObject = function() {
     var o = {};
     var a = this.serializeArray();
@@ -14,6 +16,18 @@ $.fn.serializeObject = function() {
     return o;
 };
 
+function render( template, target, data, append ) {
+  if ( ! data ) data = {};
+  var html = $.mustache( $( "#" + template + "Template" ).text(), data ),
+      targetDom = $( "#" + target );
+  if( append ) {
+    targetDom.append( html );    
+  } else {
+    targetDom.html( html );
+  }
+  if (template in app) app[template]();
+}
+
 function showLoader() {
   $('.map_header').first().addClass('loading');  
 }
@@ -21,9 +35,6 @@ function showLoader() {
 function hideLoader() {
   $('.map_header').first().removeClass('loading');  
 }
-
-var map, po, currentData, geoJson, db, config;
-
 
 function createMap(config) {
   po = org.polymaps;
@@ -193,46 +204,30 @@ var onPointClick = function( event ) {
     }).render()    
 };
 
-
 $(function() {
   
   // Should probably abstract out the couch url and the db prefix and the version and the starting map center.
   config = {
-  	dbPrefix: '',
-  	mapCenterLat: 42.3584308,
-  	mapCenterLon: -71.0597732,
-  	mapStartZoom: 13,
-    db: "api", // relative vhost links defined in rewrites.json
-    design: "ddoc",
-    vhost: true,
-    couchUrl: "",
-    host: "http://" + window.location.href.split( "/" )[ 2 ],  
+  	mapCenterLat: 45.5234515,
+  	mapCenterLon: -122.6762071,
+  	mapStartZoom: 13
   };
-
-  // vhosts are when you mask couchapps behind a pretty URL
-  function inVhost() {
-    var vhost = false;
-    if ( document.location.pathname.indexOf( "_design" ) === -1 ) {
-      vhost = true;
-    }
-    return vhost;
+  
+  app.handler = function(route) {
+    route = route.path.slice(1, route.path.length);
+    if (route.length < 1) route = "home";
+    render( route, 'main_content' );
+  };
+  
+  app.home = function() {
+    createMap(config);
   }
   
-  config.mapCenterLon = -122.6762071;
-  config.mapCenterLat = 45.5234515;
-  createMap(config);
-  
-  $("#new_message").submit(function() {
-    var input = $("input[name=message]", this);
-    $.getJSON('http://rectangl.es/api/zip?key="' + input.val() + '"', function(data) {
-      var center = data.rows[0].value.centroid.coordinates;
-      map.center({lat: center[1], lon: center[0]});
-      $.getJSON('http://rectangl.es/api/search?bbox=' + data.rows[0].value.bbox + "&query=center", function(doc) {
-        var list = $('.results')
-        doc.map(function(d) {
-          list.append('<li>' + d + '</li>');
-        })
-      })
-    })
+  app.s = $.sammy(function () {
+    this.get('', app.handler);
+    this.get("#/", app.handler);
+    this.get("#:route", app.handler);
   });
+  
+  app.s.run();
 })

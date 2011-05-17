@@ -250,6 +250,7 @@ $(function() {
     $('li.current').removeClass('current');
     $('a[href="#'+route+'"]').parents('li').addClass('current');
     render( route, 'main_content' );
+    window.scrollTo(0, 0);
   };
   
   app.home = function() {

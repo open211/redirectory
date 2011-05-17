@@ -103,7 +103,7 @@ function load(e){
 
 function fetchFeatures(bbox, callback) {
   $.ajax({
-    url: "http://rectangl.es/api/_design/app/_spatiallist/geojson/full",
+    url: "_rewrite/api/services",
     dataType: 'jsonp',
     data: {bbox: getBB()},
     success: callback

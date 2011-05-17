@@ -212,6 +212,15 @@ var onPointClick = function( event ) {
     }).render()    
 };
 
+function fetchNewCities() {
+  $.getJSON(config.baseURL + "api/new_cities", function(cities) {
+    cities = { cities: cities.rows.map(
+      function(city) { return { name: city.value } }
+    )};
+    render('newCities', 'newCities', cities)
+  })
+}
+
 $(function() {
   
   // Should probably abstract out the couch url and the db prefix and the version and the starting map center.
@@ -243,14 +252,8 @@ $(function() {
   
   app.home = function() {
     createMap(config);
+    fetchNewCities();
   }
-  
-  $.getJSON(config.baseURL + "api/new_cities", function(cities) {
-    cities = { cities: cities.rows.map(
-      function(city) { return { name: city.value } }
-    )};
-    render('newCities', 'newCities', cities)
-  })
   
   app.s = $.sammy(function () {
     this.get('', app.handler);

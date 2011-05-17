@@ -16,6 +16,14 @@ $.fn.serializeObject = function() {
     return o;
 };
 
+var inURL = function(str) {
+  var exists = false;
+  if ( document.location.pathname.indexOf( str ) > -1 ) {
+    exists = true;
+  }
+  return exists;
+}
+
 function render( template, target, data, append ) {
   if ( ! data ) data = {};
   var html = $.mustache( $( "#" + template + "Template" ).text(), data ),
@@ -103,7 +111,7 @@ function load(e){
 
 function fetchFeatures(bbox, callback) {
   $.ajax({
-    url: "_rewrite/api/services",
+    url: config.baseURL + "api/services",
     dataType: 'jsonp',
     data: {bbox: getBB()},
     success: callback
@@ -210,8 +218,22 @@ $(function() {
   config = {
   	mapCenterLat: 45.5234515,
   	mapCenterLon: -122.6762071,
-  	mapStartZoom: 13
+  	mapStartZoom: 13,
+  	baseURL: ""
   };
+  
+  if ( inURL('_design') ) {
+    if (inURL('_rewrite')) {
+      var path = document.location.pathname.split("#")[0];
+      if (path[path.length - 1] === "/") {
+        config.baseURL = "";
+      } else {
+        config.baseURL = '_rewrite/';
+      }
+    } else {
+      config.baseURL = '_rewrite/';
+    }
+  }
   
   app.handler = function(route) {
     route = route.path.slice(1, route.path.length);

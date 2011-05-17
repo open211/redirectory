@@ -29,7 +29,7 @@ function render( template, target, data, append ) {
   var html = $.mustache( $( "#" + template + "Template" ).text(), data ),
       targetDom = $( "#" + target );
   if( append ) {
-    targetDom.append( html );    
+    targetDom.append( html );
   } else {
     targetDom.html( html );
   }
@@ -37,11 +37,11 @@ function render( template, target, data, append ) {
 }
 
 function showLoader() {
-  $('.map_header').first().addClass('loading');  
+  $('.map_header').first().addClass('loading');
 }
 
 function hideLoader() {
-  $('.map_header').first().removeClass('loading');  
+  $('.map_header').first().removeClass('loading');
 }
 
 function createMap(config) {
@@ -75,12 +75,12 @@ function load(e){
         fill: 'none',
         stroke: objColor,
         strokeWidth:2,
-        opacity: .9 
+        opacity: .9
       }
     } else {
       cssObj = {
         fill: objColor,
-        opacity: .9 
+        opacity: .9
       }
     }
     $( feature.element )
@@ -99,9 +99,9 @@ function load(e){
         inact = check.hasClass('inactive');
     if(!counts[props.code]) {
       counts[props.code] = 0
-    } 
+    }
     counts[props.code]++
-    $el.bind('click', {props: props, geo: this.data.geometry}, onPointClick)      
+    $el.bind('click', {props: props, geo: this.data.geometry}, onPointClick)
     text.setAttribute("text-anchor", "middle")
     text.setAttribute("dy", ".35em")
     text.appendChild(document.createTextNode(props.code))
@@ -194,7 +194,7 @@ var onPointClick = function( event ) {
         .append("properties")
         .append(ctype)
         .append(close)
-        .addClass(otype) 
+        .addClass(otype)
 
       bdy.html(formatMetadata(props))
       bdy.append($('<span />')
@@ -202,14 +202,14 @@ var onPointClick = function( event ) {
         .text(props.properties))
 
       cnt.append($('<div/>'))
-      cnt.append(hdr).append(bdy) 
+      cnt.append(hdr).append(bdy)
 
       close.click(function() {
         self.hide()
-      })   
+      })
 
       return cnt
-    }).render()    
+    }).render()
 };
 
 function fetchNewCities() {
@@ -222,7 +222,7 @@ function fetchNewCities() {
 }
 
 $(function() {
-  
+
   // Should probably abstract out the couch url and the db prefix and the version and the starting map center.
   config = {
   	mapCenterLat: 45.5234515,
@@ -230,7 +230,7 @@ $(function() {
   	mapStartZoom: 13,
   	baseURL: ""
   };
-  
+
   if ( inURL('_design') ) {
     if (inURL('_rewrite')) {
       var path = document.location.pathname.split("#")[0];
@@ -243,7 +243,7 @@ $(function() {
       config.baseURL = '_rewrite/';
     }
   }
-  
+
   app.handler = function(route) {
     route = route.path.slice(1, route.path.length);
     if (route.length < 1) route = "home";
@@ -252,17 +252,17 @@ $(function() {
     render( route, 'main_content' );
     window.scrollTo(0, 0);
   };
-  
+
   app.home = function() {
     createMap(config);
     fetchNewCities();
   }
-  
+
   app.s = $.sammy(function () {
     this.get('', app.handler);
     this.get("#/", app.handler);
     this.get("#:route", app.handler);
   });
-  
+
   app.s.run();
 })

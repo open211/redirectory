@@ -95,11 +95,22 @@
         <p></p>
         <a href="#" class="alpha cta grid_6">Ok, let's get my city involved! &raquo;</a>
       </div>
-      <div class="grid_4 omega">
-        <h5>Newest Cities</h5>
+      <div id="newCities" class="grid_4 omega">
       </div>
     </div>
   </script>
+  
+  <script id="newCitiesTemplate" type="text/mustache">
+    <h5>Newest Cities</h5>
+    <ul>
+    {{#cities}}
+      <li>
+        {{name}}
+      </li>
+    {{/cities}}
+    </ul>
+  </script>
+
   
   <script id="citiesTemplate" type="text/mustache">
     cities

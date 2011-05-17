@@ -99,7 +99,7 @@ body {background:#fff url('images/body_bg.png') scroll repeat-x 0 0;font:13px/17
 #submit_report_bt:active {background-position:0 -87px;}
 div.cta {width:100%;height:416px;position:relative;margin-bottom:37px}
 div.cta div.info {position:absolute;top:60px;left:20px;background-color:#FBFAF7;padding:20px;}
-div.cta div.info h1, div.cta div.info h2 {font:18px/26px "Lucida Grande", "Times New Roman", serif;color:#0A3D57;font-weight:600}
+div.cta div.info h1, div.cta div.info h2 {font:18px/26px "Lucida Grande", "Luxi Sans", "Bitstream Vera Sans", "Times New Roman", serif;color:#0A3D57;font-weight:600}
 div.cta div.info h2 {font-size:16px;line-height:17px;font-weight:300}
 a.cta {display:block;background-color:#1F86A1;padding:10px 20px;color:#fff;font-size:20px;text-decoration:none;text-align:center;}
 a.cta:hover {background-color:#19B3CD;}

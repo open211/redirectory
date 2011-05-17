@@ -245,6 +245,13 @@ $(function() {
     createMap(config);
   }
   
+  $.getJSON(config.baseURL + "api/new_cities", function(cities) {
+    cities = { cities: cities.rows.map(
+      function(city) { return { name: city.value } }
+    )};
+    render('newCities', 'newCities', cities)
+  })
+  
   app.s = $.sammy(function () {
     this.get('', app.handler);
     this.get("#/", app.handler);

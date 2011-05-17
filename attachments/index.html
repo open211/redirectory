@@ -125,7 +125,12 @@
   </script>
   
   <script id="developersTemplate" type="text/mustache">
-    developers
+    <div id="content_wrapper" class="npt clearfix">
+      <h2>Developer Guide to APIs and Contributing</h2>
+      <p>The Redirectory project provides an API developers can use to access the information from within their own applications and projects. For example, the API can be used to create native mobile apps or creative new mash-ups. This page collects all the information developers need to get started developing with Redirectory or contributing to the Redirectory project.</p>
+      <h3>Developer APIs</h3>
+      <p>The core of Redirectory is organized around spatial queries for points of interest in services directory, optionally restricted by a keyword search. To facilitate the construction of spatial queries, Redirectory provides a database and an API for developers to retreive bounding box information from postal codes. The raw services data is available via a separate API, including bulk download and real-time long-polling for changes. In the future, the API may expand to include an atom feed to ease integration with non-CouchDB systems and allow for <a href="pubsubhub">PubSubHubbub</a> support.</p>
+    </div>
   </script>
   
   <script id="termsTemplate" type="text/mustache">

@@ -247,6 +247,8 @@ $(function() {
   app.handler = function(route) {
     route = route.path.slice(1, route.path.length);
     if (route.length < 1) route = "home";
+    $('li.current').removeClass('current');
+    $('a[href="#'+route+'"]').parents('li').addClass('current');
     render( route, 'main_content' );
   };
   

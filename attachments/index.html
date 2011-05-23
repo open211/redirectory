@@ -8,11 +8,13 @@
 	<title>Re-Directory Referral System</title>
 	<link rel="stylesheet" href="css3buttons.css" media="screen"> 
   <link href="layout.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="script/jquery-1.5.min.js"></script>
+  <link rel="stylesheet" href="style/leaflet.css" />
+	<!--[if lte IE 8]><link rel="stylesheet" href="style/leaflet.ie.css" /><![endif]-->
+	<script type="text/javascript" src="script/jquery-1.6.1.min.js"></script>
 	<script type="text/javascript" src="script/jquery.mustache.js"></script>
-	<script type="text/javascript" src="script/polymaps.min.js"></script>
+	<script type="text/javascript" src="script/microevent.js"></script>
+	<script type="text/javascript" src="script/leaflet.js"></script>
 	<script type="text/javascript" src="script/jquery.selectbox.js"></script>
-	<script type="text/javascript" src="script/maptip.js"></script>
 	<script type="text/javascript" src="script/sammy/sammy.js"></script>
 	<script type="text/javascript" src="script/site.js"></script>
 </head> 
@@ -73,12 +75,12 @@
   </div> 
   
   <script id="homeTemplate" type="text/mustache">
-    <div id="index_cta" class="cta mapContainer">
-      <div class="info grid_4">
+    <div id="mapContainer" class="cta mapContainer">
+      <div class="info grid_4" style="z-index:666;">
         <h1>Community edited social services directory</h1>
         <h2>Building an open platform that any city can use</h2>
       </div>
-      <a href="#" class="cta grid_4">Learn more &raquo;</a>
+      <a href="#" class="cta grid_4" style="position:absolute;top:230px;left:20px;z-index:666; color: #FFF">Learn more &raquo;</a>
     </div>
     <div id="content_wrapper" class="npt clearfix">
       <div class="grid_8 alpha">
@@ -134,7 +136,7 @@
           </div>
         </div>
         <div id="right">
-          <div class="mapContainer">
+          <div id="mapContainer" class="mapContainer">
           </div>
         </div>
       </div>

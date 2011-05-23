@@ -1,5 +1,11 @@
 var map, app = {}, po, currentData, geoJson, db, config, features, citiesCache;
 
+var Emitter = function(obj) {
+  this.emit = function(obj) { this.trigger('data', obj); };
+};
+MicroEvent.mixin(Emitter);
+var emitter = new Emitter();
+
 $.fn.serializeObject = function() {
     var o = {};
     var a = this.serializeArray();
@@ -26,7 +32,7 @@ var inURL = function(str) {
 
 function render( template, target, data, append ) {
   if ( ! data ) data = {};
-  var html = $.mustache( $( "#" + template + "Template" ).text(), data ),
+  var html = $.mustache( $( "#" + template + "Template" ).html(), data ),
       targetDom = $( "#" + target );
   if( append ) {
     targetDom.append( html );
@@ -45,68 +51,32 @@ function hideLoader() {
 }
 
 function createMap(config) {
-  po = org.polymaps;
-  geoJson = po.geoJson();
-  config.mapContainer = $('div.mapContainer');
-
-  var featuresCache = {};
-  map = po.map()
-      .container(config.mapContainer[0].appendChild(po.svg("svg")))
-      .zoom(config.mapStartZoom)
-      .center({lat: config.mapCenterLat, lon: config.mapCenterLon})
-
-  map.add(po.image()
-      .url(po.url("http://{S}tile.cloudmade.com"
-      + "/d3394c6c242a4f26bb7dd4f7e132e5ff" // http://cloudmade.com/register
-      + "/37608/256/{Z}/{X}/{Y}.png")
-      .repeat(false)
-      .hosts(["a.", "b.", "c.", ""])));
-
+  map = new L.Map('mapContainer', {zoomControl: false});
+	var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/d3394c6c242a4f26bb7dd4f7e132e5ff/37608/256/{z}/{x}/{y}.png',
+		cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+		cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
+	
+	map.setView(new L.LatLng(config.mapCenterLat, config.mapCenterLon), config.mapStartZoom).addLayer(cloudmade);
+  map.MarkerDot = L.Icon.extend({
+    iconUrl: 'style/images/marker-dot.png',
+    shadowUrl: 'style/images/marker-shadow.png',
+    iconSize: new L.Point(11,11),
+    shadowSize: new L.Point(0.0),
+    iconAnchor: new L.Point(5,5),
+    popupAnchor: new L.Point(-3, -76)
+  });
+  map.markerDot = new map.MarkerDot();
+	
   showDataset();
 }
 
-function load(e) {
-  features = e.features;
-  var cssObj = objColor = "#AFDE41";
-  for (var i = 0; i < features.length; i++) {
-    var feature = features[i];
-    if( feature.data.geometry.type == 'LineString' || feature.data.geometry.type == 'MultiLineString' ) {
-      cssObj = {
-        fill: 'none',
-        stroke: objColor,
-        strokeWidth:2,
-        opacity: .9
-      }
-    } else {
-      cssObj = {
-        fill: objColor,
-        opacity: .9
-      }
-    }
-    $( feature.element ).css( cssObj );
-  }
-
-  var counts = {};
-  $.each(features, function( i, feature) {
-    var type = this.data.geometry.type.toLowerCase(),
-        el = this.element,
-        $el   = $(el),
-        $cir  = $(el.firstChild),
-        text  = po.svg('text'),
-        props = this.data.properties,
-        check = $('span.check[data-code=' + props.code + ']'),
-        inact = check.hasClass('inactive');
-        
-    if(!counts[props.code]) {
-      counts[props.code] = 0;
-    }
-    counts[props.code]++;
-    $el.bind('click', {props: props, geo: this.data.geometry}, onPointClick);
-    text.setAttribute("text-anchor", "middle");
-    text.setAttribute("dy", ".35em");
-    text.appendChild(document.createTextNode(props.code));
-    el.appendChild(text);
-  })
+function showPoint(feature) {
+  var point = feature.geometry;
+  var markerLocation = new L.LatLng(parseFloat(point.coordinates[1]), point.coordinates[0]);
+  var marker = new L.Marker(markerLocation, {icon: map.markerDot});
+  marker.properties = feature.properties;
+  map.addLayer(marker);
+  marker.on('click', function(e){ emitter.emit(e.target.properties) })
 }
 
 function fetchFeatures(bbox, callback) {
@@ -122,16 +92,17 @@ var showDataset = function() {
   var bbox = getBB();
   showLoader();
   fetchFeatures( bbox, function( data ){
-    var feature = po.geoJson()
-          .features( data.features )
-          .on( "show", load );
-    map.add( feature );
+    $.each(data.features, function(i, feature) {
+      showPoint(feature);
+    })
+    emitter.bind('data', onPointClick);
     hideLoader();
   })
 }
 
 var getBB = function(){
-  return map.extent()[0].lon + "," + map.extent()[0].lat + "," + map.extent()[1].lon + "," + map.extent()[1].lat;
+  var b = map.getBounds();
+  return b._southWest.lng + "," + b._southWest.lat + "," + b._northEast.lng + "," + b._northEast.lat;
 }
 
 var formatMetadata = function(data) {
@@ -153,17 +124,9 @@ var formatMetadata = function(data) {
   return out;
 }
 
-var onPointClick = function( event ) {
-  var coor = event.data.geo.coordinates,
-    props = event.data.props;
-  if (event.data.geo.type === "Point") {
-    var centroid = event.data.geo;
-  } else {
-    var centroid = gju.centroid(event.data.geo);
-  }
-
-  $('.sidebar .bottom').html(formatMetadata(props));
-  $('.sidebar .title').text(props.name);
+var onPointClick = function( properties ) {
+  $('.sidebar .bottom').html(formatMetadata(properties));
+  $('.sidebar .title').text(properties.name);
 };
 
 function fetchNewCities(callback) {
@@ -177,7 +140,6 @@ function fetchNewCities(callback) {
 
 $(function() {
 
-  // Should probably abstract out the couch url and the db prefix and the version and the starting map center.
   config = {
   	mapCenterLat: 45.5234515,
   	mapCenterLon: -122.6762071,
@@ -221,17 +183,12 @@ $(function() {
       $('.menu li a').click(function() { console.log($(this).text()) });
     });
 
-    map.add(po.compass()
-        .pan("none"))
-        .add(po.interact());
     $('.fullscreen').toggle(
       function () {
         $('.cities').addClass('fullscreen');
-        map.resize();
       },
       function () {
         $('.cities').removeClass('fullscreen');
-        map.resize();
       }
     )
   }

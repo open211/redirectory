@@ -215,7 +215,7 @@ $(function() {
   app.cities = function() {
     createMap(config);
     fetchNewCities(function(cities) { 
-      render('cityDropdown', 'showbar', cities);
+      render('cityDropdown', 'showbar', cities, true);
       citiesCache = cities;
       $("#filter_select_1").sSelect();
       $('.menu li a').click(function() { console.log($(this).text()) });

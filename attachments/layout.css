@@ -357,6 +357,8 @@ div.maptip-cnt{width:200px;background:#fff;-webkit-border-radius:3px;-moz-border
       top: 25px;
       width: 169px;
       z-index: 666; }
+      .dropdown_filter .menuContainer ul.menu {
+        margin: 0; padding: 0}
       .dropdown_filter .menuContainer ul.menu * {
         margin: 0;
         padding: 0; }
@@ -366,7 +368,7 @@ div.maptip-cnt{width:200px;background:#fff;-webkit-border-radius:3px;-moz-border
         text-decoration: none; }
       .dropdown_filter .menuContainer ul.menu li {
         border-top: 1px solid #4e647d;
-        background: #57708c;
+        background: #0A5469;
         height: 29px; }
         .dropdown_filter .menuContainer ul.menu li .menuHover {
           background: #fffee5;

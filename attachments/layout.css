@@ -39,13 +39,13 @@ footer, header, hgroup, menu, nav, section {
 .cities .fullscreen {background-image: url('images/fullscreen.png'); position: absolute; right: 15px; top: 15px; width: 16px; height: 16px; opacity: 0.5}
 .cities .fullscreen:hover {opacity: 1; cursor:pointer; cursor:hand}
 .cities .sidebar{height:100%;width:299px;background-color:#F0FFFD;position:relative;border-right:1px solid #C0CCCA;}
-.cities .sidebar .title{font-family:"Geneva";font-size:18px;line-height:18px;width: 240px}
+.cities .sidebar .title{font-family:"Geneva";font-size:18px;line-height:18px;width: 240px; max-height: 36px; overflow: hidden}
 .cities .sidebar .timestamp{opacity:0.3;font-family:"Geneva";font-size:10px;line-height:16px;width: 240px}
 .cities .sidebar .edit{opacity:0.3;font-family:"Geneva";font-size:10px;line-height:18px;padding-left:12px;background-image:url('images/edit.png');background-position:0 4px;background-repeat:no-repeat;}
 .cities .sidebar .close{position:absolute;right:10px;top:15px;width:16px;height:16px;opacity:0.2;background-image:url('images/close.png');}
 .cities .sidebar .close:hover,.sidebar .edit:hover{opacity:1;}
 .cities .sidebar .top{height:37px;background-image:url('images/sidebar-bg.png');background-repeat:repeat-x;border-bottom:1px solid #E1EEEC;padding:16px;}
-.cities .sidebar .bottom{padding:10px 16px;}
+.cities .sidebar .bottom{padding:10px 16px; width: 265px; position: absolute; top: 70px; bottom: 0px; overflow-x: hidden}
 .cities .sidebar p{font-family:"Geneva";font-size:11px;line-height:12px;padding-bottom:10px;color:#252525;}
 .cities .blue{color:#d5f3ff;font-family:"Geneva";font-size:13px;line-height:30px;padding:0 0 0 18px;}
 .cities .red{color:#B43D54;}

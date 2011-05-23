@@ -1,4 +1,4 @@
-var map, app = {}, po, currentData, geoJson, db, config;
+var map, app = {}, po, currentData, geoJson, db, config, features;
 
 $.fn.serializeObject = function() {
     var o = {};
@@ -65,11 +65,11 @@ function createMap(config) {
   showDataset();
 }
 
-
-function load(e){
+function load(e) {
+  features = e.features;
   var cssObj = objColor = "#AFDE41";
-  for (var i = 0; i < e.features.length; i++) {
-    var feature = e.features[i];
+  for (var i = 0; i < features.length; i++) {
+    var feature = features[i];
     if( feature.data.geometry.type == 'LineString' || feature.data.geometry.type == 'MultiLineString' ) {
       cssObj = {
         fill: 'none',
@@ -83,12 +83,11 @@ function load(e){
         opacity: .9
       }
     }
-    $( feature.element )
-      .css( cssObj )
+    $( feature.element ).css( cssObj );
   }
 
   var counts = {};
-  $.each(e.features, function( i, feature) {
+  $.each(features, function( i, feature) {
     var type = this.data.geometry.type.toLowerCase(),
         el = this.element,
         $el   = $(el),
@@ -97,15 +96,16 @@ function load(e){
         props = this.data.properties,
         check = $('span.check[data-code=' + props.code + ']'),
         inact = check.hasClass('inactive');
+        
     if(!counts[props.code]) {
-      counts[props.code] = 0
+      counts[props.code] = 0;
     }
-    counts[props.code]++
-    $el.bind('click', {props: props, geo: this.data.geometry}, onPointClick)
-    text.setAttribute("text-anchor", "middle")
-    text.setAttribute("dy", ".35em")
-    text.appendChild(document.createTextNode(props.code))
-    el.appendChild(text)
+    counts[props.code]++;
+    $el.bind('click', {props: props, geo: this.data.geometry}, onPointClick);
+    text.setAttribute("text-anchor", "middle");
+    text.setAttribute("dy", ".35em");
+    text.appendChild(document.createTextNode(props.code));
+    el.appendChild(text);
   })
 }
 
@@ -162,54 +162,8 @@ var onPointClick = function( event ) {
     var centroid = gju.centroid(event.data.geo);
   }
 
-  config.mapContainer
-    .maptip(this)
-    .map(map)
-    .data(props)
-    .location({lat: centroid.coordinates[1], lon: centroid.coordinates[0]})
-    .classNames(function(d) {
-      return d.code
-    })
-    .top(function(tip) {
-      var point = tip.props.map.locationPoint(this.props.location)
-      return parseFloat(point.y - 30)
-    })
-    .left(function(tip) {
-      var radius = tip.target.getAttribute('r'),
-          point = tip.props.map.locationPoint(this.props.location)
-      return parseFloat(point.x + (radius / 2.0) + 20)
-    })
-    .content(function(d) {
-      var self = this,
-        props = d,
-        cnt = $('<div/>'),
-        hdr = $('<h2/>'),
-        bdy = $('<p/>'),
-        check = $('#sbar span[data-code=' + props.code + ']'),
-        ctype = check.next().clone(),
-        otype = check.closest('li.group').attr('data-code'),
-        close = $('<span/>').addClass('close').text('x')
-
-      hdr.append($('<span/>').addClass('badge').text('E').attr('data-code', otype))
-        .append("properties")
-        .append(ctype)
-        .append(close)
-        .addClass(otype)
-
-      bdy.html(formatMetadata(props))
-      bdy.append($('<span />')
-        .addClass('date')
-        .text(props.properties))
-
-      cnt.append($('<div/>'))
-      cnt.append(hdr).append(bdy)
-
-      close.click(function() {
-        self.hide()
-      })
-
-      return cnt
-    }).render()
+  $('.sidebar .bottom').html(formatMetadata(props))
+  $('.sidebar .title').html(props.name)
 };
 
 function fetchNewCities() {
@@ -263,6 +217,7 @@ $(function() {
     fetchNewCities();
     $("#filter_select_1").sSelect();
     $("#filter_select_2").sSelect();
+
     map.add(po.compass()
         .pan("none"))
         .add(po.interact());

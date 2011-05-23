@@ -65,9 +65,7 @@ function createMap(config) {
     iconAnchor: new L.Point(5,5),
     popupAnchor: new L.Point(-3, -76)
   });
-  map.markerDot = new map.MarkerDot();
-	
-  showDataset();
+  map.markerDot = new map.MarkerDot();	
 }
 
 function showPoint(feature) {
@@ -95,7 +93,7 @@ var showDataset = function() {
     $.each(data.features, function(i, feature) {
       showPoint(feature);
     })
-    emitter.bind('data', onPointClick);
+    emitter.bind('data', switchInfo);
     hideLoader();
   })
 }
@@ -124,7 +122,7 @@ var formatMetadata = function(data) {
   return out;
 }
 
-var onPointClick = function( properties ) {
+var switchInfo = function( properties ) {
   $('.sidebar .bottom').html(formatMetadata(properties));
   $('.sidebar .title').text(properties.name);
 };
@@ -132,7 +130,7 @@ var onPointClick = function( properties ) {
 function fetchNewCities(callback) {
   $.getJSON(config.baseURL + "api/new_cities", function(cities) {
     cities = { cities: cities.rows.map(
-      function(city) { return { name: city.value } }
+      function(city) { return city.value }
     )};
     callback(cities);
   })
@@ -176,19 +174,33 @@ $(function() {
   
   app.cities = function() {
     createMap(config);
+    
+    function changeCity(name) {
+      $.each(citiesCache.cities, function(i, city) {
+        if(city.name === name) {
+          switchInfo(city);
+          map.setView(new L.LatLng(city.geometry.coordinates[1], city.geometry.coordinates[0]), 13);
+          showDataset();
+        }
+      })
+    }
+    
     fetchNewCities(function(cities) { 
       render('cityDropdown', 'showbar', cities, true);
       citiesCache = cities;
       $("#filter_select_1").sSelect();
-      $('.menu li a').click(function() { console.log($(this).text()) });
+      $('.menu li a').click(function() { changeCity($(this).text()) });
+      $('.menu li a:first').click();
     });
 
     $('.fullscreen').toggle(
       function () {
         $('.cities').addClass('fullscreen');
+        map.invalidateSize();
       },
       function () {
         $('.cities').removeClass('fullscreen');
+        map.invalidateSize();
       }
     )
   }

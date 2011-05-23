@@ -20,8 +20,8 @@ ddoc =
 ddoc.views = {
   by_city : {
     map : function(doc) {
-      if( doc.city ) {
-        emit(doc.created_at, doc.city);
+      if( doc.name ) {
+        emit(doc.created_at, doc);
       }
     }
   }

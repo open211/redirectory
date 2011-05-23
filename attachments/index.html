@@ -116,23 +116,7 @@
   <script id="citiesTemplate" type="text/mustache">
     <div class="cities">
       <div id="header">
-        <div class="showbar">
-          <div class="dropdown_filter red">
-            <span class='show_me'>Show me:</span>
-            <select id='filter_select_1'>
-              <option value='1'>hello</option>
-              <option value='2'>hello</option>
-              <option value='3'>hello</option>
-            </select>      
-          </div>
-          <div class="dropdown_filter green">
-            <span class='white'>in</span>
-            <select id='filter_select_2'>
-              <option value='1'>hello</option>
-              <option value='2'>hello</option>
-              <option value='3'>hello</option>
-            </select>      
-          </div>
+        <div class="showbar" id="showbar">
           <div class="fullscreen"></div>
         </div>
       </div>
@@ -141,15 +125,11 @@
           <div class="sidebar">
             <div class="top">
               <div class="title">Location Title</div>
-              <div class="controls">
-                <div class="edit">EDIT</div>
-              </div>
             </div>
             <div class="bottom">
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed mollis urna. Pellentesque pellentesque molestie elit non consectetur. Donec blandit lorem dictum orci pharetra accumsan. Sed malesuada tincidunt sapien at lobortis. Sed vitae risus eros.</p>
               <p>Suspendisse eu sem vitae orci laoreet mollis. Etiam feugiat volutpat facilisis. Quisque non velit non lorem volutpat convallis vel a mi. Vestibulum tellus felis, malesuada quis volutpat et, pretium eu orci. Proin a libero nisi. Vivamus sit amet magna quis diam tristique hendrerit. Curabitur a arcu sit amet est vehicula feugiat.</p>
             </div>
-            <div class="close"></div>
           </div>
         </div>
         <div id="right">
@@ -157,6 +137,17 @@
           </div>
         </div>
       </div>
+    </div>
+  </script>
+  
+  <script id="cityDropdownTemplate" type="text/mustache">
+    <div class="dropdown_filter">
+      <span class='show_me'>Showing:</span>
+      <select id='filter_select_1'>
+      {{#cities}}
+        <option value='{{name}}'>{{name}}</option>
+      {{/cities}}
+      </select>      
     </div>
   </script>
   

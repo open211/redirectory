@@ -39,7 +39,7 @@ footer, header, hgroup, menu, nav, section {
 .cities .fullscreen {background-image: url('images/fullscreen.png'); position: absolute; right: 15px; top: 15px; width: 16px; height: 16px; opacity: 0.5}
 .cities .fullscreen:hover {opacity: 1; cursor:pointer; cursor:hand}
 .cities .sidebar{height:100%;width:299px;background-color:#F0FFFD;position:relative;border-right:1px solid #C0CCCA;}
-.cities .sidebar .title{font-family:"Geneva";font-size:18px;line-height:18px;width: 240px; max-height: 36px; overflow: hidden}
+.cities .sidebar .title{font-family:"Geneva";font-size:18px;line-height:20px;width: 240px; max-height: 38px; overflow: hidden}
 .cities .sidebar .timestamp{opacity:0.3;font-family:"Geneva";font-size:10px;line-height:16px;width: 240px}
 .cities .sidebar .edit{opacity:0.3;font-family:"Geneva";font-size:10px;line-height:18px;padding-left:12px;background-image:url('images/edit.png');background-position:0 4px;background-repeat:no-repeat;}
 .cities .sidebar .close{position:absolute;right:10px;top:15px;width:16px;height:16px;opacity:0.2;background-image:url('images/close.png');}
@@ -402,3 +402,24 @@ div.maptip-cnt{width:200px;background:#fff;-webkit-border-radius:3px;-moz-border
           background: #650101;
           color: white;
           font-size: 14px; }
+
+          dl {
+          	float: left;
+          	width: 100%;
+          	margin: 1em 0;
+          	padding: 0;
+          }
+
+          dt {
+          	clear: left;
+          	float: left;
+          	margin: 0;
+          	padding: 5px;
+          	font-weight: bold;
+          }
+
+          dd {
+          	float: left;
+          	margin: 0;
+          	padding: 5px;
+          }

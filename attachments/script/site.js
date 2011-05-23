@@ -1,4 +1,4 @@
-var map, app = {}, po, currentData, geoJson, db, config, features;
+var map, app = {}, po, currentData, geoJson, db, config, features, citiesCache;
 
 $.fn.serializeObject = function() {
     var o = {};
@@ -162,16 +162,16 @@ var onPointClick = function( event ) {
     var centroid = gju.centroid(event.data.geo);
   }
 
-  $('.sidebar .bottom').html(formatMetadata(props))
-  $('.sidebar .title').html(props.name)
+  $('.sidebar .bottom').html(formatMetadata(props));
+  $('.sidebar .title').text(props.name);
 };
 
-function fetchNewCities() {
+function fetchNewCities(callback) {
   $.getJSON(config.baseURL + "api/new_cities", function(cities) {
     cities = { cities: cities.rows.map(
       function(city) { return { name: city.value } }
     )};
-    render('newCities', 'newCities', cities)
+    callback(cities);
   })
 }
 
@@ -209,14 +209,17 @@ $(function() {
 
   app.home = function() {
     createMap(config);
-    fetchNewCities();
+    fetchNewCities(function(cities) { render('newCities', 'newCities', cities) });
   }
   
   app.cities = function() {
     createMap(config);
-    fetchNewCities();
-    $("#filter_select_1").sSelect();
-    $("#filter_select_2").sSelect();
+    fetchNewCities(function(cities) { 
+      render('cityDropdown', 'showbar', cities);
+      citiesCache = cities;
+      $("#filter_select_1").sSelect();
+      $('.menu li a').click(function() { console.log($(this).text()) });
+    });
 
     map.add(po.compass()
         .pan("none"))

@@ -47,7 +47,7 @@ function hideLoader() {
 function createMap(config) {
   po = org.polymaps;
   geoJson = po.geoJson();
-  config.mapContainer = $('div.map_container');
+  config.mapContainer = $('div.mapContainer');
 
   var featuresCache = {};
   map = po.map()
@@ -256,6 +256,26 @@ $(function() {
   app.home = function() {
     createMap(config);
     fetchNewCities();
+  }
+  
+  app.cities = function() {
+    createMap(config);
+    fetchNewCities();
+    $("#filter_select_1").sSelect();
+    $("#filter_select_2").sSelect();
+    map.add(po.compass()
+        .pan("none"))
+        .add(po.interact());
+    $('.fullscreen').toggle(
+      function () {
+        $('.cities').addClass('fullscreen');
+        map.resize();
+      },
+      function () {
+        $('.cities').removeClass('fullscreen');
+        map.resize();
+      }
+    )
   }
 
   app.s = $.sammy(function () {

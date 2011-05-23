@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="script/jquery-1.5.min.js"></script>
 	<script type="text/javascript" src="script/jquery.mustache.js"></script>
 	<script type="text/javascript" src="script/polymaps.min.js"></script>
+	<script type="text/javascript" src="script/jquery.selectbox.js"></script>
 	<script type="text/javascript" src="script/maptip.js"></script>
 	<script type="text/javascript" src="script/sammy/sammy.js"></script>
 	<script type="text/javascript" src="script/site.js"></script>
@@ -72,7 +73,7 @@
   </div> 
   
   <script id="homeTemplate" type="text/mustache">
-    <div id="index_cta" class="cta map_container">
+    <div id="index_cta" class="cta mapContainer">
       <div class="info grid_4">
         <h1>Community edited social services directory</h1>
         <h2>Building an open platform that any city can use</h2>
@@ -113,7 +114,51 @@
 
   
   <script id="citiesTemplate" type="text/mustache">
-    cities
+    <div class="cities">
+      <div id="header">
+        <div class="showbar">
+          <div class="dropdown_filter red">
+            <span class='show_me'>Show me:</span>
+            <select id='filter_select_1'>
+              <option value='1'>hello</option>
+              <option value='2'>hello</option>
+              <option value='3'>hello</option>
+            </select>      
+          </div>
+          <div class="dropdown_filter green">
+            <span class='white'>in</span>
+            <select id='filter_select_2'>
+              <option value='1'>hello</option>
+              <option value='2'>hello</option>
+              <option value='3'>hello</option>
+            </select>      
+          </div>
+          <div class="fullscreen"></div>
+        </div>
+      </div>
+      <div id="wrapper">
+        <div id="left">
+          <div class="sidebar">
+            <div class="top">
+              <div class="title">Location Title</div>
+              <div class="timestamp">Created: 2010-11-08 @ 12:34 PM</div>
+              <div class="controls">
+                <div class="edit">EDIT</div>
+              </div>
+            </div>
+            <div class="bottom">
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed mollis urna. Pellentesque pellentesque molestie elit non consectetur. Donec blandit lorem dictum orci pharetra accumsan. Sed malesuada tincidunt sapien at lobortis. Sed vitae risus eros.</p>
+              <p>Suspendisse eu sem vitae orci laoreet mollis. Etiam feugiat volutpat facilisis. Quisque non velit non lorem volutpat convallis vel a mi. Vestibulum tellus felis, malesuada quis volutpat et, pretium eu orci. Proin a libero nisi. Vivamus sit amet magna quis diam tristique hendrerit. Curabitur a arcu sit amet est vehicula feugiat.</p>
+            </div>
+            <div class="close"></div>
+          </div>
+        </div>
+        <div id="right">
+          <div class="mapContainer">
+          </div>
+        </div>
+      </div>
+    </div>
   </script>
   
   <script id="getinvolvedTemplate" type="text/mustache">

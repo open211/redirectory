@@ -53,10 +53,8 @@ function hideLoader() {
 function createMap(config) {
   map = new L.Map('mapContainer', {zoomControl: false});
 	var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/d3394c6c242a4f26bb7dd4f7e132e5ff/37608/256/{z}/{x}/{y}.png',
-		cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
-		cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
-	
-	map.setView(new L.LatLng(config.mapCenterLat, config.mapCenterLon), config.mapStartZoom).addLayer(cloudmade);
+		cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
+	map.cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});	
   map.MarkerDot = L.Icon.extend({
     iconUrl: 'style/images/marker-dot.png',
     shadowUrl: 'style/images/marker-shadow.png',
@@ -127,11 +125,12 @@ var switchInfo = function( properties ) {
   $('.sidebar .title').text(properties.name);
 };
 
-function fetchNewCities(callback) {
-  $.getJSON(config.baseURL + "api/new_cities", function(cities) {
-    cities = { cities: cities.rows.map(
-      function(city) { return city.value }
-    )};
+function fetchCities(callback) {
+  $.getJSON(config.baseURL + "api/cities", function(featureCollection) {
+    cities = featureCollection.features;
+    cities = { cities: cities.map(function(city) { 
+      return city.properties;
+    }) };
     callback(cities);
   })
 }
@@ -141,7 +140,7 @@ $(function() {
   config = {
   	mapCenterLat: 45.5234515,
   	mapCenterLon: -122.6762071,
-  	mapStartZoom: 13,
+  	mapStartZoom: 2,
   	baseURL: ""
   };
 
@@ -168,24 +167,30 @@ $(function() {
   };
 
   app.home = function() {
-    createMap(config);
-    fetchNewCities(function(cities) { render('newCities', 'newCities', cities) });
+    createMap();
+    map.setView(new L.LatLng(config.mapCenterLat, config.mapCenterLon), config.mapStartZoom).addLayer(map.cloudmade);
+    fetchCities(function(data) { 
+      render('newCities', 'newCities', data);
+      $.each(data.cities, function(i, city) {
+        showPoint({type: "Feature", geometry: city.geometry, properties: city});
+      })
+     });
   }
   
   app.cities = function() {
-    createMap(config);
+    createMap();
     
     function changeCity(name) {
       $.each(citiesCache.cities, function(i, city) {
         if(city.name === name) {
           switchInfo(city);
-          map.setView(new L.LatLng(city.geometry.coordinates[1], city.geometry.coordinates[0]), 13);
+          map.setView(new L.LatLng(city.geometry.coordinates[1], city.geometry.coordinates[0]), 14).addLayer(map.cloudmade);
           showDataset();
         }
       })
     }
     
-    fetchNewCities(function(cities) { 
+    fetchCities(function(cities) { 
       render('cityDropdown', 'showbar', cities, true);
       citiesCache = cities;
       $("#filter_select_1").sSelect();

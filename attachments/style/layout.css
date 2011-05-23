@@ -126,7 +126,6 @@ body {background:#fff url('images/body_bg.png') scroll repeat-x 0 0;font:13px/17
 #main_nav li a {color:#495b5b;}
 #main_nav li a:hover {color:#888;text-decoration:none;}
 #main_nav li.current a {border-bottom:4px solid #19B3CD;}
-#submit_report_bt {position:absolute;right:0;top:-70px;display:block;width:348px;height:74px;background:transparent url('images/srb_bg.png') scroll no-repeat 0 0;text-indent:-999em;}
 #submit_report_bt:hover {background-position:0 -177px;}
 #submit_report_bt:active {background-position:0 -87px;}
 div.cta {width:100%;height:416px;position:relative;margin-bottom:37px}
@@ -135,7 +134,6 @@ div.cta div.info h1, div.cta div.info h2 {font:18px/26px "Lucida Grande", "Luxi 
 div.cta div.info h2 {font-size:16px;line-height:17px;font-weight:300}
 a.cta {display:block;background-color:#1F86A1;padding:10px 20px;color:#fff;font-size:20px;text-decoration:none;text-align:center;}
 a.cta:hover {background-color:#19B3CD;}
-#about_cta {background-image:url('images/about_cta.jpg');}
 #page_footer {background-color:#1F86A1;min-height:250px;}
 #footer_highlight {height:9px;background:transparent url('images/footer_hl.png') scroll repeat-x 0 0;padding-bottom:34px;}
 #container {margin:0;width:auto;}
@@ -155,47 +153,6 @@ ul.baseline {margin:0}
 ul.baseline li {list-style:none;margin-bottom:17px;}
 ul.tool_list img {display:block}
 ul.tool_list p.info {color:#888;padding-top:5px}
-/*forms*/
-.generic_form {background-color:#E1E8BD;margin-left:0;border:1px solid #C8D38C;padding:10px 0;}
-.generic_form fieldset.generic {padding:10px;}
-.generic_form legend {font-weight:300;padding:10px;color:#79842F;display:block;}
-.generic_form legend.step {font-weight:600;font-size:18px;}
-.generic_form div.field {margin-bottom:17px;}
-.generic_form div.field.w_578 {width:575px;}
-.generic_form span.help_text {color:#929864;display:block}
-.generic_form input, .generic_form textarea, .generic_form select {width:100%;font-size:16px;}
-.generic_form div.checkbox input, .generic_form input[type=checkbox] {width:auto;float:left;margin-right:10px;margin-top:5px;}
-.generic_form label {display:block;font-weight:600;color:#79842F;}
-.generic_form input.submit, a.mock_button {background:#eaeaea url('images/button_bg.png') repeat-x scroll top left;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;border:1px solid #aaa;padding:5px 20px;color:#444;text-shadow:0 -1px 0 #fff;font-weight:600;margin-left:0;width:auto;text-decoration:none;font-size:16px;line-height:16px;float:left;margin-right:10px;min-width:4em;}
-.generic_form input.submit.delete {background:#8D1112 url('images/red_button_bg.png') repeat-x scroll top left;color:#fff;text-shadow:0 1px 1px rgba(0,0,0,0.3);border-color:#A66B6B;}
-.generic_form input.submit.flr {float:right}
-a.mock_button.cancel {font-weight:300}
-input.submit:active, a.mock_button:active {background-image:none;}
-a.mock_button {display:inline-block;width:auto;text-align:center;}
-/*Map*/
-#map_canvas {width:100%;height:600px;}
-div.content_map_canvas {width:100%;height:320px;background-color:#fff;}
-#content_wrapper div.ibc {padding:5px;}
-#content_wrapper h3.ibh {font-size:16px;margin:0;padding:5px 0;}
-#content_wrapper p.ibhs {margin:0;text-transform:capitalize;padding:5px 0;}
-/* Table */
-table.detail_table {width:100%;font-size:12px}
-table.detail_table thead th {background-color:#f1f1f1;padding:5px;text-align:left;color:#444;text-shadow:0 -1px 0 #f7f7f7}
-table.detail_table td {padding:5px}
-table.detail_table th.w_5 {width:5%}
-table.detail_table th.w_10 {width:10%}
-table.detail_table th.w_50 {width:50%}
-table.detail_table td.new {width:5%;background:transparent url('images/new_record_icon.png') scroll no-repeat 50% 48%;}
-table.detail_table tr.alt td, table.contributor_table tr.alt td {background-color:#E8F1F9}
-table.contributor_table {width:100%;font-size:12px}
-table.contributor_table thead th {background-color:#f1f1f1;padding:5px;text-align:left}
-table.contributor_table td {padding:5px}
-/* Details */
-#record_detail_wrap {margin:9px 0;background-color:#f1f1f1;margin-left:0;border:1px solid #DFE1D8;padding:0;}
-dl.detail_list {padding:10px;margin:0}
-dl.detail_list dt {font-weight:600;color:#79842F;}
-dl.detail_list dd {margin-bottom:9px;}
-dl.detail_list dd.l {margin:0}
 /* Generic */
 h5.empty {text-align:center;color:#ccc}
 h5.intro {line-height:22px;font-size:15px;}

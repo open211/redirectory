@@ -33,7 +33,7 @@ footer, header, hgroup, menu, nav, section {
 .cities #wrapper{position:absolute;top:50px;left:0px;right:0px;bottom:0px;border:0 #C0CCCA solid; border-right-width:1px; border-bottom-width: 1px; border-left-width: 1px}
 .cities #left{position:absolute;top:0px;bottom:0px;left:0px;width:300px;overflow-y:auto}
 .cities #right{position:absolute;top:0px;bottom:0px;right:0px;left:300px;overflow-y:auto}
-.cities .mapContainer{width:100%; background-color: #F0FFFD}
+.cities .mapContainer{width:100%; height: 100%; background-color: #F0FFFD}
 .cities .topbar{position:relative;height:30px;width:100%;background-color:#1A1A1A;}
 .cities .showbar{position:relative;height:50px;width:100%;background-color:#1F86A1;}
 .cities .fullscreen {background-image: url('images/fullscreen.png'); position: absolute; right: 15px; top: 15px; width: 16px; height: 16px; opacity: 0.5}

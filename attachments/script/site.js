@@ -184,7 +184,7 @@ $(function() {
       $.each(citiesCache.cities, function(i, city) {
         if(city.name === name) {
           switchInfo(city);
-          map.setView(new L.LatLng(city.geometry.coordinates[1], city.geometry.coordinates[0]), 14).addLayer(map.cloudmade);
+          map.setView(new L.LatLng(city.geometry.coordinates[1], city.geometry.coordinates[0]), 15).addLayer(map.cloudmade);
           showDataset();
         }
       })

@@ -5,6 +5,21 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'OstrichBlack';
+    src: url('fonts/ostrich-black.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OstrichBold';
+    src: url('fonts/ostrich-bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
@@ -39,7 +54,7 @@ footer, header, hgroup, menu, nav, section {
 .cities .fullscreen {background-image: url('images/fullscreen.png'); position: absolute; right: 15px; top: 15px; width: 16px; height: 16px; opacity: 0.5}
 .cities .fullscreen:hover {opacity: 1; cursor:pointer; cursor:hand}
 .cities .sidebar{height:100%;width:299px;background-color:#F0FFFD;position:relative;border-right:1px solid #C0CCCA;}
-.cities .sidebar .title{font-family:"Geneva";font-size:18px;line-height:20px;width: 240px; max-height: 38px; overflow: hidden}
+.cities .sidebar .title{font-family:"Geneva";font-size:18px;line-height:22px;width: 240px; max-height: 44px; overflow: hidden}
 .cities .sidebar .timestamp{opacity:0.3;font-family:"Geneva";font-size:10px;line-height:16px;width: 240px}
 .cities .sidebar .edit{opacity:0.3;font-family:"Geneva";font-size:10px;line-height:18px;padding-left:12px;background-image:url('images/edit.png');background-position:0 4px;background-repeat:no-repeat;}
 .cities .sidebar .close{position:absolute;right:10px;top:15px;width:16px;height:16px;opacity:0.2;background-image:url('images/close.png');}
@@ -115,12 +130,13 @@ a:hover {text-decoration:underline;}
 */
 h1, h2, h3, h4, h5 {color:#1F86A1;}
 h1.elh {line-height:28px}
-h2.logo_title {color: #000; font-family: 'Cantarell', Helvetica, Arial, sans-serif; font-size: 40px; font-weight: bold; line-height: 40px; padding: 10px 0px 0px 0px;}
+h2.logo_title {position: relative; margin: 20px 0px 10px 0px; float: left;color: #000; font-family: 'OstrichBlack', Helvetica, Arial, sans-serif; font-size: 60px; font-weight: bold; line-height: 40px; padding: 0px 0px 0px 0px;}
+h2.pinstripe {font-family: 'OstrichBold', Helvetica, Arial, sans-serif;}
 em {font-style:italic}
 body {background:#fff url('images/body_bg.png') scroll repeat-x 0 0;font:13px/17px "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;color:#333}
 #main_content {min-height:500px}
 #header_content, #main_content, #footer_content {width:960px;margin:0 auto;}
-#logo {width:320px;height:55px;background:transparent url('images/logo.png') scroll no-repeat 0 0;display:block;text-indent:-999em;margin:30px 0 20px 0;}
+#logo {width:320px;height:55px;background:transparent url('images/logo.png') scroll no-repeat 0 0;display:block;text-indent:-999em;margin:10px 0;}
 #header_nav {margin-bottom:17px;position:relative;}
 #main_nav li {float:left;margin-right:17px;font-size:16px;}
 #main_nav li a {color:#495b5b;}

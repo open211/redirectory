@@ -135,6 +135,12 @@ function fetchCities(callback) {
   })
 }
 
+function scrollDown(){
+  $('html, body').animate({
+    scrollTop: $("#content_wrapper").offset().top
+  }, 1000);
+}
+
 $(function() {
 
   config = {
@@ -175,6 +181,8 @@ $(function() {
         showPoint({type: "Feature", geometry: city.geometry, properties: city});
       })
      });
+     
+     $('#learnMore').click(scrollDown);
   }
   
   app.cities = function() {

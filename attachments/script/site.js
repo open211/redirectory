@@ -204,6 +204,39 @@ $(function() {
       $("#filter_select_1").sSelect();
       $('.menu li a').click(function() { changeCity($(this).text()) });
       $('.menu li a:first').click();
+      $( "#search" ).autocomplete({
+        source: function( request, response ) {
+          var wildcard = { "name": "*"+request.term+"*" };
+          var postData = {
+            "query": { "wildcard": wildcard },
+            "fields": ["name", "_id"]
+          };
+          $.ajax({
+            url: "http://smalldata.org:9200/social_services/social_services/_search",
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(postData),
+            success: function( data ) {
+              response( $.map( data.hits.hits, function( item ) {
+                return {
+                  label: item.fields.name,
+                  id: item.fields._id
+                }
+              }));
+            }
+          });
+        },
+        minLength: 2,
+        select: function( event, ui ) {
+          $(".autocompleter").append(ui.item.id);
+        },
+        open: function() {
+          $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+        },
+        close: function() {
+              $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+        }
+      })
     });
 
     $('.fullscreen').toggle(

@@ -10,7 +10,9 @@
   <link href="style/layout.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="style/leaflet.css" />
 	<!--[if lte IE 8]><link rel="stylesheet" href="style/leaflet.ie.css" /><![endif]-->
+  <link rel="stylesheet" href="style/jqueryui/jquery-ui-1.8.13.custom.css"> 
 	<script type="text/javascript" src="script/jquery-1.6.1.min.js"></script>
+	<script type="text/javascript" src="script/jquery-ui-1.8.13.custom.min.js"></script>
 	<script type="text/javascript" src="script/jquery.mustache.js"></script>
 	<script type="text/javascript" src="script/microevent.js"></script>
 	<script type="text/javascript" src="script/leaflet.js"></script>
@@ -121,6 +123,10 @@
     <div class="cities">
       <div id="header">
         <div class="showbar" id="showbar">
+          <div class="autocompleter"> 
+          	<label for="search">Search: </label> 
+          	<input id="search" /> 
+          </div>
           <div class="fullscreen"></div>
         </div>
       </div>

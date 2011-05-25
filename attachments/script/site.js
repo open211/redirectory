@@ -1,4 +1,4 @@
-var map, app = {}, po, currentData, geoJson, db, config, features, citiesCache;
+var map, app = {}, po, selectedService, geoJson, db, config, features, citiesCache;
 
 var Emitter = function(obj) {
   this.emit = function(obj) { this.trigger('data', obj); };
@@ -185,9 +185,14 @@ $(function() {
      $('#learnMore').click(scrollDown);
   }
   
-  app.cities = function() {
+  app.cities = function(route) {    
+    if (route && route.params.id) {
+      selectedService = route.params.id;
+      render( 'cities', 'main_content' );
+      return;
+    }
     createMap();
-    
+
     function changeCity(name) {
       $.each(citiesCache.cities, function(i, city) {
         if(city.name === name) {
@@ -197,13 +202,23 @@ $(function() {
         }
       })
     }
-    
+
     fetchCities(function(cities) { 
       render('cityDropdown', 'showbar', cities, true);
       citiesCache = cities;
       $("#filter_select_1").sSelect();
       $('.menu li a').click(function() { changeCity($(this).text()) });
-      $('.menu li a:first').click();
+      
+      if (selectedService) {
+        $.getJSON(config.baseURL + "api/services/" + selectedService, function(doc) {
+          $('.menu li a').filter(function() {
+            return $(this).text() === doc.city;
+          }).click();
+        })
+      } else {
+        $('.menu li a:first').click();
+      }
+      
       $( "#search" ).autocomplete({
         source: function( request, response ) {
           var wildcard = { "name": "*"+request.term+"*" };
@@ -255,6 +270,7 @@ $(function() {
     this.get('', app.handler);
     this.get("#/", app.handler);
     this.get("#:route", app.handler);
+    this.get("#cities/:id", app.cities);
   });
 
   app.s.run();

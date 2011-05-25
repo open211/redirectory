@@ -11,6 +11,7 @@ ddoc =
     , {from:"/api/zip", to: "../../../zipcodes/_design/zipcodes/_view/by_zipcode"}
     , {from:"/api/cities", to: "_spatiallist/geojson/cities", "query" : {"bbox": "-180,-90,180,90"}}
     , {from:"/api", to:'../../'}
+    , {from:"/api/services/*", to:'../../../social_services/*'}
     , {from:"/api/*", to:'../../*'}
     , {from:"/*", to:'*'}
     ]

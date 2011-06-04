@@ -191,7 +191,37 @@
       <h2>Developer Guide to APIs and Contributing</h2>
       <p>The Redirectory project provides an API developers can use to access the information from within their own applications and projects. For example, the API can be used to create native mobile apps or creative new mash-ups. This page collects all the information developers need to get started developing with Redirectory or contributing to the Redirectory project.</p>
       <h3>Developer APIs</h3>
-      <p>The core of Redirectory is organized around spatial queries for points of interest in services directory, optionally restricted by a keyword search. To facilitate the construction of spatial queries, Redirectory provides a database and an API for developers to retreive bounding box information from postal codes. The raw services data is available via a separate API, including bulk download and real-time long-polling for changes. In the future, the API may expand to include an atom feed to ease integration with non-CouchDB systems and allow for <a href="pubsubhub">PubSubHubbub</a> support.</p>
+      <p>The core of Redirectory is organized around spatial queries for points of interest in services directory, optionally restricted by a keyword search. To facilitate the construction of spatial queries, Redirectory provides a database and an API for developers to retreive bounding box information from postal codes. The raw services data is available via a separate API, including bulk download and real-time long-polling for changes. In the future, the API may expand to include an atom feed to ease integration with non-CouchDB systems and allow for <a href="http://code.google.com/p/pubsubhubbub/">PubSubHubbub</a> support.</p>
+      <h3>Contributing</h3>
+      <p>Feeding data to the Redirectory involves some simple steps:</p>
+      <ol>
+        <li>Scrape</li>
+        <li>Reshape</li>
+        <li>Upload</li>
+      </ol>
+      <h3>Scraping</h3>
+      <p>Often social services data is not available in a mechanical way, so some external cleanup is required. Thankfully, there are some simple solutions. The Redirectory team has provided scraper examples freely hosted on <a href="http://www.scraperwiki.com">ScraperWiki</a> and encourages you to do the same in the absence of a more direct solution.</p>
+      <p>Visit <a href="http://scraperwiki.com/tags/211">the 211 tag</a> on ScraperWiki to see contributed examples which turn web page content into structured content.</p>
+      <h3>Reshape</h3>
+      <p>In order to make the Redirectory as simple to adopt as possible, the team has chosen a very simple schema which involves a least common denominator of attributes of social service databases.</p>
+      <table class="nonlayout">
+        <caption>Data Schema</caption>
+        <tbody>
+          <tr>
+            <td>name</td>
+            <td>organization</td>
+            <td>latitude</td>
+            <td>longitude</td>
+            <td>hours</td>
+            <td>website</td>
+            <td>description</td>
+            <td>category</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>Uploading</h3>
+      <p>See <a href="#upload">our upload form</a> for now.</p>
+      <p>A robust API will be available soon!</p>
     </div>
   </script>
 

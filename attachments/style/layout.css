@@ -41,6 +41,8 @@ footer, header, hgroup, menu, nav, section {
   display: block;
 }
 
+table.nonlayout * { padding: 0.5em; border: 1px black solid; }
+
 .directory {position: relative; min-height: 450px}
 .directory.fullscreen {position: absolute; top: 0px; right: 0px; left: 0px; bottom: 0px}
 .directory.fullscreen .fullscreen {background-image: url('images/fullscreen_exit.png');}

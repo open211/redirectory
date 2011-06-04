@@ -154,7 +154,7 @@ a.cta {display:block;background-color:#1F86A1;padding:10px 20px;color:#fff;font-
 a.cta:hover {background-color:#19B3CD;}
 #page_footer {background-color:#1F86A1;min-height:250px;}
 #footer_highlight {height:9px;background:transparent url('images/footer_hl.png') scroll repeat-x 0 0;padding-bottom:34px;}
-#container {margin:10px;width:auto;}
+#container {margin:0;width:auto;}
 #content_wrapper {padding:17px 0 34px 0;}
 #content_wrapper.npt {padding-top:0}
 #content_wrapper h3, #content_wrapper h4, #content_wrapper h5 {margin:34px 0 17px 0;}

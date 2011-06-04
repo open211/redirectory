@@ -41,36 +41,36 @@ footer, header, hgroup, menu, nav, section {
   display: block;
 }
 
-.cities {position: relative; min-height: 450px}
-.cities.fullscreen {position: absolute; top: 0px; right: 0px; left: 0px; bottom: 0px}
-.cities.fullscreen .fullscreen {background-image: url('images/fullscreen_exit.png');}
-.cities #header{position:absolute;top:0px;left:0px;right:0px;height:50px}
-.cities #wrapper{position:absolute;top:50px;left:0px;right:0px;bottom:0px;border:0 #C0CCCA solid; border-right-width:1px; border-bottom-width: 1px; border-left-width: 1px}
-.cities #left{position:absolute;top:0px;bottom:0px;left:0px;width:300px;overflow-y:auto}
-.cities #right{position:absolute;top:0px;bottom:0px;right:0px;left:300px;overflow-y:auto}
-.cities .mapContainer{width:100%; height: 100%; background-color: #F0FFFD}
-.cities .topbar{position:relative;height:30px;width:100%;background-color:#1A1A1A;}
-.cities .showbar{position:relative;height:50px;width:100%;background-color:#1F86A1;}
-.cities .fullscreen {background-image: url('images/fullscreen.png'); position: absolute; right: 15px; top: 15px; width: 16px; height: 16px; opacity: 0.5}
-.cities .fullscreen:hover {opacity: 1; cursor:pointer; cursor:hand}
-.cities .sidebar{height:100%;width:299px;background-color:#F0FFFD;position:relative;border-right:1px solid #C0CCCA;}
-.cities .sidebar .title{font-family:"Geneva";font-size:18px;line-height:22px;width: 240px; max-height: 44px; overflow: hidden}
-.cities .sidebar .timestamp{opacity:0.3;font-family:"Geneva";font-size:10px;line-height:16px;width: 240px}
-.cities .sidebar .edit{opacity:0.3;font-family:"Geneva";font-size:10px;line-height:18px;padding-left:12px;background-image:url('images/edit.png');background-position:0 4px;background-repeat:no-repeat;}
-.cities .sidebar .close{position:absolute;right:10px;top:15px;width:16px;height:16px;opacity:0.2;background-image:url('images/close.png');}
-.cities .sidebar .close:hover,.sidebar .edit:hover{opacity:1;}
-.cities .sidebar .top{height:37px;background-image:url('images/sidebar-bg.png');background-repeat:repeat-x;border-bottom:1px solid #E1EEEC;padding:16px;}
-.cities .sidebar .bottom{padding:10px 16px; width: 265px; position: absolute; top: 70px; bottom: 0px; overflow-x: hidden}
-.cities .sidebar p{font-family:"Geneva";font-size:11px;line-height:12px;padding-bottom:10px;color:#252525;}
-.cities .blue{color:#d5f3ff;font-family:"Geneva";font-size:13px;line-height:30px;padding:0 0 0 18px;}
-.cities .red{color:#B43D54;}
-.cities .green{color:#42A360;}
-.cities .white{color:#FFF;float:left;font-size:14px;margin:0;padding:0 1px 0 9px;}
-.cities .separator{color:#FFF;}
-.cities .lightest_gray{color:#636363;font-family:"Geneva";font-size:13px;}
-.cities .light_gray{color:#959595;font-family:"Geneva";font-size:13px;}
-.cities .gray{color:#c2c2c2;font-family:"Geneva";font-size:13px;}
-.cities .yellow{color:#fff799;font-family:"Geneva";font-size:14px;}
+.directory {position: relative; min-height: 450px}
+.directory.fullscreen {position: absolute; top: 0px; right: 0px; left: 0px; bottom: 0px}
+.directory.fullscreen .fullscreen {background-image: url('images/fullscreen_exit.png');}
+.directory #header{position:absolute;top:0px;left:0px;right:0px;height:50px}
+.directory #wrapper{position:absolute;top:50px;left:0px;right:0px;bottom:0px;border:0 #C0CCCA solid; border-right-width:1px; border-bottom-width: 1px; border-left-width: 1px}
+.directory #left{position:absolute;top:0px;bottom:0px;left:0px;width:300px;overflow-y:auto}
+.directory #right{position:absolute;top:0px;bottom:0px;right:0px;left:300px;overflow-y:auto}
+.directory .mapContainer{width:100%; height: 100%; background-color: #F0FFFD}
+.directory .topbar{position:relative;height:30px;width:100%;background-color:#1A1A1A;}
+.directory .showbar{position:relative;height:50px;width:100%;background-color:#1F86A1;}
+.directory .fullscreen {background-image: url('images/fullscreen.png'); position: absolute; right: 15px; top: 15px; width: 16px; height: 16px; opacity: 0.5}
+.directory .fullscreen:hover {opacity: 1; cursor:pointer; cursor:hand}
+.directory .sidebar{height:100%;width:299px;background-color:#F0FFFD;position:relative;border-right:1px solid #C0CCCA;}
+.directory .sidebar .title{font-family:"Geneva";font-size:18px;line-height:22px;width: 240px; max-height: 44px; overflow: hidden}
+.directory .sidebar .timestamp{opacity:0.3;font-family:"Geneva";font-size:10px;line-height:16px;width: 240px}
+.directory .sidebar .edit{opacity:0.3;font-family:"Geneva";font-size:10px;line-height:18px;padding-left:12px;background-image:url('images/edit.png');background-position:0 4px;background-repeat:no-repeat;}
+.directory .sidebar .close{position:absolute;right:10px;top:15px;width:16px;height:16px;opacity:0.2;background-image:url('images/close.png');}
+.directory .sidebar .close:hover,.sidebar .edit:hover{opacity:1;}
+.directory .sidebar .top{height:37px;background-image:url('images/sidebar-bg.png');background-repeat:repeat-x;border-bottom:1px solid #E1EEEC;padding:16px;}
+.directory .sidebar .bottom{padding:10px 16px; width: 265px; position: absolute; top: 70px; bottom: 0px; overflow-x: hidden}
+.directory .sidebar p{font-family:"Geneva";font-size:11px;line-height:12px;padding-bottom:10px;color:#252525;}
+.directory .blue{color:#d5f3ff;font-family:"Geneva";font-size:13px;line-height:30px;padding:0 0 0 18px;}
+.directory .red{color:#B43D54;}
+.directory .green{color:#42A360;}
+.directory .white{color:#FFF;float:left;font-size:14px;margin:0;padding:0 1px 0 9px;}
+.directory .separator{color:#FFF;}
+.directory .lightest_gray{color:#636363;font-family:"Geneva";font-size:13px;}
+.directory .light_gray{color:#959595;font-family:"Geneva";font-size:13px;}
+.directory .gray{color:#c2c2c2;font-family:"Geneva";font-size:13px;}
+.directory .yellow{color:#fff799;font-family:"Geneva";font-size:14px;}
 .autocompleter {float: right; margin-right: 50px}
 a:focus{outline:1px dotted}hr{border:0 #ccc solid;border-top-width:1px;clear:both;height:0}h1{font-size:25px}h2{font-size:23px}h3{font-size:21px}h4{font-size:19px}h5{font-size:17px}h6{font-size:15px}ol{list-style:decimal}ul{list-style:disc}li{margin-left:30px}p,dl,hr,h1,h2,h3,h4,h5,h6,ol,ul,pre,table{margin-bottom:17px}
 body{min-width:960px}.container_12,.container_16{margin-left:auto;margin-right:auto;width:960px}.grid_1,.grid_2,.grid_3,.grid_4,.grid_5,.grid_6,.grid_7,.grid_8,.grid_9,.grid_10,.grid_11,.grid_12,.grid_13,.grid_14,.grid_15,.grid_16{display:inline;float:left;margin-left:10px;margin-right:10px}.push_1,.pull_1,.push_2,.pull_2,.push_3,.pull_3,.push_4,.pull_4,.push_5,.pull_5,.push_6,.pull_6,.push_7,.pull_7,.push_8,.pull_8,.push_9,.pull_9,.push_10,.pull_10,.push_11,.pull_11,.push_12,.pull_12,.push_13,.pull_13,.push_14,.pull_14,.push_15,.pull_15{position:relative}.container_12 .grid_3,.container_16 .grid_4{width:220px}.container_12 .grid_6,.container_16 .grid_8{width:460px}.container_12 .grid_9,.container_16 .grid_12{width:700px}.container_12 .grid_12,.container_16 .grid_16{width:940px}.alpha{margin-left:0}.omega{margin-right:0}.container_12 
@@ -200,9 +200,10 @@ ul.marker_top_title li {background-position:0 2px;}
 .em {font-style:italic;font-weight:600}
 .strong {font-weight:600}
 .block {display:block;}
-.placeholder {color:#aaa !important;}
+.placeholder {color:#fff !important;}
 .fr {float:right !important}
-input:-moz-placeholder,textarea:-moz-placeholder {color:#aaa;}
+::-webkit-input-placeholder  { color:#fff; };
+input:-moz-placeholder { color:#fff; };
 .centered_block {display:block;margin-left:auto;margin-right:auto;}
 .ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
 .hidden { display: none; visibility: hidden; }
@@ -227,6 +228,32 @@ input:-moz-placeholder,textarea:-moz-placeholder {color:#aaa;}
   @page { margin: 0.5cm; }
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3{ page-break-after: avoid; }
+}
+
+.autocompleter {position: relative; float: right; margin-right: 50px; display: inline-block;}
+.autocompleter input {
+  background: #0A5469 url('images/search.png') no-repeat scroll 3px 5px;
+  color: white;
+  height: 26px;
+  margin: 12px 0px 0px 9px;
+  padding: 0px 0px 0px 25px;
+  width: 144px;
+  outline-style: none;
+  border: none;
+  display: block;
+  font-size: 14px;
+}
+.autocompleter label {
+  position: absolute;
+  top: 16px;
+  left: 35px;
+  font-family: "Geneva";
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 200;
+  height: 29px;
+  cursor: text;
 }
 
 .dropdown_filter {

@@ -11,13 +11,18 @@
   <link rel="stylesheet" href="style/leaflet.css" />
 	<!--[if lte IE 8]><link rel="stylesheet" href="style/leaflet.ie.css" /><![endif]-->
   <link rel="stylesheet" href="style/jqueryui/jquery-ui-1.8.13.custom.css"> 
-	<script type="text/javascript" src="script/jquery-1.6.1.min.js"></script>
-	<script type="text/javascript" src="script/jquery-ui-1.8.13.custom.min.js"></script>
-	<script type="text/javascript" src="script/jquery.mustache.js"></script>
-	<script type="text/javascript" src="script/microevent.js"></script>
-	<script type="text/javascript" src="script/leaflet.js"></script>
-	<script type="text/javascript" src="script/jquery.stylishselect.js"></script>
-	<script type="text/javascript" src="script/sammy/sammy.js"></script>
+	<script type="text/javascript" src="script/lib/jquery-1.6.1.min.js"></script>
+	<script type="text/javascript" src="script/lib/jquery-ui-1.8.13.custom.min.js"></script>
+	<script type="text/javascript" src="script/lib/jquery.mustache.js"></script>
+	<script type="text/javascript" src="script/lib/microevent.js"></script>
+	<script type="text/javascript" src="script/lib/leaflet.js"></script>
+	<script type="text/javascript" src="script/lib/jquery.stylishselect.js"></script>
+	<script type="text/javascript" src="script/lib/jquery.enablePlaceholder.min.js"></script>
+	<script type="text/javascript" src="script/lib/jquery.couch2.js"></script>
+	<script type="text/javascript" src="script/lib/underscore.js"></script>
+	<script type="text/javascript" src="script/lib/sammy-0.6.3.min.js"></script>
+	<script type="text/javascript" src="script/util.js"></script>
+	<script type="text/javascript" src="script/map.js"></script>
 	<script type="text/javascript" src="script/site.js"></script>
 </head> 
 <body>
@@ -110,22 +115,21 @@
   <script id="newCitiesTemplate" type="text/mustache">
     <h5>Newest Cities</h5>
     <ul>
-    {{#cities}}
+    {{#options}}
       <li>
         {{name}}
       </li>
-    {{/cities}}
+    {{/options}}
     </ul>
   </script>
 
   
   <script id="citiesTemplate" type="text/mustache">
-    <div class="cities">
+    <div class="directory">
       <div id="header">
         <div class="showbar" id="showbar">
           <div class="autocompleter"> 
-          	<label for="search">Search: </label> 
-          	<input id="search" /> 
+          	<input id="search" placeholder="Search" /> 
           </div>
           <div class="fullscreen"></div>
         </div>
@@ -152,9 +156,9 @@
     <div class="dropdown_filter">
       <span class='show_me'>Showing:</span>
       <select id='filter_select_1'>
-      {{#cities}}
+      {{#options}}
         <option value='{{name}}'>{{name}}</option>
-      {{/cities}}
+      {{/options}}
       </select>      
     </div>
   </script>

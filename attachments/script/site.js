@@ -97,7 +97,7 @@ app.after = {
         
         $( "#search" ).autocomplete({
           source: function( request, response ) {
-            var wildcard = { "name": "*"+request.term+"*" };
+            var wildcard = { "name": "*"+request.term.toLowerCase()+"*" };
             var postData = {
               "query": { "wildcard": wildcard },
               "fields": ["name", "coordinates", "_id"]

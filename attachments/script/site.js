@@ -100,7 +100,7 @@ app.after = {
             var wildcard = { "name": "*"+request.term+"*" };
             var postData = {
               "query": { "wildcard": wildcard },
-              "fields": ["name", "_id"]
+              "fields": ["name", "coordinates", "_id"]
             };
             $.ajax({
               url: "http://smalldata.org:9200/social_services/social_services/_search",
@@ -110,6 +110,7 @@ app.after = {
               success: function( data ) {
                 response( $.map( data.hits.hits, function( item ) {
                   return {
+                    coordinates: item.fields.coordinates,
                     label: item.fields.name,
                     id: item.fields._id
                   }

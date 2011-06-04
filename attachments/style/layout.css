@@ -160,7 +160,7 @@ a.cta:hover {background-color:#19B3CD;}
 #content_wrapper {padding:17px 0 34px 0;}
 #content_wrapper.npt {padding-top:0}
 #content_wrapper h3, #content_wrapper h4, #content_wrapper h5 {margin:34px 0 17px 0;}
-#footer_content {margin:0 10px;}
+#footer_content {margin:0 auto;}
 #footer_content p {color:#E3EDDA;font-size:12px;}
 #footer_content a {color:#AFDE41}
 #footer_content h4 {color:#FFF;}

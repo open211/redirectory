@@ -36,7 +36,7 @@ app.after = {
       .then(function(data) {
         util.render('newCities', 'newCities', {data: data});
         $.each(data.options, function(i, city) {
-          app.map.showPoint({type: "Feature", geometry: {"type": "Point", "coordinates": [city.longitude, city.latitude]}, properties: city});
+          app.map.showPoint({type: "Feature", geometry: city.geometry, properties: city});
         })
       })
 

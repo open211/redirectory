@@ -1,6 +1,7 @@
-var selectedService, geoJson, db, features, citiesCache;
+var selectedService, geoJson;
 
 var app = {
+  cache: {},
   container: '#container',
   site: {config:{}}, 
   emitter: new util.Emitter(),
@@ -8,10 +9,10 @@ var app = {
   	mapCenterLat: 45.5234515,
   	mapCenterLon: -122.6762071,
   	mapStartZoom: 2,
+  	zoomControl: false,
   	baseURL: util.getBaseURL(document.location.pathname)
   }
 };
-
 
 app.handler = function(route) {
   route = route.path.slice(1, route.path.length);
@@ -55,7 +56,7 @@ app.after = {
       }
     )
     
-    app.map = mapUtil.createMap(app.config);
+    app.map = mapUtil.createMap($.extend({}, app.config, {zoomControl: true}));
 
     $("input[placeholder]").enablePlaceholder();
 
@@ -64,9 +65,10 @@ app.after = {
     })
     
     function changeCity(name) {
-      $.each(citiesCache, function(i, city) {
+      var cities = app.cache.cities;
+      $.each(cities, function(i, city) {
         if(city.name === name) {
-          util.switchInfo(city);
+          util.switchInfo("cities", city._id);
           app.map.instance.setView(new L.LatLng(city.geometry.coordinates[1], city.geometry.coordinates[0]), 15);
         }
       })
@@ -76,7 +78,6 @@ app.after = {
       .fetchResource('cities')
       .then(function(data) {
         util.render('cityDropdown', 'showbar', {data: data, append: true});
-        citiesCache = data.options;
         $("#filter_select_1").sSelect();
         $('.menu li a').click(function() { changeCity($(this).text()) });
 
@@ -113,14 +114,15 @@ app.after = {
             });
           },
           minLength: 2,
-          select: function( event, ui ) {
-            $(".autocompleter").append(ui.item.id);
+          position: { my : "right top", at: "right bottom" },
+          select: function( event, selected ) {
+            app.emitter.emit("select", selected.item.id);
           },
           open: function() {
             $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
           },
           close: function() {
-                $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+            $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
           }
         })
     });

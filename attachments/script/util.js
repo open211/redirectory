@@ -1,24 +1,24 @@
 var util = function() {
 
-  var Emitter = function(obj) {
-    this.emit = function(obj) { this.trigger('data', obj); };
+  var Emitter = function() {
+    this.emit = function(channel, obj) { this.trigger(channel, obj); };
   };
   MicroEvent.mixin(Emitter);
 
   $.fn.serializeObject = function() {
-      var o = {};
-      var a = this.serializeArray();
-      $.each(a, function() {
-          if (o[this.name]) {
-              if (!o[this.name].push) {
-                  o[this.name] = [o[this.name]];
-              }
-              o[this.name].push(this.value || '');
-          } else {
-              o[this.name] = this.value || '';
-          }
-      });
-      return o;
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+      if (o[this.name]) {
+        if (!o[this.name].push) {
+          o[this.name] = [o[this.name]];
+        }
+        o[this.name].push(this.value || '');
+      } else {
+        o[this.name] = this.value || '';
+      }
+    });
+    return o;
   };
 
   function inURL(url, str) {
@@ -77,7 +77,8 @@ var util = function() {
     return baseURL;
   }
   
-  function switchInfo( properties ) {
+  function switchInfo( name, id ) {
+    var properties = app.cache[name][id];
     $('.sidebar .bottom').html(formatMetadata(properties));
     $('.sidebar .title').text(properties.name);
   }

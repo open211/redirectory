@@ -6,7 +6,8 @@ var mapUtil = function() {
       containerId: 'mapContainer',
       mapCenterLat: 45.5234515,
     	mapCenterLon: -122.6762071,
-    	mapStartZoom: 2
+    	mapStartZoom: 2,
+    	zoomControl: true
     }, config)
     
     var container = $('#' + config.containerId);
@@ -24,7 +25,7 @@ var mapUtil = function() {
       popupAnchor: new L.Point(-3, -76)
     });
         
-    var map = new L.Map(config.containerId, {zoomControl: false});
+    var map = new L.Map(config.containerId, {zoomControl: config.zoomControl});
     
     map.setView(new L.LatLng(config.mapCenterLat, config.mapCenterLon), config.mapStartZoom).addLayer(cloudmade);
 
@@ -49,7 +50,7 @@ var mapUtil = function() {
             marker = new L.Marker(markerLocation, {icon: this.markerDot});
         if (feature.properties) marker.properties = feature.properties;
         this.instance.addLayer(marker);
-        marker.on('click', function(e){ app.emitter.emit(e.target.properties) })
+        marker.on('click', function(e){ app.emitter.emit("select", e.target.properties._id) })
       },
 
       showDataset: function(name) {
@@ -60,11 +61,15 @@ var mapUtil = function() {
           url: self.config.baseURL + "api/" + name,
           dataType: 'jsonp',
           data: {bbox: bbox},
-          success: function( data ){
-            $.each(data.rows, function(i, row) {
-              self.showPoint({type: "Feature", geometry: row.geometry});
+          success: function( data ) {
+            if (!(name in app.cache)) app.cache[name] = {};
+            data.rows.map(function(row) {
+              if (!(row.id in app.cache[name])) {
+                self.showPoint({type: "Feature", geometry: row.value.geometry, properties: row.value});                
+                app.cache[name][row.id] = row.value;
+              }
             })
-            app.emitter.bind('data', util.switchInfo);
+            app.emitter.bind('select', function(id) { util.switchInfo("services", id) });
             self.hideLoader();
           }
         });
@@ -75,12 +80,16 @@ var mapUtil = function() {
           url: this.config.baseURL + "api/" + resource,
           dataType: 'json',
           dataFilter: function(data) {
-            var data = { 
-              options: JSON.parse(data).rows.map(function(item) { 
-                return item.value;
-              })
-            }
-            return JSON.stringify(data);
+            var data = JSON.parse(data);
+            if (!(resource in app.cache)) app.cache[resource] = {};
+            var options = data.rows.map(function(item) {
+              var doc = item.value;
+              if (!(doc._id in app.cache[resource])) {
+                app.cache[resource][doc._id] = doc;
+              }
+              return doc;
+            })
+            return JSON.stringify({ options: options });
           }
         }
         return $.ajax(ajaxOpts).promise();

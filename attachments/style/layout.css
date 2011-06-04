@@ -136,6 +136,7 @@ h2.logo_title {position: relative; margin: 20px 0px 10px 0px; float: left;color:
 h2.pinstripe {font-family: 'OstrichBold', Helvetica, Arial, sans-serif;}
 em {font-style:italic}
 body {background:#fff url('images/body_bg.png') scroll repeat-x 0 0;font:13px/17px "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;color:#333}
+#main {padding:0 10px;}
 #main_content {min-height:500px}
 #header_content, #main_content, #footer_content {width:960px;margin:0 auto;}
 #logo {width:320px;height:55px;background:transparent url('images/logo.png') scroll no-repeat 0 0;display:block;text-indent:-999em;margin:10px 0;}
@@ -152,12 +153,14 @@ div.cta div.info h1, div.cta div.info h2 {font:18px/26px "Lucida Grande", "Luxi 
 div.cta div.info h2 {font-size:16px;line-height:17px;font-weight:300}
 a.cta {display:block;background-color:#1F86A1;padding:10px 20px;color:#fff;font-size:20px;text-decoration:none;text-align:center;}
 a.cta:hover {background-color:#19B3CD;}
+#page_header {padding:0 10px;}
 #page_footer {background-color:#1F86A1;min-height:250px;}
 #footer_highlight {height:9px;background:transparent url('images/footer_hl.png') scroll repeat-x 0 0;padding-bottom:34px;}
 #container {margin:0;width:auto;}
 #content_wrapper {padding:17px 0 34px 0;}
 #content_wrapper.npt {padding-top:0}
 #content_wrapper h3, #content_wrapper h4, #content_wrapper h5 {margin:34px 0 17px 0;}
+#footer_content {margin:0 10px;}
 #footer_content p {color:#E3EDDA;font-size:12px;}
 #footer_content a {color:#AFDE41}
 #footer_content h4 {color:#FFF;}

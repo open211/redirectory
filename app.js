@@ -6,7 +6,7 @@ ddoc =
   { _id:'_design/app'
   , rewrites :
     [ {from:"/", to:'index.html'}
-    , {from:"/api/services", to:'../../../social_services/_design/social_services/_spatial/full'}
+    , {from:"/api/services", to:'../../../social_services/_design/geo/_spatial/latlon'} // github/maxogden/geocouch-utils
     , {from:"/api/cities", to: "_spatial/cities", "query" : {"bbox": "-180,-90,180,90"}}
     , {from:"/api", to:'../../'}
     , {from:"/api/services/*", to:'../../../social_services/*'}

@@ -121,6 +121,11 @@ app.after = {
           minLength: 2,
           position: { my : "right top", at: "right bottom" },
           select: function( event, selected ) {
+            var latlng = new L.LatLng(
+              selected.item.coordinates[1],
+              selected.item.coordinates[0]);
+            app.map.instance.setView(latlng, 15);
+            app.map.showDataset("services");
             app.emitter.emit("select", selected.item.id);
           },
           open: function() {

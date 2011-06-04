@@ -46,7 +46,7 @@ var mapUtil = function() {
 
       showPoint: function(feature) {
         var point = feature.geometry,
-            markerLocation = new L.LatLng(parseFloat(point.coordinates[1]), point.coordinates[0]),
+            markerLocation = new L.LatLng(parseFloat(point.coordinates[1]), parseFloat(point.coordinates[0])),
             marker = new L.Marker(markerLocation, {icon: this.markerDot});
         if (feature.properties) marker.properties = feature.properties;
         this.instance.addLayer(marker);
@@ -65,7 +65,11 @@ var mapUtil = function() {
             if (!(name in app.cache)) app.cache[name] = {};
             data.rows.map(function(row) {
               if (!(row.id in app.cache[name])) {
-                self.showPoint({type: "Feature", geometry: row.value.geometry, properties: row.value});                
+                self.showPoint({
+                                type: "Feature", 
+                                geometry: {"type": "Point", "coordinates": [row.value.longitude, row.value.latitude]}, 
+                                properties: row.value
+                              });                
                 app.cache[name][row.id] = row.value;
               }
             })

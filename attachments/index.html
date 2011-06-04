@@ -3,14 +3,14 @@
 <!--[if IE 7 ]>  <html class="no-js ie7" lang="en"> <![endif]-->
 <!--[if IE 8 ]>  <html class="no-js ie8" lang="en"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-<head> 
-	<meta charset="utf-8"> 
+<head>
+	<meta charset="utf-8">
 	<title>ReDirectory Referral System</title>
-	<link rel="stylesheet" href="style/css3buttons.css" media="screen"> 
+	<link rel="stylesheet" href="style/css3buttons.css" media="screen">
   <link href="style/layout.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="style/leaflet.css" />
 	<!--[if lte IE 8]><link rel="stylesheet" href="style/leaflet.ie.css" /><![endif]-->
-  <link rel="stylesheet" href="style/jqueryui/jquery-ui-1.8.13.custom.css"> 
+  <link rel="stylesheet" href="style/jqueryui/jquery-ui-1.8.13.custom.css">
 	<script type="text/javascript" src="script/lib/jquery-1.6.1.min.js"></script>
 	<script type="text/javascript" src="script/lib/jquery-ui-1.8.13.custom.min.js"></script>
 	<script type="text/javascript" src="script/lib/jquery.mustache.js"></script>
@@ -24,7 +24,7 @@
 	<script type="text/javascript" src="script/util.js"></script>
 	<script type="text/javascript" src="script/map.js"></script>
 	<script type="text/javascript" src="script/site.js"></script>
-</head> 
+</head>
 <body>
   <!-- <div id="management_banner">woo<a class="so" href="#">Sign out</a></div> -->
   <div id="container" class="container_12">
@@ -63,7 +63,7 @@
         </div>
         <div class="grid_4 omega">
           <h4>Getting Involved</h4>
-          <p>Getting involved is easy &ndash; first check and see if your city is participating by viewing our list of <a href="#cities">active cities</a>. 
+          <p>Getting involved is easy &ndash; first check and see if your city is participating by viewing our list of <a href="#cities">active cities</a>.
           </p>
           <p>If your city is listed you can view our <a href="#editing">editing tips</a> to learn how to add information to the directory. If your city isn't yet active you can learn how to <a href="#getinvolved">get your city listed in Redirectory</a></p>
         </div>
@@ -116,7 +116,7 @@
       </div>
     </div>
   </script>
-  
+
   <script id="newCitiesTemplate" type="text/mustache">
     <h5>Newest Cities</h5>
     <ul>
@@ -128,13 +128,13 @@
     </ul>
   </script>
 
-  
+
   <script id="citiesTemplate" type="text/mustache">
     <div class="directory">
       <div id="header">
         <div class="showbar" id="showbar">
-          <div class="autocompleter"> 
-          	<input id="search" placeholder="Search" /> 
+          <div class="autocompleter">
+            <input id="search" placeholder="Search" />
           </div>
           <div class="fullscreen"></div>
         </div>
@@ -156,7 +156,7 @@
       </div>
     </div>
   </script>
-  
+
   <script id="cityDropdownTemplate" type="text/mustache">
     <div class="dropdown_filter">
       <span class='show_me'>Showing:</span>
@@ -164,18 +164,28 @@
       {{#options}}
         <option value='{{name}}'>{{name}}</option>
       {{/options}}
-      </select>      
+      </select>
     </div>
   </script>
-  
+
   <script id="getinvolvedTemplate" type="text/mustache">
-    get involved
+    <div id="getinvolved_wrapper" class="npt clearfix">
+      <h2>Get Involved!</h2>
+      <p>Want to help improve the Redirectory? You can help in many ways.</p>
+      <ul>
+        <li><a href="#upload">Upload data</a> for your community</li>
+        <li><a href="#developers">Write a script</a> to import another website's data</li>
+        <li>Reach out locally to raise awareness of social services, and encourage social workers to share their service information</li>
+      </ul>
+    </div>
   </script>
-  
+
   <script id="aboutTemplate" type="text/mustache">
-    about
+    <div id="about_wrapper" class="npt clearfix">
+      <p>The Redirectory Project is a free and open project built by <a href="http://twitter.com/tilgovi">Randall Leeds</a>, <a href="http://twitter.com/maxogden">Max Ogden</a> and <a href="http://twitter.com/briantrice">Brian Rice</a> and endorsed by <a href="http://www.codeforamerica.org">Code for America</a> to create a detailed directory of social services that anyone can edit or use.</a>
+    </div>
   </script>
-  
+
   <script id="developersTemplate" type="text/mustache">
     <div id="content_wrapper" class="npt clearfix">
       <h2>Developer Guide to APIs and Contributing</h2>
@@ -184,11 +194,11 @@
       <p>The core of Redirectory is organized around spatial queries for points of interest in services directory, optionally restricted by a keyword search. To facilitate the construction of spatial queries, Redirectory provides a database and an API for developers to retreive bounding box information from postal codes. The raw services data is available via a separate API, including bulk download and real-time long-polling for changes. In the future, the API may expand to include an atom feed to ease integration with non-CouchDB systems and allow for <a href="pubsubhub">PubSubHubbub</a> support.</p>
     </div>
   </script>
-  
+
   <script id="termsTemplate" type="text/mustache">
     terms
   </script>
-  
+
   <script type="text/javascript">
 
     var _gaq = _gaq || [];

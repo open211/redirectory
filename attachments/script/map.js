@@ -69,7 +69,6 @@ var mapUtil = function() {
                 app.cache[name][row.id] = row.value;
               }
             })
-            app.emitter.bind('select', function(id) { util.switchInfo("services", id) });
             self.hideLoader();
           }
         });

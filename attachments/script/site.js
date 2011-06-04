@@ -14,6 +14,10 @@ var app = {
   }
 };
 
+app.emitter.bind('select', function(id) {
+  util.switchInfo("services", id);
+});
+
 app.handler = function(route) {
   route = route.path.slice(1, route.path.length);
   if (route.length < 1) route = "home";

@@ -56,10 +56,7 @@ unless $message
     # end
     # query = keywords.join(',')
     # uri = URI.parse("#{api_uri}/search?bbox=#{bbox}&query=#{query}")
-    query = {
-      :wildcard => {:description => "*#{keywords[0]}*"},
-      :wildcard => {:name => "*#{keywords[0]}*"}
-    }.to_json.to_s
+    query = {"text" => {"name" => keywords[0]}}.to_json.to_s
     begin
       search_response = Net::HTTP.post_form(URI.parse(api_uri), {
                                               :query => query,

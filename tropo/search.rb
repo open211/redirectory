@@ -40,24 +40,38 @@ unless $message
       words = ask(message).split
       zipcodes, cities_for_query, keywords = parse_query words
     end
-    location_feedback = (zipcodes + cities_for_query).join(', ')
-    say "Searching for #{keywords.join(', ')} in #{location_feedback}"
-    # #extra_params = {
-    # #  :message => $currentCall.initialText,
-    # #  :incoming_number => $currentCall.calledID,
-    # #  :origin_number => $currentCall.callerID
-    # #}
-    # uri = URI.parse(api_uri + "/zip?key=" + '%22' + zipcode + '%22')
-    # unless zipcode.empty?
+    say "Searching for #{keywords.join(', ')} in #{(zipcodes + cities_for_query).join(', ')}"
+    # extra_params = {
+    #   :message => $currentCall.initialText,
+    #   :incoming_number => $currentCall.calledID,
+    #   :origin_number => $currentCall.callerID
+    # }
+    # bboxes = []
+    # zipcodes.each do |zipcode|
+    #   uri = URI.parse(api_uri + "/zip?key=" + '%22' + zipcode + '%22')
     #   zip_response = Net::HTTP.get_response(uri)
     #   results = JSON.parse(zip_response.body)
     #   bbox = results["rows"][0]["value"]["bbox"]
+    #   push bboxes, bbox
     # end
     # query = keywords.join(',')
     # uri = URI.parse("#{api_uri}/search?bbox=#{bbox}&query=#{query}")
-    # search_response = Net::HTTP.get_response(uri)
-    # results = JSON.parse(search_response.body)
-    # say results["rows"].first(result_limit).join("\n")
+    query = {
+      :wildcard => {:description => "*#{keywords[0]}*"},
+      :wildcard => {:name => "*#{keywords[0]}*"}
+    }.to_json.to_s
+    begin
+      search_response = Net::HTTP.post_form(URI.parse(api_uri), {
+                                              :query => query,
+                                              :fields => ["name","coordinates","_id"]
+                                            })
+      #say search_response.body
+      results = JSON.parse(search_response.body)
+      top_hits = results["hits"].first(result_limit)
+      say (top_hits.collect {|hit| "#{hit.name}: #{hit.phone}"}).join("\n")
+    rescue
+      say "Oops! The query did not complete correctly and will be recorded for review. Thanks for your patience!"
+    end
   elsif $currentCall.channel == "VOICE"
     callerID = $currentCall.callerID
     record "Welcome to the Redirectory! What problems need solving?", {

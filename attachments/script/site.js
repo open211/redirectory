@@ -97,9 +97,11 @@ app.after = {
         
         $( "#search" ).autocomplete({
           source: function( request, response ) {
-            var wildcard = { "name": "*"+request.term.toLowerCase()+"*" };
+            var cityName = $('.menu li a.hiLite')[0].innerText;
             var postData = {
-              "query": { "wildcard": wildcard },
+              "query": {
+                "text": { "name" : request.term }
+              },
               "fields": ["name", "coordinates", "_id"]
             };
             $.ajax({

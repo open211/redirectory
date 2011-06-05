@@ -11,6 +11,10 @@ database.
 - A web application presenting a map and simple text search.
 - A phone/SMS/IM service for querying the service via mobile phone or computer.
 
+!http://i.imgur.com/q5qWA.png!
+
+For more details check out the [wiki](https://github.com/tilgovi/redirectory/wiki)
+
 Installation
 ------------
 

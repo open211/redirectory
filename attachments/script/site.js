@@ -138,7 +138,27 @@ app.after = {
           }
         })
     });
+  },
+  upload: function() {
+    app.map = mapUtil.createMap($.extend({}, app.config, {zoomControl: true}));
+    
+    if (Modernizr.localstorage) {
+      util.persist.restore();
 
+      $('.persist').keyup(function(e) {
+        var inputId = $(e.target).attr('id');
+        util.persist.save(inputId);
+      })
+    }
+
+    $('#address').keyup(function() {
+      $('#address').addClass('loading');
+      util.delay(function() {
+        app.map.geocoder.geocode({'address':$('#address').val()}, app.map.listAddresses);
+      }, 2000)();
+    });
+    
+    util.bindUpload($('#file_upload'));
   }
 }
 

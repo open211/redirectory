@@ -29,11 +29,49 @@ var mapUtil = function() {
     
     map.setView(new L.LatLng(config.mapCenterLat, config.mapCenterLon), config.mapStartZoom).addLayer(cloudmade);
 
+    function listAddresses(results, status) {
+      $('#address').removeClass('loading');
+      
+      var list = $('#address-list'),
+          input = $('#address');
+          
+      list.empty();
+
+      $.each(results, function(i, val) {
+        var lat = val.geometry.location.lat()
+          , lng = val.geometry.location.lng()
+        list.append('<li data-icon="false"><a data-lat="'+lat+'" data-lng="'+lng+'"class="menuOption">' + val.formatted_address + '</a></li>');
+      });
+      
+      $('.menuOption').hover(
+        function(e) { $(e.target).addClass('menuHover')}
+       ,function(e) { $(e.target).removeClass('menuHover')}
+      );
+
+      $('li', list).click(function(e) {
+        list.empty();
+        var loc = $(e.target);
+        $('#address').val(loc.text());
+        $('.crosshair').show();
+        $('#map-wrapper').show();
+        
+        app.map.instance.on('move', function() {
+          app.map.lastCoordinates = [app.map.instance.getCenter().lng, app.map.instance.getCenter().lat];
+        });
+             
+        map.invalidateSize();          
+        var lat = parseFloat(loc.attr('data-lat'))
+          , lng = parseFloat(loc.attr('data-lng'))
+        map.setView(new L.LatLng(lat, lng), 16);
+      });
+    };
+
     return {
       instance: map,
       container: container,
       config: config,
       markerDot: new MarkerDot(),
+      geocoder: new google.maps.Geocoder(),
       uri: "/" + encodeURIComponent(name) + "/",
       
       showLoader: function() {
@@ -101,7 +139,8 @@ var mapUtil = function() {
       getBB: function(){
         var b = this.instance.getBounds();
         return b._southWest.lng + "," + b._southWest.lat + "," + b._northEast.lng + "," + b._northEast.lat;
-      }
+      },
+      listAddresses: listAddresses
     }
   }
 

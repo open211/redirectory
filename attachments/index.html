@@ -11,6 +11,10 @@
   <link rel="stylesheet" href="style/leaflet.css" />
   <!--[if lte IE 8]><link rel="stylesheet" href="style/leaflet.ie.css" /><![endif]-->
   <link rel="stylesheet" href="style/jqueryui/jquery-ui-1.8.13.custom.css"/>
+  <link rel="stylesheet" href="style/jquery.fileupload-ui.css" type="text/css">
+  <link href="style/core.css" rel="stylesheet" type="text/css" />
+  <link href="style/base.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
   <script type="text/javascript" src="script/lib/jquery-1.6.1.min.js"></script>
   <script type="text/javascript" src="script/lib/jquery-ui-1.8.13.custom.min.js"></script>
   <script type="text/javascript" src="script/lib/jquery.mustache.js"></script>
@@ -20,6 +24,9 @@
   <script type="text/javascript" src="script/lib/jquery.enablePlaceholder.min.js"></script>
   <script type="text/javascript" src="script/lib/jquery.couch2.js"></script>
   <script type="text/javascript" src="script/lib/underscore.js"></script>
+  <script type="text/javascript" src="script/lib/jquery.fileupload.js"></script>
+  <script type="text/javascript" src="script/lib/jquery.fileupload-ui.js"></script>
+  <script type="text/javascript" src="script/lib/modernizr.custom.js"></script>
   <script type="text/javascript" src="script/lib/sammy-0.6.3.min.js"></script>
   <script type="text/javascript" src="script/util.js"></script>
   <script type="text/javascript" src="script/map.js"></script>
@@ -38,6 +45,7 @@
             <li><a href="#cities">Cities</a></li>
             <li><a href="#phone">Call</a></li>
             <li><a href="#getinvolved">Get Involved</a></li>
+            <li><a href="#upload">Upload</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#developers">Developers</a></li>
           </ul>
@@ -74,6 +82,7 @@
             <li><a href="#home">Home</a></li>
             <li><a href="#cities">Cities</a></li>
             <li><a href="#getinvolved">Get Involved</a></li>
+            <li><a href="#upload">Upload</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#developers">Developers</a></li>
             <li><a href="#terms">Terms of Use</a></li>
@@ -267,6 +276,137 @@
         <li>contain viruses, corrupted files, or other material that could harm Redirectory website or any other computer system.</li>
       </ul>
       <p>The Redirectory team reserves the right to edit or delete any content for any reason we deem appropriate. We reserve the right to disable the account of any user who repeatedly violates the terms of use. Participation in the content of this site is at your own risk. By submitting content or responding to a comment, you agree to be bound by these terms and agree that Redirectory retains the right to edit or remove any content.</p>
+    </div>
+  </script>
+  
+  <script id="uploadTemplate" type="text/mustache">
+    <div id="content_wrapper" class="npt clearfix">
+      <div class="alpha">
+        <h4 class="nmt">Help us improve our database</h4>
+        <p>
+          Use the form below to tell us about social services that aren't in our database yet. 
+        </p>
+        <div id="content" class="page-content clear-block">
+          <div id="content-wrapper">
+            <div>
+              <div class="form form-layout-default clear-block">
+                <div class="column-main">
+                  <form action="#" accept-charset="UTF-8" method="post" id="upload-form" enctype="multipart/form-data">
+                    <div class="column-wrapper clear-block">
+                      <fieldset class="locationContainer fieldset titled collapsible collapsed tao-processed">
+                        <legend><span class="fieldset-title"><a href="#fieldset" class="active">Location</a></span></legend>
+                        <div class="fieldset-content map-fieldset clear-block ">
+                          <div class="inline-button-form-item form-item form-option" id="edit-revision-wrapper">
+                            <label for="edit-menu-link-title">Building Street Address</label>
+                            <input type="text" maxlength="128" name="address" id="address" value="" class="form-text fluid persist">
+                            <div class="description">
+                              What is the street address of the building that the social service resides in? e.g. 85 2nd St, San Francisco, CA
+                            </div>
+                          </div>
+                          <ul id="address-list" class="optionsMenu address-list" data-role="listview" data-inset="true" data-theme="c"></ul>
+                          <div class="inline-button-form-item form-item form-option" id="map-wrapper">
+                            <label for="edit-menu-link-title">Drag To Pinpoint Location</label>
+                            <div id="mapContainer"></div>
+                            <div class="crosshair">
+                              <div class="top"></div>
+                              <div class="right"></div>
+                              <div class="left"></div>
+                              <div class="bottom"></div>
+                            </div>
+                            <div class="description">
+                              Pinpoint the location as accurately as possible by dragging the map
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                      <fieldset class="fieldset titled collapsible collapsed tao-processed">
+                        <legend><span class="fieldset-title"><a href="#fieldset" class="active">Organization Details</a></span></legend>
+                        <div class="fieldset-content clear-block ">
+                          <div class="form-item form-option" id="edit-name-wrapper">
+                            <label for="edit-menu-link-title">Name</label>
+                            <input type="text" maxlength="128" name="name" id="name" value="" class="form-text fluid persist">
+                            <div class="description">
+                              What is the name of this social service location? E.g. East Bay Job Center
+                            </div>
+                          </div>
+                          <div class="form-item form-option" id="edit-organization-wrapper">
+                            <label for="edit-menu-link-title">Organization</label>
+                            <input type="text" maxlength="128" name="organization" id="organization" value="" class="form-text fluid persist">
+                            <div class="description">
+                              What is the name of the organization that operates this social service location? E.g. Bay Area Job Training Inc.
+                            </div>
+                          </div>
+                          <div class="form-item form-item-labeled" id="edit-description-wrapper">
+                            <label for="edit-log">Description</label>
+                            <div class="resizable-textarea">
+                              <span><textarea cols="72" rows="2" name="description" id="description" class="form-textarea resizable textarea-processed persist"></textarea>
+                              <div class="grippie" style="margin-right: 0px; ">
+                              </div>
+                              </span>
+                            </div>
+                            <div class="description">
+                              Please be as specific as possible in describing this organization, it's mission and any other relevant information.
+                            </div>
+                          </div>
+                          <div class="form-item form-item-labeled" id="edit-phone-wrapper">
+                            <label for="edit-menu-link-title">Phone Number</label>
+                            <input type="text" maxlength="128" name="phone" id="phone" value="" class="form-text fluid persist">
+                            <div class="description">
+                              What is the phone number for the front desk/main point of contact of this organization?
+                            </div>
+                          </div>
+                          <div class="form-item form-item-labeled" id="edit-hours-wrapper">
+                            <label for="edit-menu-link-title">Hours of Operation</label>
+                            <input type="text" maxlength="128" name="hours" id="hours" value="" class="form-text fluid persist">
+                            <div class="description">
+                              What days and hours is this organization open and available?
+                            </div>
+                          </div>
+                          <div class="form-item form-item-labeled" id="edit-website-wrapper">
+                            <label for="edit-menu-link-title">Website</label>
+                            <input type="text" maxlength="128" name="website" id="website" value="" class="form-text fluid persist">
+                            <div class="description">
+                              What is the website address for this organization?
+                            </div>
+                          </div>
+                          <div class="form-item form-item-labeled" id="edit-source-wrapper">
+                            <label for="edit-menu-link-title">Data Source</label>
+                            <input type="text" maxlength="128" name="source" id="source" value="" class="form-text fluid persist">
+                            <div class="description">
+                              Who should be credited for submitting this information? It is okay to list your own name (Note: this information will be public)
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                      <div class="buttons">
+                        <input type="submit" name="op" id="edit-submit-1" value="Submit" class="form-submit">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="column-side">
+              		<div class="column-wrapper clear-block">
+                    <div class="uploader">
+                      <span class="fieldset-title"><a>File Attachments</a></span>
+                      <form id="file_upload" method="PUT">
+                        <input class="drop_input" type="file" name="file" multiple>
+                        <button class="drop_button">Upload</button>
+                        <div class="drop_instructions">
+                					<img src="images/upload_document.png" alt="Ready"/>
+                					<h4 class="file_upload_description">Click or drop attachments here</h4>
+                					<span class="uploaded_percent"></span>
+                				</div>
+                      </form>
+                      <table class="file_list">
+                      </table>
+                    </div>
+              		</div>
+              	</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </script>
 

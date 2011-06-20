@@ -135,14 +135,7 @@ app.after = {
   upload: function() {
     app.map = mapUtil.createMap($.extend({}, app.config, {zoomControl: true}));
     
-    if (Modernizr.localstorage) {
-      util.persist.restore();
-
-      $('.persist').keyup(function(e) {
-        var inputId = $(e.target).attr('id');
-        util.persist.save(inputId);
-      })
-    }
+    util.persist.init();
 
     $('#address').keyup(function() {
       $('#address').addClass('loading');
@@ -154,6 +147,7 @@ app.after = {
     util.bindFormUpload($('#upload-form'));
   },
   bulkUpload: function() {
+    util.persist.init();
     util.bindFormUpload($('#bulk-upload-form'));
     util.bindAttachmentUpload($('#file_upload'));
   }

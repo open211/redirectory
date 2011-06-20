@@ -103,6 +103,16 @@ var util = function() {
       $('.persist').each(function(i, el) {
         localStorage.removeItem($(el).attr('id'));
       })
+    },
+    init: function() {
+      if (Modernizr.localstorage) {
+        util.persist.restore();
+
+        $('.persist').keyup(function(e) {
+          var inputId = $(e.target).attr('id');
+          util.persist.save(inputId);
+        })
+      }
     }
   }
   

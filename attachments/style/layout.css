@@ -145,6 +145,7 @@ body {background:#fff url('images/body_bg.png') scroll repeat-x 0 0;font:13px/17
 #main_nav li a {color:#495b5b;}
 #main_nav li a:hover {color:#888;text-decoration:none;}
 #main_nav li.current a {border-bottom:4px solid #19B3CD;}
+#submit_report_bt {float: right;display: block;width: 348px;height: 74px;background: transparent url('images/srb_bg.png') scroll no-repeat 0 0;text-indent: 40px;line-height: 66px;font-size: 13px;color: white;text-decoration: none;}
 #submit_report_bt:hover {background-position:0 -177px;}
 #submit_report_bt:active {background-position:0 -87px;}
 div.cta {width:100%;height:416px;position:relative;margin-bottom:37px}

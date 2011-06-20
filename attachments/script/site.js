@@ -46,13 +46,6 @@ app.after = {
     });
   },
   cities: function(route) {    
-    // if (route && route.params.id) {
-    //   selectedService = route.params.id;
-    //   render( 'cities', 'main_content' );
-    //   return;
-    // }
-    
-
     $('.fullscreen').click(
       function() {
         $('.directory').toggleClass('fullscreen');
@@ -158,7 +151,47 @@ app.after = {
       }, 2000)();
     });
     
-    util.bindUpload($('#file_upload'));
+    $('#upload-form').submit(function(e) {
+      e.preventDefault();
+      
+      if (Modernizr.localstorage) util.persist.clear();
+        
+      if (!app.map.lastCoordinates) {
+        alert('Please enter an address first');
+        return;
+      }
+      
+      var data = $('#upload-form').serializeObject();
+      _.map(_.keys(data), function(key) {
+        if (data[key] === "") delete data[key];
+      })
+      
+      $.extend(data, {"verified": false, "created_at": new Date()});
+      if (app.map.lastCoordinates) $.extend(data, {"geometry": {"type": "Point", "coordinates": app.map.lastCoordinates}});
+
+      var reqOpts = {
+        uri: app.config.baseURL + "api",
+        method: "POST",
+        headers: {"Content-type": "application/json"}
+      }
+      
+      if (app.currentDoc) {
+        $.extend(reqOpts, {
+          uri: app.config.baseURL + "api/" + app.currentDoc._id,
+          method: "PUT"
+        })
+        $.extend(data, {"_rev": app.currentDoc._rev, "_attachments": app.currentDoc._attachments});
+      }
+      
+      reqOpts.body = JSON.stringify(data);
+      $.request(reqOpts, function(err, resp, body) {
+        util.render( 'upload', 'main_content' );
+        window.scrollTo(0, 0);
+        alert('Thanks! Your submission was successfully added');
+      })
+    })
+    
+    // util.bindUpload($('#file_upload'));
   }
 }
 

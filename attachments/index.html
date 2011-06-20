@@ -22,6 +22,7 @@
   <script type="text/javascript" src="script/lib/leaflet.js"></script>
   <script type="text/javascript" src="script/lib/jquery.stylishselect.js"></script>
   <script type="text/javascript" src="script/lib/jquery.enablePlaceholder.min.js"></script>
+  <script type="text/javascript" src="script/lib/jquery.request.js"></script>
   <script type="text/javascript" src="script/lib/jquery.couch2.js"></script>
   <script type="text/javascript" src="script/lib/underscore.js"></script>
   <script type="text/javascript" src="script/lib/jquery.fileupload.js"></script>
@@ -281,10 +282,14 @@
   
   <script id="uploadTemplate" type="text/mustache">
     <div id="content_wrapper" class="npt clearfix">
-      <div class="alpha">
-        <h4 class="nmt">Help us improve our database</h4>
+      <div class="devseed alpha">
+        <h4 class="nmt">Help us improve our data</h4>
+        <a id="submit_report_bt" class="png_bg">Use the bulk upload form instead</a>
         <p>
           Use the form below to tell us about social services that aren't in our database yet. 
+        </p>
+        <p>
+          If you have a large list of services that you would like to enter then consider using our bulk uploader. We accept data in any raw data format and can help import the data into our database.
         </p>
         <div id="content" class="page-content clear-block">
           <div id="content-wrapper">
@@ -293,32 +298,6 @@
                 <div class="column-main">
                   <form action="#" accept-charset="UTF-8" method="post" id="upload-form" enctype="multipart/form-data">
                     <div class="column-wrapper clear-block">
-                      <fieldset class="locationContainer fieldset titled collapsible collapsed tao-processed">
-                        <legend><span class="fieldset-title"><a href="#fieldset" class="active">Location</a></span></legend>
-                        <div class="fieldset-content map-fieldset clear-block ">
-                          <div class="inline-button-form-item form-item form-option" id="edit-revision-wrapper">
-                            <label for="edit-menu-link-title">Building Street Address</label>
-                            <input type="text" maxlength="128" name="address" id="address" value="" class="form-text fluid persist">
-                            <div class="description">
-                              What is the street address of the building that the social service resides in? e.g. 85 2nd St, San Francisco, CA
-                            </div>
-                          </div>
-                          <ul id="address-list" class="optionsMenu address-list" data-role="listview" data-inset="true" data-theme="c"></ul>
-                          <div class="inline-button-form-item form-item form-option" id="map-wrapper">
-                            <label for="edit-menu-link-title">Drag To Pinpoint Location</label>
-                            <div id="mapContainer"></div>
-                            <div class="crosshair">
-                              <div class="top"></div>
-                              <div class="right"></div>
-                              <div class="left"></div>
-                              <div class="bottom"></div>
-                            </div>
-                            <div class="description">
-                              Pinpoint the location as accurately as possible by dragging the map
-                            </div>
-                          </div>
-                        </div>
-                      </fieldset>
                       <fieldset class="fieldset titled collapsible collapsed tao-processed">
                         <legend><span class="fieldset-title"><a href="#fieldset" class="active">Organization Details</a></span></legend>
                         <div class="fieldset-content clear-block ">
@@ -336,12 +315,42 @@
                               What is the name of the organization that operates this social service location? E.g. Bay Area Job Training Inc.
                             </div>
                           </div>
+                        </fieldset>
+                        <fieldset class="locationContainer fieldset titled collapsible collapsed tao-processed">
+                          <legend><span class="fieldset-title"><a href="#fieldset" class="active">Location</a></span></legend>
+                          <div class="fieldset-content map-fieldset clear-block ">
+                            <div class="inline-button-form-item form-item form-option" id="edit-revision-wrapper">
+                              <label for="edit-menu-link-title">Building Street Address</label>
+                              <input type="text" maxlength="128" name="address" id="address" value="" class="form-text fluid persist">
+                              <div class="description">
+                                What is the street address of the building that the social service resides in? e.g. 85 2nd St, San Francisco, CA
+                              </div>
+                            </div>
+                            <ul id="address-list" class="optionsMenu address-list" data-role="listview" data-inset="true" data-theme="c"></ul>
+                            <div class="inline-button-form-item form-item form-option" id="map-wrapper">
+                              <label for="edit-menu-link-title">Drag To Pinpoint Location</label>
+                              <div id="mapContainer"></div>
+                              <div class="crosshair">
+                                <div class="top"></div>
+                                <div class="right"></div>
+                                <div class="left"></div>
+                                <div class="bottom"></div>
+                              </div>
+                              <div class="description">
+                                Pinpoint the location as accurately as possible by dragging the map
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>                        
+                        <fieldset class="fieldset titled collapsible collapsed tao-processed">
+                          <legend><span class="fieldset-title"><a href="#fieldset" class="active">Location</a></span></legend>
+                          <div class="fieldset-content map-fieldset clear-block ">
                           <div class="form-item form-item-labeled" id="edit-description-wrapper">
                             <label for="edit-log">Description</label>
                             <div class="resizable-textarea">
-                              <span><textarea cols="72" rows="2" name="description" id="description" class="form-textarea resizable textarea-processed persist"></textarea>
-                              <div class="grippie" style="margin-right: 0px; ">
-                              </div>
+                              <span>
+                                <textarea cols="72" rows="2" name="description" id="description" class="form-textarea resizable textarea-processed persist">
+                                </textarea>
                               </span>
                             </div>
                             <div class="description">
@@ -386,20 +395,7 @@
                 </div>
                 <div class="column-side">
               		<div class="column-wrapper clear-block">
-                    <div class="uploader">
-                      <span class="fieldset-title"><a>File Attachments</a></span>
-                      <form id="file_upload" method="PUT">
-                        <input class="drop_input" type="file" name="file" multiple>
-                        <button class="drop_button">Upload</button>
-                        <div class="drop_instructions">
-                					<img src="images/upload_document.png" alt="Ready"/>
-                					<h4 class="file_upload_description">Click or drop attachments here</h4>
-                					<span class="uploaded_percent"></span>
-                				</div>
-                      </form>
-                      <table class="file_list">
-                      </table>
-                    </div>
+                    
               		</div>
               	</div>
               </div>
@@ -408,6 +404,23 @@
         </div>
       </div>
     </div>
+  </script>
+  
+  <script id="uploaderFormTemplate" type="text/mustache">
+    <div class="uploader">
+      <span class="fieldset-title"><a>File Attachments</a></span>
+      <form id="file_upload" method="PUT">
+        <input class="drop_input" type="file" name="file" multiple>
+        <button class="drop_button">Upload</button>
+        <div class="drop_instructions">
+  				<img src="images/upload_document.png" alt="Ready"/>
+  				<h4 class="file_upload_description">Click or drop attachments here</h4>
+  				<span class="uploaded_percent"></span>
+  			</div>
+      </form>
+      <table class="file_list">
+      </table>
+    </div>  
   </script>
 
   <script type="text/javascript">

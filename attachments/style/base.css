@@ -5,156 +5,50 @@
  */
 
 /**
- * Skip navigation ====================================================
- *
- * 508 compliance link for skipping navigation elements.
- */
-#skipnav {
-  position:absolute;
-  left:-1000px;
-  top:-1000px;
-  }
-
-/**
- * Page width limiter =================================================
- *
- * Can be nested within major structural elements to allow full-width
- * bleeds combined with a fixed page width. Set a width on this in your
- * theme to get a consistent page width on major elements.
- */
-.limiter { margin:0px auto; }
-
-/**
- * Links ==============================================================
- *
- * Any ul.links are given a horizontal tab-like formatting.
- */
-ul.links li,
-ul.links li a { float:left; }
-
-ul.links.inline,
-ul.links.inline li,
-ul.links.inline li a {
-  float:none;
-  display:inline;
-  }
-
-/**
- * Prose ==============================================================
- *
- * By default, any text which is suspected to have gone through an
- * input filter is given the 'prose' class. We want to format it with
- * readability and nice defaults in mind.
- */
-.prose { line-height:20px; }
-
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6,
-.prose p,
-.prose ul,
-.prose ol,
-.prose pre,
-.prose div.codeblock,
-.prose blockquote { margin: 0px 0px 20px; }
-
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 { font-weight:bold; }
-.prose h1 { font-size:18px; }
-.prose h2 { font-size:15px; }
-
-.prose pre,
-.prose code,
-.prose div.codeblock {
-  font-size:11px;
-  font-family: monospace;
-  }
-
-.prose pre,
-.prose blockquote,
-.prose div.codeblock {
-  line-height:20px;
-  background:#f8f8f8;
-  padding:4px 9px;
-  border:1px solid #eee;
-  border-left:5px solid #eee;
-  }
-
-.prose ol li,
-.prose ul li {
-  display:list-item;
-  margin:0px 0px 0px 30px;
-  padding:0px;
-  }
-
-.prose ol li { list-style:decimal; }
-
-.prose ul li { list-style:disc; }
-
-.prose img { display:block; }
-
-/* Excluding Drupal structures */
-.prose .links,
-.prose .links li,
-.prose .item-list ul,
-.prose .item-list li {
-  margin:0px;
-  padding:0px;
-  list-style:none;
-  }
-
-/**
  * Tables =============================================================
  */
-table {
+.devseed table {
   width:100%;
   margin:0px 0px 20px;
   }
 
-table th,
-table td { vertical-align:middle; }
+.devseed table th,
+.devseed table td { vertical-align:middle; }
 
 /**
  * Forms ==============================================================
  */
-input.form-text,
-select,
-textarea { border:1px solid #ccc; }
+.devseed input.form-text,
+.devseed select,
+.devseed textarea { border:1px solid #ccc; }
 
-input.form-submit,
-label { font-weight:bold; }
+.devseed input.form-submit,
+.devseed label { font-weight:bold; }
 
-input.form-submit { cursor:pointer; }
+.devseed input.form-submit { cursor:pointer; }
 
-input.form-radio,
-input.form-checkbox { vertical-align:middle; }
+.devseed input.form-radio,
+.devseed input.form-checkbox { vertical-align:middle; }
 
-.form-item .description,
-.description {
+.devseed .form-item .description,
+.devseed .description {
   color:#666;
   font-size:11px;
   }
 
-fieldset.collapsible .fieldset-title { cursor:pointer; }
-html.js fieldset.collapsed .fieldset-content { display:none; }
+.devseed fieldset.collapsible .fieldset-title { cursor:pointer; }
+.devseed html.js fieldset.collapsed .fieldset-content { display:none; }
 
 /**
  * Views ==============================================================
  */
-table.grid-2 td { width:50%; }
-table.grid-3 td { width:33.3%; }
-table.grid-4 td { width:25%; }
-table.grid-5 td { width:20%; }
-table.grid-6 td { width:16.6%; }
-table.grid-7 td { width:14.2%; }
-table.grid-8 td { width:12.5%; }
+.devseed table.grid-2 td { width:50%; }
+.devseed table.grid-3 td { width:33.3%; }
+.devseed table.grid-4 td { width:25%; }
+.devseed table.grid-5 td { width:20%; }
+.devseed table.grid-6 td { width:16.6%; }
+.devseed table.grid-7 td { width:14.2%; }
+.devseed table.grid-8 td { width:12.5%; }
 
 /**
  * Markup free clearing ===============================================
@@ -163,8 +57,8 @@ table.grid-8 td { width:12.5%; }
  * to sneak the clear-block class into Drupal's markup.
  * From http://www.positioniseverything.net/easyclearing.html
  */
-ul.links:after,
-.clear-block:after {
+.devseed ul.links:after,
+.devseed .clear-block:after {
   content: ".";
   display: block;
   height: 0;
@@ -173,25 +67,25 @@ ul.links:after,
   }
 
   /* Exclude inline links from clear-block behavior */
-  ul.inline:after {
+  .devseed ul.inline:after {
     content: "";
     display:none;
     clear:none;
     }
 
-ul.links,
-.clear-block {
+.devseed ul.links,
+.devseed .clear-block {
   display: inline-block;
   }
 
 /* Hides from IE-mac \*/
-* html ul.links,
-* html .clear-block {
+.devseed * html ul.links,
+.devseed * html .clear-block {
   height: 1%;
   }
 
-ul.links,
-.clear-block {
+.devseed ul.links,
+.devseed .clear-block {
   display: block;
   }
 /* End hide from IE-mac */
@@ -200,8 +94,8 @@ ul.links,
 /**
  * Container styles ===================================================
  */
-div.block,
-div.block div.block-content {
+.devseed div.block,
+.devseed div.block div.block-content {
   background:transparent;
   border:0px;
   margin:0px;
@@ -210,27 +104,27 @@ div.block div.block-content {
   -webkit-box-shadow:none;
   }
 
-.locationContainer #mapContainer { height: 200px;}
-.locationContainer #map-wrapper {display: none;}
-.locationContainer { height: 335px }
-.locationContainer .map-fieldset {height: 285px}
-#title {width: 500px; margin: 0 auto; height: 25px; line-height: 25px; margin-top: 10px}
-#title p { float: right}
-#address.loading {background-image:url(http://fbi.gov/spinner.gif); background-repeat: no-repeat; background-position: 99% center;}
+.devseed .locationContainer #mapContainer { height: 200px;}
+.devseed .locationContainer #map-wrapper {display: none;}
+.devseed .locationContainer { height: 335px }
+.devseed .locationContainer .map-fieldset {height: 285px}
+.devseed #title {width: 500px; margin: 0 auto; height: 25px; line-height: 25px; margin-top: 10px}
+.devseed #title p { float: right}
+.devseed #address.loading {background-image:url(http://fbi.gov/spinner.gif); background-repeat: no-repeat; background-position: 99% center;}
 
-.crosshair {z-index: 666; display: none; position: absolute; top: 35px; left: 125px;}
-.left, .right, .top, .bottom {position: relative; background-color: #000; float: left;}
-.left, .right {height: 10px; width: 60px;}
-.top, .bottom {height: 60px; width: 10px;}
-.top    {top: 0px; left: 155px;}
-.left   {top: 85px; left: 0px;}
-.right  {top: 85px; left: 180px;}
-.bottom {top: 120px; left: 25px;}
+.devseed .crosshair {z-index: 666; display: none; position: absolute; top: 35px; left: 125px;}
+.devseed .left, .right, .top, .bottom {position: relative; background-color: #000; float: left;}
+.devseed .left, .right {height: 10px; width: 60px;}
+.devseed .top, .bottom {height: 60px; width: 10px;}
+.devseed .top    {top: 0px; left: 155px;}
+.devseed .left   {top: 85px; left: 0px;}
+.devseed .right  {top: 85px; left: 180px;}
+.devseed .bottom {top: 120px; left: 25px;}
 
-.column-side .fieldset-title { position: relative; }
-.column-side .fieldset-title a {color: #666674;}
+.devseed .column-side .fieldset-title { position: relative; }
+.devseed .column-side .fieldset-title a {color: #666674;}
 
-ul.optionsMenu {
+.devseed ul.optionsMenu {
   -webkit-box-shadow: 3px 3px 8px #555;
   -moz-box-shadow: 3px 3px 8px #555;
   box-shadow: 3px 3px 8px #555;
@@ -247,28 +141,28 @@ ul.optionsMenu {
   top: -5px;
   max-width: 560px;
   z-index: 666; }
-  ul.optionsMenu {
+  .devseed ul.optionsMenu {
     margin: 0 5px; padding: 0}
-  ul.optionsMenu * {
+  .devseed ul.optionsMenu * {
     margin: 0;
     padding: 0; }
-  ul.optionsMenu a {
+  .devseed ul.optionsMenu a {
     color: black;
     display: block;
     text-decoration: none; }
-  ul.optionsMenu li {
+  .devseed ul.optionsMenu li {
     border-top: 1px solid #4e647d;
     background: #0A5469;
     height: 29px; }
-    ul.optionsMenu li .menuHover {
+    .devseed ul.optionsMenu li .menuHover {
       background: #fffee5;
       color: black;
       cursor: default; }
-    ul.optionsMenu li .optionsMenuSelFocus {
+    .devseed ul.optionsMenu li .optionsMenuSelFocus {
       background-position: auto; }
-    ul.optionsMenu li .optionsMenuSelFocus {
+    .devseed ul.optionsMenu li .optionsMenuSelFocus {
       cursor: default; }
-    ul.optionsMenu li a {
+    .devseed ul.optionsMenu li a {
       outline-style: none;
       font-weight: lighter;
       font-size: 14px;
@@ -277,31 +171,28 @@ ul.optionsMenu {
       color: white;
       display: block;
       padding-left: 10px; }
-      ul.optionsMenu li a:focus {
+      .devseed ul.optionsMenu li a:focus {
         -moz-outline-style: none; }
-        
-.growl .messages,
-.sidebar .block,
-.page-content .node,
-.page-content div.block,
-.page-content div.pager,
-.page-content div.view-empty,
-.page-content .view-content .item-list,
-.page-content .view-content table,
-.page-content #content-wrapper {
+.devseed .sidebar .block,
+.devseed .page-content .node,
+.devseed .page-content div.block,
+.devseed .page-content div.pager,
+.devseed .page-content div.view-empty,
+.devseed .page-content .view-content .item-list,
+.devseed .page-content .view-content table,
+.devseed .page-content #content-wrapper {
   -moz-box-shadow:#999 0px 0px 3px;
   -webkit-box-shadow:#999 0px 1px 3px;
   }
 
-.growl .messages,
-.sidebar .block,
-.page-content .node,
-.page-content div.block,
-.page-content div.pager,
-.page-content div.view-empty,
-.page-content .view-content .item-list,
-.page-content .view-content table,
-.page-content #content-wrapper {
+.devseed .sidebar .block,
+.devseed .page-content .node,
+.devseed .page-content div.block,
+.devseed .page-content div.pager,
+.devseed .page-content div.view-empty,
+.devseed .page-content .view-content .item-list,
+.devseed .page-content .view-content table,
+.devseed .page-content #content-wrapper {
   border:0px;
   -moz-border-radius:5px;
   -webkit-border-radius:5px;
@@ -1127,377 +1018,3 @@ ul.data-taxonomy-tags { margin: 0px;}
 
 form input#edit-delete-1 { color:#ccc; }
 
-/**
- * Views ==============================================================
- */
-/* I hate this */
-div.sidebar div.view-filters,
-div.page-content div.block div.view-filters { display:none; }
-
-div.view-filters { margin:0px 0px 10px; }
-
-div.views-exposed-form div.views-exposed-widget label,
-div.views-exposed-form div.views-exposed-widget div.views-widget {
-  margin-right:10px;
-  float:left;
-  }
-
-div.views-exposed-form div.views-exposed-widget label {
-  font-size:15px;
-  letter-spacing:-1px;
-  }
-
-div.views-exposed-form div.views-exposed-widgets,
-div.views-exposed-form div.views-exposed-widget input.form-submit { margin:0px; }
-
-div.views-exposed-form div.form-item,
-div.views-exposed-form div.views-exposed-widget { padding:0px; border:0px; margin:0px; }
-
-.page-content div.view-empty {
-  background:#fff;
-  font-size:15px;
-  padding:20px;
-  }
-
-.page-content div.view-empty div.item-list ul li {
-  border:0px;
-  display:list-item;
-  list-style:square;
-  margin-left:20px;
-  }
-
-div.navbar div.view-empty,
-div.sidebar div.view-empty {
-  text-align:center;
-  color:#999;
-  font-size:13px;
-  }
-
-  div.navbar div.view-empty { padding:20px; }
-
-  div.sidebar div.view-empty {
-    padding:10px;
-    background:#fff;
-    }
-
-/**
- * Formatting for hilighted topics.
- */
-div.sidebar div.view-mn-search-saved div.views-field-title,
-div.sidebar div.view-mn-search-saved div.views-flot { margin:0px 0px 10px; }
-
-div.sidebar div.view-mn-search-saved div.views-field-title a {
-  display:block;
-  background:#ace;
-  color:#fff;
-
-  -moz-border-radius:5px;
-  -webkit-border-radius:5px;
-  padding:10px;
-  letter-spacing:-1px;
-  font-size:18px;
-  }
-
-/**
- * Grid views.
- */
-table.views-view-grid { background:#ddd; }
-
-table.views-view-grid {
-  border-collapse:separate;
-  border-spacing:5px;
-  }
-
-table.views-view-grid td {
-  vertical-align:top;
-  -moz-border-radius:5px;
-  -webkit-border-radius:5px;
-  background:#fff;
-  padding:20px;
-  }
-
-/* MN Channels grid */
-table.views-view-grid div.views-field-title { font-size:18px; }
-table.views-view-grid div.views-field-body { font-size:11px; }
-table.views-view-grid div.views-field-item-count {
-  margin:0px 0px 10px;
-  color:#999;
-  }
-
-/**
- * Messages ===========================================================
- */
-.growl .messages {
-  position:relative;
-  margin:10px 10px 0px;
-  border:5px solid #fff;
-  padding:10px 40px 10px 10px;
-  }
-
-.growl .messages a.close {
-  display:block;
-  width:20px;
-  height:20px;
-
-  overflow:hidden;
-  text-indent:-9999px;
-  background:url(images/sprite.png) -20px 0px no-repeat;
-
-  position:absolute;
-  right:10px;
-  top:10px;
-  }
-
-
-/**
- * Page tools =========================================================
- */
-#page-tools {
-  line-height:30px;
-  height:30px;
-  float:right;
-  padding:4px 20px;
-  background:#e8e8e8 url(images/sprite.png) 0px -500px repeat-x;
-  border-top:1px solid #fff;
-  border-bottom:1px solid #ddd;
-  }
-
-#page-tools div.block { float:left; }
-
-#page-tools li { padding-left:10px; }
-
-#page-tools li a {
-  font-size:9px;
-  color:#666;
-
-  -moz-border-radius:3px;
-  -webkit-border-radius:3px;
-
-  width:30px;
-  height:30px;
-  text-indent:-999px;
-  overflow:hidden;
-  }
-
-#page-tools li a span {
-  background-image:url(images/sprite.png);
-  background-position:-370px -60px;
-  background-repeat:no-repeat;
-  float:left;
-  }
-
-  #page-tools li a:hover { background-color:#f8f8f8; }
-  #page-tools li a.views-modes-active { background-color:#fff; }
-
-  #page-tools li.views-mode-list a span { background-position:-370px -90px; }
-  #page-tools li.views-mode-map a span { background-position:-370px -120px; }
-  #page-tools li.views-mode-trash a span { background-position:-370px -330px; }
-
-#page-tools div.block-views_modes ul.links { padding-right:10px; }
-#page-tools ul.formats { border-left:1px solid #ccc; }
-
-#page-tools ul.formats a {
-  text-indent:0px;
-  overflow:visible;
-  padding:0px 5px 0px 0px;
-  width:auto;
-  }
-
-#page-tools li.feed_1 a span { background-position:-370px -150px; }
-#page-tools li.feed_2 a span { background-position:-370px -420px; }
-
-#page-tools li.print a span { background-position:-370px -180px; }
-
-/**
- * Pagers =============================================================
- */
-div.pager {
-  -moz-border-radius:5px;
-  -webkit-border-radius:5px;
-  background:#fff;
-  margin:0px 0px 10px;
-  line-height:30px;
-  }
-
-div.pager ul.pager-links,
-div.pager ul.pager-list {
-  margin:0px;
-  padding:0px;
-  float:left;
-  }
-
-div.pager ul.pager-links { float:right; }
-
-div.pager li a,
-div.pager li a:hover,
-div.pager li.pager-current {
-  -moz-box-shadow:none;
-  -webkit-box-shadow:none;
-
-  border:0px;
-  margin:0px;
-  padding:0px 10px;
-  min-width:10px;
-
-  text-align:center;
-  font-size:13px;
-  }
-
-  div.pager .pager-list li.pager-current:first-child,
-  div.pager .pager-list li:first-child a {
-    -webkit-border-top-left-radius: 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -moz-border-radius-topleft: 5px;
-    -moz-border-radius-bottomleft: 5px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    }
-
-div.pager ul.pager-links a {
-  overflow:hidden;
-  text-indent:-999px;
-  width:30px;
-  padding:0px;
-
-  background-image:url(images/sprite.png);
-  background-repeat:no-repeat;
-  background-position:30px 30px;
-  }
-
-  div.pager ul.pager-links li:last-child a {
-    -moz-border-radius:0px 0px 5px 5px;
-    -webkit-border-top-right-radius:5px;
-    -webkit-border-bottom-right-radius:5px;
-    }
-
-  div.pager ul.pager-links li.pager-previous a { background-position:0px -20px; }
-  div.pager ul.pager-links li.pager-first a { background-position:-60px -20px; }
-  div.pager ul.pager-links li.pager-next a { background-position:-30px -20px; }
-  div.pager ul.pager-links li.pager-last a { background-position:-90px -20px; }
-
-  div.pager ul.pager-links li.pager-previous a:hover { background-position:0px -50px; }
-  div.pager ul.pager-links li.pager-first a:hover { background-position:-60px -50px; }
-  div.pager ul.pager-links li.pager-next a:hover { background-position:-30px -50px; }
-  div.pager ul.pager-links li.pager-last a:hover { background-position:-90px -50px; }
-
-  div.pager li.pager-current { background:#ccc; }
-  div.pager li a:hover { background-color:#ccc; color:#fff; }
-
-/**
- * Pagers in blocks
- */
-div.block div.pager ul.pager-links li.pager-last,
-div.block div.pager ul.pager-links li.pager-first { display:none; }
-
-/**
- * Nodes ==============================================================
- */
-div.page-content div.node {
-  -moz-border-radius:5px;
-  -webkit-border-radius:5px;
-
-  background:#fff;
-  padding:10px 20px;
-  }
-
-  div.node-teaser { margin:0px 0px 10px; }
-
-div.node-submitted,
-div.node-links {
-  font-size:11px;
-  margin:10px 0px;
-  }
-
-div.node-links ul.links { float:right; }
-
-div.node-links a,
-div.node-links span {
-  -webkit-border-radius:10px;
-  -moz-border-radius:10px;
-
-  background:#ddd;
-  float:left;
-  padding:0px 10px;
-  margin-right:5px;
-  }
-
-div.node-links a:hover { background:#fff; }
-
-/**
- * Text formatting ====================================================
- */
-span.search-found {
-  -moz-border-radius:5px;
-  -webkit-border-radius:5px;
-  background:#fe8;
-  padding:3px;
-  }
-
-/**
- * Flot ===============================================================
- */
-div.views-flot {
-  -moz-border-radius:3px;
-  -webkit-border-radius:3px;
-  padding:0px 10px 0px 10px;
-  background:#fff;
-  }
-
-div.flot-caption {
-  font-size:10px;
-  text-transform:uppercase;
-  padding:0px 10px;
-  height:20px;
-  }
-
-/**
- * 404/403 ============================================================
- */
-div.access-denied,
-div.not-found {
-  -moz-border-radius:5px;
-  -webkit-border-radius:5px;
-
-  font-size:24px;
-  line-height:30px;
-  font-weight:300;
-  letter-spacing:-1px;
-  text-align:center;
-
-  background:#f8f8f8;
-  border:5px solid #fff;
-  padding:20px 20px;
-  }
-
-/**
- * Localization client ================================================
- */
-#l10n-client .labels .toggle {
-  right:auto;
-  }
-
-#l10n-client .labels h2 {
-  padding-left:35px;
-  }
-
-/**
- * Boxes ==============================================================
- */
-.block-boxes { position:relative; }
-
-.boxes-box-controls {
-  position:absolute;
-  top:5px;
-  right:5px;
-  }
-
-.boxes-box-controls .edit a {
-  text-indent:-999px;
-  overflow:hidden;
-
-  width:20px;
-  height:20px;
-  padding:0px;
-  background:#fff;
-  background:url(images/sprite.png) no-repeat;
-  }

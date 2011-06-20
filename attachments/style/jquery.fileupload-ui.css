@@ -16,6 +16,7 @@
 
 .file_upload_description {
   font: normal 13px/20px 'Helvetica Neue',Helvetica,Arial,sans-serif;
+  margin: 0px !important;
   line-height: 29px;
   text-align: center;
   color: rgba(0, 0, 0, .6);

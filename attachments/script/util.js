@@ -117,8 +117,59 @@ var util = function() {
       if (!app.timeout) app.timeout = setTimeout(throttler, wait);      
     };
   };
+  
+  function resetForm(form) {
+    $(':input', form)
+     .not(':button, :submit, :reset, :hidden')
+     .val('')
+     .removeAttr('checked')
+     .removeAttr('selected');
+  }
+  
+  function bindFormUpload(form) {
+    form.submit(function(e) {
+      e.preventDefault();
+      
+      if (Modernizr.localstorage) util.persist.clear();
+        
+      //TODO useful validation
+      // if (app.map.lastCoordinates) {
+      //   alert('Please enter an address first');
+      //   return;
+      // }
+      
+      var data = form.serializeObject();
+      _.map(_.keys(data), function(key) {
+        if (data[key] === "") delete data[key];
+      })
+      
+      $.extend(data, {"verified": false, "created_at": new Date()});
+      if (app.map && app.map.lastCoordinates) $.extend(data, {"geometry": {"type": "Point", "coordinates": app.map.lastCoordinates}});
 
-  function bindUpload(form) {
+      var reqOpts = {
+        uri: app.config.baseURL + "api",
+        method: "POST",
+        headers: {"Content-type": "application/json"}
+      }
+      
+      if (app.currentDoc) {
+        $.extend(reqOpts, {
+          uri: app.config.baseURL + "api/" + app.currentDoc._id,
+          method: "PUT"
+        })
+        $.extend(data, {"_rev": app.currentDoc._rev, "_attachments": app.currentDoc._attachments});
+      }
+      
+      reqOpts.body = JSON.stringify(data);
+      $.request(reqOpts, function(err, resp, body) {
+        resetForm(form);
+        window.scrollTo(0, 0);
+        alert('Thanks! Your submission was successfully uploaded');
+      })
+    })
+  }
+
+  function bindAttachmentUpload(form) {
     currentFileName = {};
     uploadSequence = [];
 
@@ -191,7 +242,9 @@ var util = function() {
     getBaseURL:getBaseURL,
     switchInfo: switchInfo,
     scrollDown: scrollDown,
-    bindUpload: bindUpload,
+    resetForm: resetForm,
+    bindFormUpload: bindFormUpload,
+    bindAttachmentUpload: bindAttachmentUpload,
     delay: delay,
     persist: persist
   };

@@ -9,7 +9,6 @@ var app = {
   	mapCenterLat: 45.5234515,
   	mapCenterLon: -122.6762071,
   	mapStartZoom: 2,
-  	zoomControl: false,
   	baseURL: util.getBaseURL(document.location.pathname)
   }
 };
@@ -29,7 +28,7 @@ app.handler = function(route) {
 
 app.after = {
   home: function() {
-    app.map = mapUtil.createMap(app.config);
+    app.map = mapUtil.createMap($.extend({}, app.config, {scrollWheelZoom: false, dragging: false, zoomControl: false}));
 
     app.map
       .fetchResource('cities')

@@ -25,7 +25,7 @@ var mapUtil = function() {
       popupAnchor: new L.Point(-3, -76)
     });
         
-    var map = new L.Map(config.containerId, {zoomControl: config.zoomControl});
+    var map = new L.Map(config.containerId, config);
     
     map.setView(new L.LatLng(config.mapCenterLat, config.mapCenterLon), config.mapStartZoom).addLayer(cloudmade);
 

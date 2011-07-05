@@ -107,11 +107,10 @@ var mapUtil = function() {
           if (!(name in app.cache)) app.cache[name] = {};
           data.rows.map(function(row) {
             if (!(row.id in app.cache[name])) {
-              geojson.addGeoJSON({
-                              type: "Feature", 
+              var feature = { type: "Feature", 
                               geometry: {"type": "Point", "coordinates": [row.value.longitude, row.value.latitude]}, 
-                              properties: row.value
-                            });                
+                              properties: row.value };
+              geojson.addGeoJSON(feature);                
               app.cache[name][row.id] = row.value;
             }
           })

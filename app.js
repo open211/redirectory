@@ -18,7 +18,7 @@ ddoc =
 
 ddoc.spatial = { 
   cities: function(doc) {
-    if(doc.name && doc.geometry) {        
+    if(doc.name && doc.geometry && doc.type == "city") {        
       emit(doc.geometry, doc);
     }
   }

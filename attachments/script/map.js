@@ -8,7 +8,7 @@ var mapUtil = function() {
     	mapCenterLon: -122.6762071,
     	mapStartZoom: 2,
     	zoomControl: true
-    }, config)
+    }, app.config, config)
     
     var container = $('#' + config.containerId);
     
@@ -38,6 +38,18 @@ var mapUtil = function() {
     var map = new L.Map(config.containerId, config);
     
     map.setView(new L.LatLng(config.mapCenterLat, config.mapCenterLon), config.mapStartZoom).addLayer(cloudmade).addLayer(geojson);
+    
+    if (config.dataset) {
+      map.on('moveend', function() {
+        showDataset(config.dataset);
+      }) 
+    }
+
+    // TODO scope selector
+    $('.fullscreen').click(function() {
+      $('.directory').toggleClass('fullscreen');
+      app.map.instance.invalidateSize();
+    })
     
     function listAddresses(results, status) {
       $('#address').removeClass('loading');

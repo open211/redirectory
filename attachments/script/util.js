@@ -144,6 +144,15 @@ var util = function() {
      .removeAttr('selected');
   }
   
+  function bindGeocoder(input) {
+    input.keyup(function() {
+      input.addClass('loading');
+      util.delay(function() {
+        app.map.geocoder.geocode({'address':input.val()}, app.map.listAddresses);
+      }, 2000)();
+    });
+  }
+  
   function bindFormUpload(form) {
     form.submit(function(e) {
       e.preventDefault();
@@ -252,6 +261,61 @@ var util = function() {
     });
   }
   
+  function bindAutocomplete(input) {
+    input.autocomplete({
+      source: function( request, response ) {
+        var cityName = $('.menu li a.hiLite')[0].innerText;
+        var postData = {
+          "query": {
+            "text": { "name" : request.term }
+          },
+          "fields": ["name", "coordinates", "_id"]
+        };
+        $.ajax({
+          url: "http://smalldata.org:9200/social_services/social_services/_search",
+          type: "POST",
+          dataType: "json",
+          data: JSON.stringify(postData),
+          success: function( searchData ) {
+            response( $.map( searchData.hits.hits, function( item ) {
+              return {
+                coordinates: item.fields.coordinates,
+                label: item.fields.name,
+                id: item.fields._id
+              }
+            }));
+          }
+        });
+      },
+      minLength: 2,
+      position: { my : "right top", at: "right bottom" },
+      select: function( event, selected ) {
+        var latlng = new L.LatLng(
+          selected.item.coordinates[1],
+          selected.item.coordinates[0]);
+        app.map.instance.setView(latlng, 15);
+        app.map.showDataset("services");
+        app.emitter.emit("select", selected.item.id);
+      },
+      open: function() {
+        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+      },
+      close: function() {
+        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+      }
+    }) 
+  }
+  
+  function changeCity(name) {
+    var cities = app.cache.cities;
+    $.each(cities, function(i, city) {
+      if(city.name === name) {
+        util.switchInfo("cities", city._id);
+        app.map.instance.setView(new L.LatLng(city.geometry.coordinates[1], city.geometry.coordinates[0]), 15);
+      }
+    })
+  }
+  
   return {
     Emitter:Emitter,
     cacheView: cacheView,
@@ -262,9 +326,12 @@ var util = function() {
     switchInfo: switchInfo,
     scrollDown: scrollDown,
     resetForm: resetForm,
+    bindGeocoder: bindGeocoder,
     bindFormUpload: bindFormUpload,
     bindAttachmentUpload: bindAttachmentUpload,
+    bindAutocomplete: bindAutocomplete,
     delay: delay,
-    persist: persist
+    persist: persist,
+    changeCity: changeCity
   };
 }();

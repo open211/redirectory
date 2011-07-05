@@ -33,12 +33,11 @@ app.after = {
     app.map
       .fetchResource('cities')
       .then(function(data) {
-        util.render('newCities', 'newCities', {data: data});
-        $.each(data.options, function(i, city) {
-          app.map.showPoint({type: "Feature", geometry: city.geometry, properties: city});
+        util.render('newCities', 'newCities', {options: data.docs});
+        $.each(data.docs, function(i, city) {
+          app.map.geojson.addGeoJSON({type: "Feature", geometry: city.geometry, properties: city});
         })
       })
-
 
     $('#learnMore').click(function() {
       util.scrollDown($('#content_wrapper'));
@@ -73,7 +72,7 @@ app.after = {
     app.map
       .fetchResource('cities')
       .then(function(data) {
-        util.render('cityDropdown', 'showbar', {data: data, append: true});
+        util.render('cityDropdown', 'showbar', {data: {options: data.docs}, append: true});
         $("#filter_select_1").sSelect();
         $('.menu li a').click(function() { changeCity($(this).text()) });
 
@@ -101,8 +100,8 @@ app.after = {
               type: "POST",
               dataType: "json",
               data: JSON.stringify(postData),
-              success: function( data ) {
-                response( $.map( data.hits.hits, function( item ) {
+              success: function( searchData ) {
+                response( $.map( searchData.hits.hits, function( item ) {
                   return {
                     coordinates: item.fields.coordinates,
                     label: item.fields.name,

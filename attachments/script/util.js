@@ -20,6 +20,13 @@ var util = function() {
     });
     return o;
   };
+  
+  function cacheView(view, data) {
+    if (!(view in app.cache)) app.cache[view] = {};
+    _.map(data.rows, function(doc) { 
+      app.cache[view][doc.value._id] = doc.value;
+    })
+  }
 
   function inURL(url, str) {
     var exists = false;
@@ -30,7 +37,8 @@ var util = function() {
   }
 
   function render( template, target, options ) {
-    if ( ! options ) options = {data: {}};
+    if ( !options ) options = {data: {}};
+    if ( !options.data ) options = {data: options};
     var html = $.mustache( $( "#" + template + "Template" ).html(), options.data ),
         targetDom = $( "#" + target );
     if( options.append ) {
@@ -246,6 +254,7 @@ var util = function() {
   
   return {
     Emitter:Emitter,
+    cacheView: cacheView,
     inURL: inURL,
     render: render,
     formatMetadata:formatMetadata,

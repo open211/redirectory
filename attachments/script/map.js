@@ -24,11 +24,21 @@ var mapUtil = function() {
       iconAnchor: new L.Point(5,5),
       popupAnchor: new L.Point(-3, -76)
     });
+
+    var markerDot = new MarkerDot();
         
+    var geojson = new L.GeoJSON(null, {
+   		pointToLayer: function(latlng) { return new L.Marker(latlng, {icon: markerDot}) }
+		});
+		
+		geojson.on('featureparse', function(e) {
+  		e.layer.on('click', function(c) { app.emitter.emit("select", e.properties._id) });
+    })
+    
     var map = new L.Map(config.containerId, config);
     
-    map.setView(new L.LatLng(config.mapCenterLat, config.mapCenterLon), config.mapStartZoom).addLayer(cloudmade);
-
+    map.setView(new L.LatLng(config.mapCenterLat, config.mapCenterLon), config.mapStartZoom).addLayer(cloudmade).addLayer(geojson);
+    
     function listAddresses(results, status) {
       $('#address').removeClass('loading');
       
@@ -65,81 +75,70 @@ var mapUtil = function() {
         map.setView(new L.LatLng(lat, lng), 16);
       });
     };
+    
+    function showLoader() {
+      $('.map_header', container).first().addClass('loading');
+    }
+    
+    function hideLoader() {
+      $('.map_header', container).first().removeClass('loading');
+    }
+    
+    function showDataset(name) {
+      var bbox = getBB();
+      showLoader();
+      $.ajax({
+        url: config.baseURL + "api/" + name,
+        dataType: 'jsonp',
+        data: {bbox: bbox},
+        success: function( data ) {
+          if (!(name in app.cache)) app.cache[name] = {};
+          data.rows.map(function(row) {
+            if (!(row.id in app.cache[name])) {
+              geojson.addGeoJSON({
+                              type: "Feature", 
+                              geometry: {"type": "Point", "coordinates": [row.value.longitude, row.value.latitude]}, 
+                              properties: row.value
+                            });                
+              app.cache[name][row.id] = row.value;
+            }
+          })
+          hideLoader();
+        }
+      });
+    }
+    
+    function getBB(){
+      var b = map.getBounds();
+      return b._southWest.lng + "," + b._southWest.lat + "," + b._northEast.lng + "," + b._northEast.lat;
+    }
+    
+    function fetchResource(resource) {
+      var ajaxOpts = {
+        url: config.baseURL + "api/" + resource,
+        dataType: 'json',
+        dataFilter: function(data) {
+          var data = JSON.parse(data);
+          util.cacheView(resource, data);
+          var docs = _.map(data.rows, function(item) { return item.value })
+          return JSON.stringify({ docs: docs });
+        }
+      }
+      return $.ajax(ajaxOpts).promise();
+    }
 
     return {
       instance: map,
+      geojson: geojson,
       container: container,
       config: config,
-      markerDot: new MarkerDot(),
       geocoder: new google.maps.Geocoder(),
       uri: "/" + encodeURIComponent(name) + "/",
-      
-      showLoader: function() {
-        $('.map_header', this.container).first().addClass('loading');
-      },
-
-      hideLoader: function() {
-        $('.map_header', this.container).first().removeClass('loading');
-      },
-
-      showPoint: function(feature) {
-        var point = feature.geometry,
-            markerLocation = new L.LatLng(parseFloat(point.coordinates[1]), parseFloat(point.coordinates[0])),
-            marker = new L.Marker(markerLocation, {icon: this.markerDot});
-        if (feature.properties) marker.properties = feature.properties;
-        this.instance.addLayer(marker);
-        marker.on('click', function(e){ app.emitter.emit("select", e.target.properties._id) })
-      },
-
-      showDataset: function(name) {
-        var self = this;
-        var bbox = self.getBB();
-        self.showLoader();
-        $.ajax({
-          url: self.config.baseURL + "api/" + name,
-          dataType: 'jsonp',
-          data: {bbox: bbox},
-          success: function( data ) {
-            if (!(name in app.cache)) app.cache[name] = {};
-            data.rows.map(function(row) {
-              if (!(row.id in app.cache[name])) {
-                self.showPoint({
-                                type: "Feature", 
-                                geometry: {"type": "Point", "coordinates": [row.value.longitude, row.value.latitude]}, 
-                                properties: row.value
-                              });                
-                app.cache[name][row.id] = row.value;
-              }
-            })
-            self.hideLoader();
-          }
-        });
-      },
-
-      fetchResource: function(resource) {
-        var ajaxOpts = {
-          url: this.config.baseURL + "api/" + resource,
-          dataType: 'json',
-          dataFilter: function(data) {
-            var data = JSON.parse(data);
-            if (!(resource in app.cache)) app.cache[resource] = {};
-            var options = data.rows.map(function(item) {
-              var doc = item.value;
-              if (!(doc._id in app.cache[resource])) {
-                app.cache[resource][doc._id] = doc;
-              }
-              return doc;
-            })
-            return JSON.stringify({ options: options });
-          }
-        }
-        return $.ajax(ajaxOpts).promise();
-      },
-
-      getBB: function(){
-        var b = this.instance.getBounds();
-        return b._southWest.lng + "," + b._southWest.lat + "," + b._northEast.lng + "," + b._northEast.lat;
-      },
+      showLoader: showLoader,
+      hideLoader: hideLoader,
+      showDataset: showDataset,
+      fetchResource: fetchResource,
+      getBB: getBB,
       listAddresses: listAddresses
     }
   }

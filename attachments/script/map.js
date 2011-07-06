@@ -2,6 +2,8 @@ var mapUtil = function() {
   
   function createMap(config) {
     
+    delete app.cache.services;
+    
     config = $.extend({
       containerId: 'mapContainer',
       mapCenterLat: 45.5234515,

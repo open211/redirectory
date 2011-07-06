@@ -107,9 +107,7 @@ var mapUtil = function() {
           if (!(name in app.cache)) app.cache[name] = {};
           data.rows.map(function(row) {
             if (!(row.id in app.cache[name])) {
-              var feature = { type: "Feature", 
-                              geometry: {"type": "Point", "coordinates": [row.value.longitude, row.value.latitude]}, 
-                              properties: row.value };
+              var feature = util.makeGeoJSON(row.value);
               geojson.addGeoJSON(feature);                
               app.cache[name][row.id] = row.value;
             }

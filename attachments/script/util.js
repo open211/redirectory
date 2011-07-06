@@ -153,6 +153,12 @@ var util = function() {
     });
   }
   
+  function makeGeoJSON(latlngdoc) {
+    return { type: "Feature", 
+      geometry: {"type": "Point", "coordinates": [latlngdoc.longitude, latlngdoc.latitude]}, 
+      properties: latlngdoc };
+  }
+  
   function bindFormUpload(form) {
     form.submit(function(e) {
       e.preventDefault();
@@ -326,6 +332,7 @@ var util = function() {
     switchInfo: switchInfo,
     scrollDown: scrollDown,
     resetForm: resetForm,
+    makeGeoJSON: makeGeoJSON,
     bindGeocoder: bindGeocoder,
     bindFormUpload: bindFormUpload,
     bindAttachmentUpload: bindAttachmentUpload,

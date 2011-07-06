@@ -21,6 +21,7 @@ app.emitter.bind('select', function(id) {
     }
     $.when($.ajax(ajaxOpts)).then(function(doc) {
       app.cache['services'][id] = doc;
+      app.map.geojson.addGeoJSON(util.makeGeoJSON(doc));
       util.switchInfo("services", id);
     });
   } else {

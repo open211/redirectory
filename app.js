@@ -6,7 +6,7 @@ ddoc =
   { "_id":"_design/app"
   , "rewrites" :
     [ {"from":"/", "to":"index.html"}
-    , {"from":"/api/search", "to":"../../../_search"} // TODO make paul davis fix stuff
+    , {"from":"/api/search", "to":"../../../_search/social_services/social_services/_search"} // github.com/tilgovi/redirectory/wiki/Installation
     , {"from":"/api/social_services", "to":"../../../social_services"}
     , {"from":"/api/social_services/*", "to":"../../../social_services/*"}
     , {"from":"/api/services", "to":"../../../social_services/_design/geo/_spatial/latlon"} // github/maxogden/geocouch-utils

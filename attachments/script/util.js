@@ -278,7 +278,7 @@ var util = function() {
           "fields": ["name", "latitude", "longitude", "_id"]
         };
         $.ajax({
-          url: "http://smalldata.org:9200/social_services/social_services/_search",
+          url: app.config.baseURL + "api/search",
           type: "POST",
           dataType: "json",
           data: JSON.stringify(postData),

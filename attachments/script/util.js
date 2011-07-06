@@ -278,7 +278,7 @@ var util = function() {
           "fields": ["name", "latitude", "longitude", "_id"]
         };
         $.ajax({
-          url: config.baseURL + "api/_search",
+          url: app.config.baseURL + "api/_search",
           type: "POST",
           dataType: "json",
           data: JSON.stringify(postData),

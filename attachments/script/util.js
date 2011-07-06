@@ -269,7 +269,7 @@ var util = function() {
           "query": {
             "text": { "name" : request.term }
           },
-          "fields": ["name", "coordinates", "_id"]
+          "fields": ["name", "latitude", "longitude", "_id"]
         };
         $.ajax({
           url: "http://smalldata.org:9200/social_services/social_services/_search",
@@ -279,7 +279,7 @@ var util = function() {
           success: function( searchData ) {
             response( $.map( searchData.hits.hits, function( item ) {
               return {
-                coordinates: item.fields.coordinates,
+                coordinates: [item.fields.longitude, item.fields.latitude],
                 label: item.fields.name,
                 id: item.fields._id
               }

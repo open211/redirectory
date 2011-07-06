@@ -14,7 +14,18 @@ var app = {
 };
 
 app.emitter.bind('select', function(id) {
-  util.switchInfo("services", id);
+  if (!(id in app.cache['services'])) {
+    var ajaxOpts = {
+      url: app.config.baseURL + "api/social_services/" + id,
+      dataType: 'json'
+    }
+    $.when($.ajax(ajaxOpts)).then(function(doc) {
+      app.cache['services'][id] = doc;
+      util.switchInfo("services", id);
+    });
+  } else {
+    util.switchInfo("services", id);    
+  }
 });
 
 app.handler = function(route) {

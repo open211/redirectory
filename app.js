@@ -3,15 +3,16 @@ var couchapp = require('couchapp')
   ;
 
 ddoc =
-  { _id:'_design/app'
-  , rewrites :
-    [ {from:"/", to:'index.html'}
-    , {from:"/api/services", to:'../../../social_services/_design/geo/_spatial/latlon'} // github/maxogden/geocouch-utils
-    , {from:"/api/cities", to: "_spatial/cities", "query" : {"bbox": "-180,-90,180,90"}}
-    , {from:"/api", to:'../../'}
-    , {from:"/api/services/*", to:'../../../social_services/*'}
-    , {from:"/api/*", to:'../../*'}
-    , {from:"/*", to:'*'}
+  { "_id":"_design/app"
+  , "rewrites" :
+    [ {"from":"/", "to":"index.html"}
+    , {"from":"/api/social_services", "to":"../../../social_services"}
+    , {"from":"/api/social_services/*", "to":"../../../social_services/*"}
+    , {"from":"/api/services", "to":"../../../social_services/_design/geo/_spatial/latlon"} // github/maxogden/geocouch-utils
+    , {"from":"/api/cities", "to": "_spatial/cities", "query" : {"bbox": "-180,-90,180,90"}}
+    , {"from":"/api", "to":"../../"}
+    , {"from":"/api/*", "to":"../../*"}
+    , {"from":"/*", "to":"*"}
     ]
   }
   ;

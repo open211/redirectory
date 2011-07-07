@@ -1,88 +1,78 @@
 require 'rubygems'
-require 'json'
 require 'net/http'
-require 'uri'
-require 'open-uri'
-require 'set'
+require 'json'
 
-api_host = "smalldata.org:9200"
-api_uri = "http://#{api_host}/social_services/social_services/_search"
+module Rest
+  # from http://wiki.apache.org/couchdb/Getting_started_with_Ruby
+  class Server
+    def initialize(host, port, options = nil)
+      @host = host
+      @port = port
+      @options = options
+    end
 
-result_limit = 5
+    def get(uri)
+      request(Net::HTTP::Get.new(uri))
+    end
 
-def newline_separated_file_to_set name
-  things = Set.new
-  open name do |f|
-    f.lines.each do |thing|
-      things.add thing.strip.downcase
+    def put(uri, json)
+      req = Net::HTTP::Put.new(uri)
+      req["content-type"] = "application/json"
+      req.body = json
+      request(req)
+    end
+
+    def post(uri, json)
+      req = Net::HTTP::Post.new(uri)
+      req["content-type"] = "application/json"
+      req.body = json
+      request(req)
+    end
+
+    def request(req)
+      res = Net::HTTP.start(@host, @port) { |http|http.request(req) }
+      unless res.kind_of?(Net::HTTPSuccess)
+        handle_error(req, res)
+      end
+      res
+    end
+
+    private
+
+    def handle_error(req, res)
+      log "ERROR! #{res.code}:#{res.message}\nMETHOD:#{req.method}\nURI:#{req.path}\n#{res.body}"
     end
   end
-  things
 end
 
-def parse_query words
-  unimportant_words = ['and', 'or']
-  zipcodes, keywords = words.partition {|item| item =~ /^[0-9]{5}$/}
-  cities = newline_separated_file_to_set 'http://hosting.tropo.com/71814/www/city_names.txt'
-  cities_for_query, keywords = keywords.partition {|item| cities.include? item.strip.downcase}
-  keywords.reject! {|item| unimportant_words.include?(item)}
-  return zipcodes, cities_for_query, keywords
+@api_host = "open211.org"
+@search = Rest::Server.new @api_host, 80
+
+def search(query)
+  query_json = {
+    "size" => 5,
+    "query" => {
+      "query_string" => {
+          "fields" => ["name", "description"],
+          "query" => query
+      }
+    }
+  }.to_json
+  response = @search.post "/api/search", query_json
+  JSON.parse response.body
 end
 
 unless $message
   if $currentCall.channel == "TEXT"
     input = $currentCall.initialText
     network = $currentCall.network
-    words = input.split
-    zipcodes, cities_for_query, keywords = parse_query words
-    while zipcodes.empty? and cities_for_query.empty? and keywords.empty?
-      message = "We expect input to include a ZIP code or city name (city names with spaces are unsupported currently, sorry.), along with a list of keywords to search for.  Please try again."
-      words = ask(message).split
-      zipcodes, cities_for_query, keywords = parse_query words
-    end
-    say "Searching for #{keywords.join(', ')} in #{(zipcodes + cities_for_query).join(', ')}"
-    # extra_params = {
-    #   :message => $currentCall.initialText,
-    #   :incoming_number => $currentCall.calledID,
-    #   :origin_number => $currentCall.callerID
-    # }
-    # bboxes = []
-    # zipcodes.each do |zipcode|
-    #   uri = URI.parse(api_uri + "/zip?key=" + '%22' + zipcode + '%22')
-    #   zip_response = Net::HTTP.get_response(uri)
-    #   results = JSON.parse(zip_response.body)
-    #   bbox = results["rows"][0]["value"]["bbox"]
-    #   push bboxes, bbox
-    # end
-    # query = keywords.join(',')
-    # uri = URI.parse("#{api_uri}/search?bbox=#{bbox}&query=#{query}")
-    query = {"text" => {"name" => keywords[0]}}.to_json.to_s
     begin
-      search_response = Net::HTTP.post_form(URI.parse(api_uri), {
-                                              :query => query,
-                                              :fields => ["name","coordinates","_id"]
-                                            })
-      #say search_response.body
-      results = JSON.parse(search_response.body)
-      top_hits = results["hits"].first(result_limit)
-      say (top_hits.collect {|hit| "#{hit.name}: #{hit.phone}"}).join("\n")
+      results = search(input)
+      hit = results['hits']['hits'][0]
+      say "#{hit['_source']['name']}: #{hit['_source']['phone']}"
     rescue
-      say "Oops! The query did not complete correctly and will be recorded for review. Thanks for your patience!"
+      log "Error while processing #{$currentCall.initialText} from #{$currentCall.callerID}"
     end
-  elsif $currentCall.channel == "VOICE"
-    callerID = $currentCall.callerID
-    record "Welcome to the Redirectory! What problems need solving?", {
-      :maxTime => 15,
-      :timeout => null,
-      :silenceTimeout => 3.0,
-      :terminator => "#",
-      :recordFormat => "audio/mp3",
-      :transcriptionOutURI => "mailto:briantrice@gmail.com",
-      :transcriptionOutFormat => "json",
-      :transcriptionID => callerID
-    }
-  else
-    log "Unrecognized channel"
   end
 end
 

@@ -68,8 +68,12 @@ unless $message
     network = $currentCall.network
     begin
       results = search(input)
-      hit = results['hits']['hits'][0]
-      say "#{hit['_source']['name']}: #{hit['_source']['phone']}"
+      hit = results['hits']['hits'][0]['_source']
+      response = hit['name']
+      %w(phone address hours).each do |attr|
+        response << ", #{hit[attr]}" if hit[attr]
+      end
+      say response
     rescue
       log "Error while processing #{$currentCall.initialText} from #{$currentCall.callerID}"
     end

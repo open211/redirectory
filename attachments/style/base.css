@@ -110,7 +110,7 @@
 .devseed .locationContainer .map-fieldset {height: 285px}
 .devseed #title {width: 500px; margin: 0 auto; height: 25px; line-height: 25px; margin-top: 10px}
 .devseed #title p { float: right}
-.devseed #address.loading {background-image:url(http://fbi.gov/spinner.gif); background-repeat: no-repeat; background-position: 99% center;}
+.devseed .loading {background-image:url(http://fbi.gov/spinner.gif); background-repeat: no-repeat; background-position: 99% center;}
 
 .devseed .crosshair {z-index: 666; display: none; position: absolute; top: 35px; left: 125px;}
 .devseed .left, .devseed .right, .devseed .top, .devseed .bottom {position: relative; background-color: #000; float: left;}
@@ -124,55 +124,6 @@
 .devseed .column-side .fieldset-title { position: relative; }
 .devseed .column-side .fieldset-title a {color: #666674;}
 
-.devseed ul.optionsMenu {
-  -webkit-box-shadow: 3px 3px 8px #555;
-  -moz-box-shadow: 3px 3px 8px #555;
-  box-shadow: 3px 3px 8px #555;
-  outline-style: none;
-  background: white;
-  color: black;
-  font-size: 0.85em;
-  height: auto;
-  left: 0;
-  list-style: none;
-  overflow: hidden;
-  position: relative;
-  text-align: left;
-  top: -5px;
-  max-width: 560px;
-  z-index: 666; }
-  .devseed ul.optionsMenu {
-    margin: 0 5px; padding: 0}
-  .devseed ul.optionsMenu * {
-    margin: 0;
-    padding: 0; }
-  .devseed ul.optionsMenu a {
-    color: black;
-    display: block;
-    text-decoration: none; }
-  .devseed ul.optionsMenu li {
-    border-top: 1px solid #4e647d;
-    background: #0A5469;
-    height: 29px; }
-    .devseed ul.optionsMenu li .menuHover {
-      background: #fffee5;
-      color: black;
-      cursor: default; }
-    .devseed ul.optionsMenu li .optionsMenuSelFocus {
-      background-position: auto; }
-    .devseed ul.optionsMenu li .optionsMenuSelFocus {
-      cursor: default; }
-    .devseed ul.optionsMenu li a {
-      outline-style: none;
-      font-weight: lighter;
-      font-size: 14px;
-      height: 29px;
-      line-height: 27px;
-      color: white;
-      display: block;
-      padding-left: 10px; }
-      .devseed ul.optionsMenu li a:focus {
-        -moz-outline-style: none; }
 .devseed .sidebar .block,
 .devseed .page-content .node,
 .devseed .page-content div.block,

@@ -267,52 +267,47 @@ var util = function() {
     });
   }
   
-  function bindAutocomplete(input) {
-    input.autocomplete({
-      source: function( request, response ) {
-        var cityName = $('.menu li a.hiLite')[0].innerText;
-        var postData = {
-          "query": {
-            "query_string" : {
-                "fields" : ["name", "description"],
-                "query" : request.term
-            }
-          },
-          "fields": ["name", "latitude", "longitude", "_id"]
-        };
-        $.ajax({
-          url: app.config.baseURL + "api/search",
-          type: "POST",
-          dataType: "json",
-          data: JSON.stringify(postData),
-          success: function( searchData ) {
-            response( $.map( searchData.hits.hits, function( item ) {
-              return {
-                coordinates: [item.fields.longitude, item.fields.latitude],
-                label: item.fields.name,
-                id: item.fields._id
-              }
-            }));
+  function search(term) {
+    var postData = {
+      "query": {
+        "query_string" : {
+            "fields" : ["name", "description"],
+            "query" : term
+        }
+      },
+      "fields": ["name", "latitude", "longitude", "_id"],
+      "size": 5
+    };
+    return $.ajax({
+      url: app.config.baseURL + "api/search",
+      type: "POST",
+      dataType: "json",
+      data: JSON.stringify(postData),
+      dataFilter: function(data) {
+        data = JSON.parse(data);
+        var hits = $.map( data.hits.hits, function( item ) {
+          return {
+            longitude: item.fields.longitude,
+            latitude: item.fields.latitude,
+            name: item.fields.name,
+            id: item.fields._id
           }
         });
-      },
-      minLength: 2,
-      position: { my : "right top", at: "right bottom" },
-      select: function( event, selected ) {
-        var latlng = new L.LatLng(
-          selected.item.coordinates[1],
-          selected.item.coordinates[0]);
-        app.map.instance.setView(latlng, 15);
-        app.map.showDataset("services");
-        app.emitter.emit("select", selected.item.id);
-      },
-      open: function() {
-        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-      },
-      close: function() {
-        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+        return JSON.stringify(hits);
       }
-    }) 
+    }).promise();
+  }
+  
+  function bindAutocomplete(input) {
+    input.keyup(function() {
+      input.siblings('.loading').show();
+      util.delay(function() {
+        util.search(input.val()).then(function(results) {
+          input.siblings('.loading').hide();
+          util.render('searchResults', 'search-list', {results: results});
+        });
+      }, 1000)();
+    });
   }
   
   function changeCity(name) {
@@ -326,7 +321,7 @@ var util = function() {
   }
   
   return {
-    Emitter:Emitter,
+    Emitter: Emitter,
     cacheView: cacheView,
     inURL: inURL,
     render: render,
@@ -339,6 +334,7 @@ var util = function() {
     bindGeocoder: bindGeocoder,
     bindFormUpload: bindFormUpload,
     bindAttachmentUpload: bindAttachmentUpload,
+    search: search,
     bindAutocomplete: bindAutocomplete,
     delay: delay,
     persist: persist,

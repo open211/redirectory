@@ -237,7 +237,73 @@ input:-moz-placeholder { color:#fff; };
   h2, h3{ page-break-after: avoid; }
 }
 
-.autocompleter {position: relative; float: right; margin-right: 50px; display: inline-block;}
+ul.optionsMenu {
+  -webkit-box-shadow: 3px 3px 8px #555;
+  -moz-box-shadow: 3px 3px 8px #555;
+  box-shadow: 3px 3px 8px #555;
+  outline-style: none;
+  background: white;
+  color: black;
+  font-size: 0.85em;
+  height: auto;
+  position: relative;
+  list-style: none;
+  overflow: hidden;
+  text-align: left;
+  max-width: 560px;
+  z-index: 666; }
+  ul.optionsMenu {
+    margin: 0 5px; padding: 0}
+  ul.optionsMenu * {
+    margin: 0;
+    padding: 0; }
+  ul.optionsMenu a {
+    color: black;
+    display: block;
+    text-decoration: none; }
+  ul.optionsMenu li {
+    border-top: 1px solid #4e647d;
+    background: #0A5469;
+    height: 29px; }
+    ul.optionsMenu li .menuHover {
+      background: #fffee5;
+      color: black;
+      cursor: default; }
+    ul.optionsMenu li .optionsMenuSelFocus {
+      background-position: auto; }
+    ul.optionsMenu li .optionsMenuSelFocus {
+      cursor: default; }
+    ul.optionsMenu li a {
+      outline-style: none;
+      font-weight: lighter;
+      font-size: 14px;
+      overflow: hidden;
+      height: 29px;
+      line-height: 27px;
+      color: white;
+      display: block;
+      padding: 0 10px; }
+      ul.optionsMenu li a:focus {
+        -moz-outline-style: none; }
+
+.devseed .optionsMenu {
+  left: 0;
+  top: -5px;
+}
+
+.autocompleter .optionsMenu {
+  position: absolute;
+  top: 37px;
+  right: 45px;
+  min-width: 225px;
+  max-width: 500px;
+}
+
+.autocompleter .loading {
+  display: none; width: 16px; height: 16px; background-image: url('images/loader-teal.gif'); position: absolute; top: 17px; right: 55px;
+}
+
+.autocompleter {float: right; margin-right: 50px; display: inline-block;}
 .autocompleter input {
   background: #0A5469 url('images/search.png') no-repeat scroll 3px 5px;
   color: white;

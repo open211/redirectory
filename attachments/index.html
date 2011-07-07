@@ -146,6 +146,8 @@
         <div class="showbar" id="showbar">
           <div class="autocompleter">
             <input id="search" placeholder="Search" />
+            <div class="loading"></div>
+            <ul id="search-list" class="optionsMenu search-list" data-role="listview" data-inset="true" data-theme="c"></ul>
           </div>
           <div class="fullscreen"></div>
         </div>
@@ -178,6 +180,13 @@
       </select>
     </div>
   </script>
+  
+  <script id="searchResultsTemplate" type="text/mustache">
+    {{#results}}
+    <li data-icon="false"><a data-id="{{id}}" data-lat="{{latitude}}" data-lng="{{longitude}}"class="menuOption">{{name}}</a></li>
+    {{/results}}
+  </script>
+  
 
   <script id="phoneTemplate" type="text/mustache">
     <div id="phone_wrapper" class="npt clearfix">

@@ -80,6 +80,22 @@ app.after = {
     util.persist.init();
     util.bindFormUpload($('#bulk-upload-form'));
     util.bindAttachmentUpload($('#file_upload'));
+  },
+  searchResults: function() {
+    $('.menuOption').hover(
+      function(e) { $(e.target).addClass('menuHover')}
+     ,function(e) { $(e.target).removeClass('menuHover')}
+    );
+    $('.menuOption').click(function(e) {
+      $('#search-list').empty();
+      var opt = $(e.target);
+      var latlng = new L.LatLng(
+        opt.attr('data-lat'),
+        opt.attr('data-lng'));
+      app.map.instance.setView(latlng, 15);
+      app.map.showDataset("services");
+      app.emitter.emit("select", opt.attr('data-id'));
+    })
   }
 }
 

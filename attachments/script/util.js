@@ -273,7 +273,10 @@ var util = function() {
         var cityName = $('.menu li a.hiLite')[0].innerText;
         var postData = {
           "query": {
-            "text": { "name" : request.term }
+            "query_string" : {
+                "fields" : ["name", "description"],
+                "query" : request.term
+            }
           },
           "fields": ["name", "latitude", "longitude", "_id"]
         };

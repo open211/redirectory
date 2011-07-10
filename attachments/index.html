@@ -47,7 +47,6 @@
             <li><a href="#phone">SMS</a></li>
             <li><a href="#getinvolved">Get Involved</a></li>
             <li><a href="#upload">Upload</a></li>
-            <li><a href="#about">About</a></li>
             <li><a href="#developers">Developers</a></li>
           </ul>
         </nav>
@@ -75,7 +74,7 @@
           <h4>Getting Involved</h4>
           <p>Getting involved is easy &ndash; first check and see if your city is participating by viewing our list of <a href="#cities">active cities</a>.
           </p>
-          <p>If your city is listed you can view our <a href="#editing">editing tips</a> to learn how to add information to the directory. If your city isn't yet active you can learn how to <a href="#getinvolved">get your city listed in Redirectory</a></p>
+          <p>If your city is listed you can <a href="#upload">tell us about</a> services in your area so that we can add them to the directory. If your city isn't yet active you can learn how to <a href="#getinvolved">get your city listed in Redirectory</a></p>
         </div>
         <div class="clear"></div>
         <nav id="footer_nav" class="grid_5 alpha">
@@ -85,7 +84,6 @@
             <li><a href="#phone">SMS</a></li>
             <li><a href="#getinvolved">Get Involved</a></li>
             <li><a href="#upload">Upload</a></li>
-            <li><a href="#about">About</a></li>
             <li><a href="#developers">Developers</a></li>
             <li><a href="#terms">Terms of Use</a></li>
           </ul>
@@ -114,11 +112,12 @@
         <h5 class="intro a">The Redirectory Project is a free and open directory of social services and resources that anyone can edit</h5>
         <p>Many social services organizations experience a high amount of referrals to other programs due to inquiries that are for resources that the organization isn't equipped to handle, such as an individual visiting a shelter in search of food when in fact the shelter only supplies showers and beds.</p>
         <p>By creating a directory of resources we can help both the staff of social programs and those that they are serving to be more informed when searching for the correct social services.</p>
-        <p>You can help build a rich directory of information about resources available in your community. Redirectory makes that information searchable by internet, mobile browser, <a href="#phone">SMS</a>.</p>
+        <p>You can help build a rich directory of information about resources available in your community. Open211.org makes that information searchable by internet, mobile browser, and <a href="#phone">SMS</a>.</p>
+        <img src="images/network.png">
         <h4>What you can do to help:</h4>
         <ol class="icon_list">
-          <li>See if Redirectory is in your city <em>(<a href="#cities">view active cities</a>)</em></li>
-          <li>If it is, you can add or edit a social service in your city <em>(see <a href="#editing">our editing tips</a>)</em></li>
+          <li>See if Open211 is active in your city <em>(<a href="#cities">view active cities</a>)</em></li>
+          <li>If it is, you can add or edit a social service in your city <em>(see <a href="#upload">see our upload form</a>)</em></li>
           <li>If your city isn't yet active you can learn how to add your city to Redirectory</li>
         </ol>
         <p></p>
@@ -186,30 +185,35 @@
     <li data-icon="false"><a data-id="{{id}}" data-lat="{{latitude}}" data-lng="{{longitude}}"class="menuOption">{{name}}</a></li>
     {{/results}}
   </script>
-  
 
   <script id="phoneTemplate" type="text/mustache">
     <div id="phone_wrapper" class="npt clearfix">
       <h2>Search the directory by text message</h2>
-      <p>The Redirectory is available from any phone, thanks to the <a href="http://www.tropo.com">Tropo</a> text message service.</p>
+      <p>The Redirectory is available from any phone by text messaging a phrase like "youth leadership" or "family literacy" in to receive directory information about available social services in your city.
+      </p>
       <ul>
         <li>Oakland / San Francisco: <a href="tel:+1-415-889-8462">(415) 889-8462</a></li>
         <li>Seattle: <a href="tel:+1-206-397-0792">(206) 397-0792</a></li>
         <li>Portland: <a href="tel:+1-503-575-9494">(503) 575-9494</a></li>
       </ul>
-      <p>Text message a word like "job" or "food" in to receive directory information about available social services in your area</p>
+      <img src="images/sms-diagram.png">
+      <p>Text messaging graciously provided by <a href="http://www.tropo.com">Tropo</a>. Some carrier fees may apply for users.</p></p>
     </div>
   </script>
 
   <script id="getinvolvedTemplate" type="text/mustache">
     <div id="getinvolved_wrapper" class="npt clearfix">
       <h2>Get Involved!</h2>
-      <p>Want to help improve the Redirectory? You can help in many ways.</p>
-      <ul>
-        <li><a href="#upload">Upload data</a> for your community</li>
-        <li><a href="#developers">Write a script</a> to import another website's data</li>
-        <li>Reach out locally to raise awareness of social services, and encourage social workers to share their service information</li>
-      </ul>
+      <h5 class="intro a">Want to help improve the Redirectory? We are trying to make more information about social programs accessible and there are many ways that you can help.</h5>
+      <p>We are trying to make it easy for social programs to find information about other social programs so that they can better serve their users. The best way to help is to get the word out about Open211!</p>
+      <a href="images/open211-notification-flags.pdf"><img id="notification-flag-download" src="images/open211-notification-download.png"></a>
+      <ol class="icon_list">
+        <li>Do you have information about social services or programs in your area? <a href="#upload">Tell us</a> about programs in your community.</li>
+        <li><a href="images/open211-notification-flags.pdf">Download</a> and print out our notification flags and distribute them to your friends or coworkers.</li>
+        <li>Are you a software developer? Learn how you can <a href="#developers">write a script</a> to import data.</li>
+        <li>Give us feedback! We are trying to make this a useful tool for both employees of social programs and recipients of services.</li>
+        <li>Show this website to anyone that you know that works at a social program. They can use our <a href="#upload">intake form</a> to give us accurate information about when their social program is open, what the phone number is and other important details.</li>
+      </ol>
     </div>
   </script>
 

@@ -21,7 +21,11 @@ app.emitter.bind('select', function(id) {
     }
     $.when($.ajax(ajaxOpts)).then(function(doc) {
       app.cache['services'][id] = doc;
-      app.map.geojson.addGeoJSON(util.makeGeoJSON(doc));
+      app.map.showPoint({
+        type: "Feature", 
+        geometry: {"type": "Point", "coordinates": [doc.longitude, doc.latitude]}, 
+        properties: doc
+      });
       util.switchInfo("services", id);
     });
   } else {
@@ -47,7 +51,11 @@ app.after = {
       .then(function(data) {
         util.render('newCities', 'newCities', {options: data.docs});
         $.each(data.docs, function(i, city) {
-          app.map.geojson.addGeoJSON({type: "Feature", geometry: city.geometry, properties: city});
+          app.map.showPoint({
+            type: "Feature", 
+            geometry: city.geometry,
+            properties: city
+          });
         })
       })
 
@@ -56,8 +64,13 @@ app.after = {
     });
   },
   cities: function(route) {
-    app.map = mapUtil.createMap({zoomControl: true, dataset: "services"});
-
+    app.map = mapUtil.createMap({ 
+      mapCenterLat: 37.8043637, 
+      mapCenterLon: -122.2711137,
+    	zoomControl: true,
+    	dataset: "services"
+    });
+    
     $("input[placeholder]").enablePlaceholder();
 
     app.map

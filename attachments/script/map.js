@@ -17,7 +17,7 @@ var mapUtil = function() {
     var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/d3394c6c242a4f26bb7dd4f7e132e5ff/37608/256/{z}/{x}/{y}.png',
   	    cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
   	    cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
-  	    
+    
     var MarkerDot = L.Icon.extend({
       iconUrl: 'style/images/marker-dot.png',
       shadowUrl: 'style/images/marker-shadow.png',
@@ -26,20 +26,12 @@ var mapUtil = function() {
       iconAnchor: new L.Point(5,5),
       popupAnchor: new L.Point(-3, -76)
     });
-
+    
     var markerDot = new MarkerDot();
-        
-    var geojson = new L.GeoJSON(null, {
-   		pointToLayer: function(latlng) { return new L.Marker(latlng, {icon: markerDot}) }
-		});
-		
-		geojson.on('featureparse', function(e) {
-  		e.layer.on('click', function(c) { app.emitter.emit("select", e.properties._id) });
-    })
     
     var map = new L.Map(config.containerId, config);
     
-    map.setView(new L.LatLng(config.mapCenterLat, config.mapCenterLon), config.mapStartZoom).addLayer(cloudmade).addLayer(geojson);
+    map.setView(new L.LatLng(config.mapCenterLat, config.mapCenterLon), config.mapStartZoom).addLayer(cloudmade);
     
     if (config.dataset) {
       map.on('moveend', function() {
@@ -98,6 +90,15 @@ var mapUtil = function() {
       $('.map_header', container).first().removeClass('loading');
     }
     
+    function showPoint(feature) {
+      var point = feature.geometry,
+          markerLocation = new L.LatLng(parseFloat(point.coordinates[1]), parseFloat(point.coordinates[0])),
+          marker = new L.Marker(markerLocation, {icon: markerDot});
+      if (feature.properties) marker.properties = feature.properties;
+      map.addLayer(marker);
+      marker.on('click', function(e){ app.emitter.emit("select", e.target.properties._id) })
+    }
+    
     function showDataset(name) {
       var bbox = getBB();
       showLoader();
@@ -109,8 +110,11 @@ var mapUtil = function() {
           if (!(name in app.cache)) app.cache[name] = {};
           data.rows.map(function(row) {
             if (!(row.id in app.cache[name])) {
-              var feature = util.makeGeoJSON(row.value);
-              geojson.addGeoJSON(feature);                
+              showPoint({
+                          type: "Feature", 
+                          geometry: {"type": "Point", "coordinates": [row.value.longitude, row.value.latitude]}, 
+                          properties: row.value
+                        });             
               app.cache[name][row.id] = row.value;
             }
           })
@@ -140,7 +144,7 @@ var mapUtil = function() {
 
     return {
       instance: map,
-      geojson: geojson,
+      markerDot: markerDot,
       container: container,
       config: config,
       geocoder: new google.maps.Geocoder(),
@@ -148,6 +152,7 @@ var mapUtil = function() {
       showLoader: showLoader,
       hideLoader: hideLoader,
       showDataset: showDataset,
+      showPoint: showPoint,
       fetchResource: fetchResource,
       getBB: getBB,
       listAddresses: listAddresses

@@ -140,6 +140,7 @@ body {background:#fff url('images/body_bg.png') scroll repeat-x 0 0;font:13px/17
 #main {padding:0 10px;}
 #main_content {min-height:500px}
 #header_content, #main_content, #footer_content {width:960px;margin:0 auto;}
+#header_content {height: 100px}
 #logo {width:320px;height:55px;background:transparent url('images/logo.png') scroll no-repeat 0 0;display:block;text-indent:-999em;margin:10px 0;}
 #header_nav {margin-bottom:17px;position:relative;}
 #main_nav li {float:left;margin-right:17px;font-size:16px;}
@@ -156,7 +157,7 @@ div.cta div.info h2 {font-size:16px;line-height:17px;font-weight:300}
 a.cta {display:block;background-color:#1F86A1;padding:10px 20px;color:#fff;font-size:20px;text-decoration:none;text-align:center;}
 a.cta:hover {background-color:#19B3CD;}
 #page_header {padding:0 10px;}
-#page_footer {background-color:#1F86A1;min-height:250px;}
+#page_footer {background-color:#1F86A1;height: 100%;}
 #footer_highlight {height:9px;background:transparent url('images/footer_hl.png') scroll repeat-x 0 0;padding-bottom:34px;}
 #container {margin:0;width:auto;}
 #content_wrapper {padding:17px 0 34px 0;}
@@ -314,6 +315,7 @@ ul.optionsMenu {
   background: #0A5469 url('images/search.png') no-repeat scroll 3px 5px;
   color: white;
   height: 26px;
+  line-height: 14px;
   margin: 12px 0px 0px 9px;
   padding: 0px 0px 0px 25px;
   width: 200px;
@@ -322,6 +324,11 @@ ul.optionsMenu {
   display: block;
   font-size: 14px;
 }
+
+.ie8 .autocompleter input {
+  line-height: 26px;
+}
+
 .autocompleter label {
   position: absolute;
   top: 16px;

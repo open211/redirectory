@@ -103,7 +103,7 @@ var mapUtil = function() {
       var bbox = getBB();
       showLoader();
       $.ajax({
-        url: config.baseURL + "api/" + name,
+        url: config.baseURL + "api/" + name + "/geo",
         dataType: 'jsonp',
         data: {bbox: bbox},
         success: function( data ) {

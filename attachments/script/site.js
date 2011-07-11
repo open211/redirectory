@@ -14,22 +14,22 @@ var app = {
 };
 
 app.emitter.bind('select', function(id) {
-  if (!(id in app.cache['services'])) {
+  if (!(id in app.cache['social_services'])) {
     var ajaxOpts = {
       url: app.config.baseURL + "api/social_services/" + id,
       dataType: 'json'
     }
     $.when($.ajax(ajaxOpts)).then(function(doc) {
-      app.cache['services'][id] = doc;
+      app.cache['social_services'][id] = doc;
       app.map.showPoint({
         type: "Feature", 
         geometry: {"type": "Point", "coordinates": [doc.longitude, doc.latitude]}, 
         properties: doc
       });
-      util.switchInfo("services", id);
+      util.switchInfo("social_services", id);
     });
   } else {
-    util.switchInfo("services", id);    
+    util.switchInfo("social_services", id);    
   }
 });
 
@@ -68,7 +68,7 @@ app.after = {
       mapCenterLat: 37.8043637, 
       mapCenterLon: -122.2711137,
     	zoomControl: true,
-    	dataset: "services"
+    	dataset: "social_services"
     });
     
     $("input[placeholder]").enablePlaceholder();
@@ -106,7 +106,7 @@ app.after = {
         opt.attr('data-lat'),
         opt.attr('data-lng'));
       app.map.instance.setView(latlng, 15);
-      app.map.showDataset("services");
+      app.map.showDataset("social_services");
       app.emitter.emit("select", opt.attr('data-id'));
     })
   }

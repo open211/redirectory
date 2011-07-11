@@ -261,16 +261,20 @@ var util = function() {
     });
   }
   
-  function search(term) {
+  function search(term, filter) {
     var postData = {
-      "query": {
+      "fields": ["name", "latitude", "longitude", "_id"],
+      "size": 5,
+      "query" : {
         "query_string" : {
-            "fields" : ["name", "description"],
-            "query" : term
+          "fields" : ["name", "description"],
+          "query" : term
         }
       },
-      "fields": ["name", "latitude", "longitude", "_id"],
-      "size": 5
+      "filter" : {
+        "query" : filter,
+        "_cache" : true
+      }
     };
     return $.ajax({
       url: app.config.baseURL + "api/search",
@@ -292,11 +296,11 @@ var util = function() {
     }).promise();
   }
   
-  function bindAutocomplete(input) {
+  function bindAutocomplete(input, filter) {
     input.keyup(function() {
       input.siblings('.loading').show();
       util.delay(function() {
-        util.search(input.val()).then(function(results) {
+        util.search(input.val(), filter).then(function(results) {
           input.siblings('.loading').hide();
           util.render('searchResults', 'search-list', {results: results});
         });

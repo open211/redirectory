@@ -78,9 +78,17 @@ app.after = {
       .then(function(data) {
         util.render('cityDropdown', 'showbar', {data: {options: data.docs}, append: true});
         $("#filter_select_1").sSelect();
-        $('.menu li a').click(function() { util.changeCity($(this).text()) });
+        var filter = {
+          "query_string" : {
+            "default_field" : "city"
+          }
+        };
+        $('.menu li a').click(function() { 
+          filter.query_string.query = $(this).text();
+          util.changeCity($(this).text());
+        });
         $('.menu li a:first').click();
-        util.bindAutocomplete($('#search'));
+        util.bindAutocomplete($('#search'), filter);
       });
   },
   upload: function() {

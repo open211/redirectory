@@ -13,7 +13,7 @@ database.
 
 ![map](http://i.imgur.com/q5qWA.png)
 
-For more details check out the [wiki](https://github.com/tilgovi/redirectory/wiki)
+For more details check out the [wiki](https://github.com/open211/redirectory/wiki)
 
 Installation
 ------------

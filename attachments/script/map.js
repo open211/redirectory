@@ -22,7 +22,7 @@ var mapUtil = function() {
       iconUrl: 'style/images/marker-dot.png',
       shadowUrl: 'style/images/marker-shadow.png',
       iconSize: new L.Point(11,11),
-      shadowSize: new L.Point(0.0),
+      shadowSize: new L.Point(0,0),
       iconAnchor: new L.Point(5,5),
       popupAnchor: new L.Point(-3, -76)
     });
@@ -108,7 +108,7 @@ var mapUtil = function() {
         data: {bbox: bbox},
         success: function( data ) {
           if (!(name in app.cache)) app.cache[name] = {};
-          data.rows.map(function(row) {
+          _.map(data.rows, function(row) {
             if (!(row.id in app.cache[name])) {
               showPoint({
                           type: "Feature", 

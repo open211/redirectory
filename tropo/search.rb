@@ -45,8 +45,13 @@ module Rest
   end
 end
 
-@api_host = "open211.org"
-@search = Rest::Server.new @api_host, 80
+@search = Rest::Server.new "open211.org", 80
+@cities = {
+  "12063970792" => "Seattle",
+  "14158898462" => "San Francisco",
+  "14157660887" => "Oakland",
+  "15035759494" => "Portland"
+}
 
 def search(query)
   query_json = {
@@ -57,8 +62,18 @@ def search(query)
           "query" => query
       }
     }
-  }.to_json
-  response = @search.post "/api/search", query_json
+  }
+  if @cities[$currentCall.calledID.to_s]
+    query_json['filter'] = {
+      "query" => {
+        "query_string" => {
+            "default_field" => "city",
+            "query" => @cities[$currentCall.calledID.to_s]
+        }
+      }
+    }
+  end
+  response = @search.post "/api/search", query_json.to_json
   JSON.parse response.body
 end
 

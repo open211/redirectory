@@ -261,7 +261,7 @@ var util = function() {
     });
   }
   
-  function search(term, filter) {
+  function search(term, filter, options) {
     var postData = {
       "fields": ["name", "latitude", "longitude", "_id"],
       "size": 5,
@@ -270,14 +270,17 @@ var util = function() {
           "fields" : ["name", "description"],
           "query" : term
         }
-      },
-      "filter" : {
-        "query" : filter,
-        "_cache" : true
       }
     };
+    if (filter) {
+      postData.filter = {
+        "query" : filter,
+        "_cache" : true
+      };
+    }
+    var qs = options ? '?'+$.param(options) : '';
     return $.ajax({
-      url: app.config.baseURL + "api/search",
+      url: app.config.baseURL + "api/search" + qs,
       type: "POST",
       dataType: "json",
       data: JSON.stringify(postData),

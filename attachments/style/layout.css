@@ -240,6 +240,7 @@ input:-moz-placeholder { color:#fff; };
 
 .infoList li {
   padding-bottom: 10px;
+  margin-left: 1em;
 }
 
 ul.optionsMenu {

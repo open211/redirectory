@@ -115,6 +115,7 @@ var util = function() {
   
   function switchInfo( name, id ) {
     var properties = app.cache[name][id];
+    app.selectedDoc = properties;
     var data = {properties: []}
     _.each(_.keys(properties), function(prop) {
       if (_.include(["name", "description", "source"], prop)) {
@@ -127,6 +128,7 @@ var util = function() {
         data.properties.push(formatted);
       }
     })
+    if (data.properties.length > 0) data.hasProperties = true;
     util.render('sidebar', 'left', data);
   }
   

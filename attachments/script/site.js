@@ -117,6 +117,12 @@ app.after = {
       app.map.instance.invalidateSize();
     })
   },
+  sidebar: function() {
+    $('.largeActionButton').click(function(e) {
+      util.bucket.add(app.selectedDoc);
+      util.render('showbarItems', 'showbarItems', {count: util.bucket.everything().length})
+    })
+  },
   popup: function() {
     $('.resetButton').click(function(e) {
       util.bucket.clear();

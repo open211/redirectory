@@ -85,10 +85,25 @@ var util = function() {
     return baseURL;
   }
   
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
+  }
+  
   function switchInfo( name, id ) {
     var properties = app.cache[name][id];
-    $('.sidebar .bottom').html(formatMetadata(properties));
-    $('.sidebar .title').text(properties.name);
+    var data = {properties: []}
+    _.each(_.keys(properties), function(prop) {
+      if (_.include(["name", "description", "source"], prop)) {
+        data[prop] = properties[prop];
+      } else if (_.include(["_id", "_rev", "geometry", "latitude", "longitude", "type"], prop)) {
+        return;
+      } else {
+        var formatted = {key: capitalize(prop), value: properties[prop]}
+        if (_.include(["link", "website"], prop)) formatted.classStyle = "link";
+        data.properties.push(formatted);
+      }
+    })
+    util.render('sidebar', 'left', data);
   }
   
   function scrollDown(target){
@@ -328,6 +343,7 @@ var util = function() {
     render: render,
     formatMetadata:formatMetadata,
     getBaseURL:getBaseURL,
+    capitalize: capitalize,
     switchInfo: switchInfo,
     scrollDown: scrollDown,
     resetForm: resetForm,

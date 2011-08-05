@@ -47,24 +47,34 @@ table.nonlayout * { padding: 0.5em; border: 1px black solid; }
 
 .directory {position: relative; min-height: 450px}
 .directory.fullscreen {position: absolute; top: 0px; right: 0px; left: 0px; bottom: 0px}
-.directory.fullscreen .fullscreen {background-image: url('images/fullscreen_exit.png');}
+.directory.fullscreen #fullscreen {background-image: url('images/fullscreen_exit.png');}
 .directory #header{position:absolute;top:0px;left:0px;right:0px;height:50px}
 .directory #wrapper{position:absolute;top:50px;left:0px;right:0px;bottom:0px;border:0 #C0CCCA solid; border-right-width:1px; border-bottom-width: 1px; border-left-width: 1px}
-.directory #left{position:absolute;top:0px;bottom:0px;left:0px;width:300px;overflow-y:auto}
+.directory #left{position:absolute;top:0px;bottom:0px;left:0px;width:300px;overflow-y:auto;background-color: #F0FFFD}
 .directory #right{position:absolute;top:0px;bottom:0px;right:0px;left:300px;overflow-y:auto}
 .directory .mapContainer{width:100%; height: 100%; background-color: #F0FFFD}
 .directory .topbar{position:relative;height:30px;width:100%;background-color:#1A1A1A;}
 .directory .showbar{position:relative;height:50px;width:100%;background-color:#1F86A1;}
-.directory .fullscreen {background-image: url('images/fullscreen.png'); position: absolute; right: 15px; top: 15px; width: 16px; height: 16px; opacity: 0.5}
-.directory .fullscreen:hover {opacity: 1; cursor:pointer; cursor:hand}
-.directory .sidebar{height:100%;width:299px;background-color:#F0FFFD;position:relative;border-right:1px solid #C0CCCA;}
-.directory .sidebar .title{font-family:"Geneva";font-size:18px;line-height:22px;width: 240px; max-height: 44px; overflow: hidden}
+.directory .showbarItem{opacity: 0.5; float:right; line-height: 50px; text-transform: uppercase; font-size: 11px; color: #fff; height: 50px;}
+.directory .showbarItem:hover {opacity: 1; cursor:pointer; cursor:hand}
+.directory #separator {background: url('images/vdiv.png') no-repeat 0 11px; width: 2px; margin-left: 22px; opacity: 0.2}
+.directory #fullscreen {background: url('images/fullscreen.png') no-repeat 0px 17.5px; padding-left: 25px;}
+.directory #savedLocations {background: url('images/white-plus.png') no-repeat 0px 17.5px; padding-left: 28px; margin-left: 20px;}
+.directory .sidebar{height:100%;width:299px;background-color:#F0FFFD;position:relative;border-right:1px solid #C0CCCA;overflow-x: hidden}
+.directory .sidebar .title{font-family:"Lucida Grande", "Geneva";font-size:20px;line-height:22px; font-weight: 400; color: #084354; width: 240px; max-height: 44px; overflow: hidden}
 .directory .sidebar .timestamp{opacity:0.3;font-family:"Geneva";font-size:10px;line-height:16px;width: 240px}
 .directory .sidebar .edit{opacity:0.3;font-family:"Geneva";font-size:10px;line-height:18px;padding-left:12px;background-image:url('images/edit.png');background-position:0 4px;background-repeat:no-repeat;}
 .directory .sidebar .close{position:absolute;right:10px;top:15px;width:16px;height:16px;opacity:0.2;background-image:url('images/close.png');}
 .directory .sidebar .close:hover,.sidebar .edit:hover{opacity:1;}
-.directory .sidebar .top{height:37px;background-image:url('images/sidebar-bg.png');background-repeat:repeat-x;border-bottom:1px solid #E1EEEC;padding:16px;}
-.directory .sidebar .bottom{padding:10px 16px; width: 265px; position: absolute; top: 70px; bottom: 0px; overflow-x: hidden}
+.directory .sidebar .top{background-color:#e6f3f1;border-bottom:1px solid #E1EEEC;padding:16px;}
+.directory .sidebar .description {font-family: "Lucida Grande"; font-size: 12px; font-style: italic; color: #707070; margin-top: 10px}
+.directory .sidebar .datasource {height: 10px; background: url('images/tiny-triangle.png') no-repeat 0px 5px;padding-left: 7px; font-family: "Lucida Grande"; font-size: 10px; color: #959595; margin-top: 10px}
+.directory .strong {font-weight: bold; margin-right: 5px}
+.directory .sidebar .bottom{width: 100%; overflow-x: hidden}
+.directory .sidebar .property {padding: 10px 16px; border-bottom: 1px solid #DDEFEC; overflow: auto}
+.directory .sidebar .key{width: 90px; float: left; font-family: "Lucida Grande"; font-size: 13px; font-weight: bold; color: #464646}
+.directory .sidebar .value{width: 170px; float: left; color: #707070; }
+.directory .sidebar .link{text-decoration: underline}
 .directory .sidebar p{font-family:"Geneva";font-size:11px;line-height:12px;padding-bottom:10px;color:#252525;}
 .directory .blue{color:#d5f3ff;font-family:"Geneva";font-size:13px;line-height:30px;padding:0 0 0 18px;}
 .directory .red{color:#B43D54;}
@@ -75,7 +85,6 @@ table.nonlayout * { padding: 0.5em; border: 1px black solid; }
 .directory .light_gray{color:#959595;font-family:"Geneva";font-size:13px;}
 .directory .gray{color:#c2c2c2;font-family:"Geneva";font-size:13px;}
 .directory .yellow{color:#fff799;font-family:"Geneva";font-size:14px;}
-.autocompleter {float: right; margin-right: 50px}
 a:focus{outline:1px dotted}hr{border:0 #ccc solid;border-top-width:1px;clear:both;height:0}h1{font-size:25px}h2{font-size:23px}h3{font-size:21px}h4{font-size:19px}h5{font-size:17px}h6{font-size:15px}ol{list-style:decimal}ul{list-style:disc}li{margin-left:30px}p,dl,hr,h1,h2,h3,h4,h5,h6,ol,ul,pre,table{margin-bottom:17px}
 body{min-width:960px}.container_12,.container_16{margin-left:auto;margin-right:auto;width:960px}.grid_1,.grid_2,.grid_3,.grid_4,.grid_5,.grid_6,.grid_7,.grid_8,.grid_9,.grid_10,.grid_11,.grid_12,.grid_13,.grid_14,.grid_15,.grid_16{display:inline;float:left;margin-left:10px;margin-right:10px}.push_1,.pull_1,.push_2,.pull_2,.push_3,.pull_3,.push_4,.pull_4,.push_5,.pull_5,.push_6,.pull_6,.push_7,.pull_7,.push_8,.pull_8,.push_9,.pull_9,.push_10,.pull_10,.push_11,.pull_11,.push_12,.pull_12,.push_13,.pull_13,.push_14,.pull_14,.push_15,.pull_15{position:relative}.container_12 .grid_3,.container_16 .grid_4{width:220px}.container_12 .grid_6,.container_16 .grid_8{width:460px}.container_12 .grid_9,.container_16 .grid_12{width:700px}.container_12 .grid_12,.container_16 .grid_16{width:940px}.alpha{margin-left:0}.omega{margin-right:0}.container_12 
 .grid_1{width:60px}.container_12 .grid_2{width:140px}.container_12 .grid_4{width:300px}.container_12 .grid_5{width:380px}.container_12 .grid_7{width:540px}.container_12 .grid_8{width:620px}.container_12 .grid_10{width:780px}.container_12 .grid_11{width:860px}.container_16 .grid_1{width:40px}.container_16 .grid_2{width:100px}.container_16 .grid_3{width:160px}.container_16 .grid_5{width:280px}.container_16 .grid_6{width:340px}.container_16 .grid_7{width:400px}.container_16 .grid_9{width:520px}.container_16 .grid_10{width:580px}.container_16 .grid_11{width:640px}.container_16 .grid_13{width:760px}.container_16 .grid_14{width:820px}.container_16 .grid_15{width:880px}.container_12 .prefix_3,.container_16 .prefix_4{padding-left:240px}.container_12 .prefix_6,.container_16 .prefix_8{padding-left:480px}.container_12 .prefix_9,.container_16 .prefix_12{padding-left:720px}.container_12 .prefix_1{padding-left:80px}.container_12 .prefix_2{padding-left:160px}.container_12 .prefix_4{padding-left:320px}.container_12 .prefix_5{padding-left:400px}.container_12 .prefix_7{padding-left:560px}.container_12 .prefix_8{padding-left:640px}.container_12 .prefix_10{padding-left:800px}
@@ -244,6 +253,8 @@ input:-moz-placeholder { color:#fff; };
   margin-left: 1em;
 }
 
+
+
 ul.optionsMenu {
   -webkit-box-shadow: 3px 3px 8px #555;
   -moz-box-shadow: 3px 3px 8px #555;
@@ -307,10 +318,10 @@ ul.optionsMenu {
 }
 
 .autocompleter .loading {
-  display: none; width: 16px; height: 16px; background-image: url('images/loader-teal.gif'); position: absolute; top: 17px; right: 55px;
+  display: none; width: 16px; height: 16px; background-image: url('images/loader-teal.gif'); position: absolute; top: 17px; right: 25px;
 }
 
-.autocompleter {float: right; margin-right: 50px; display: inline-block;}
+.autocompleter {float: right; margin: 0px 20px 0px 10px; display: inline-block;}
 .autocompleter input {
   background: #0A5469 url('images/search.png') no-repeat scroll 3px 5px;
   color: white;

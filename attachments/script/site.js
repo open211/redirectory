@@ -65,31 +65,31 @@ app.after = {
   },
   cities: function(route) {
     app.map = mapUtil.createMap({ 
-      mapCenterLat: 37.8043637, 
-      mapCenterLon: -122.2711137,
-    	zoomControl: true,
-    	dataset: "social_services"
-    });
-    
-    $("input[placeholder]").enablePlaceholder();
-
-    app.map
-      .fetchResource('cities')
-      .then(function(data) {
-        util.render('cityDropdown', 'showbar', {data: {options: data.docs}, append: true});
-        $("#filter_select_1").sSelect();
-        var filter = {
-          "query_string" : {
-            "default_field" : "city"
-          }
-        };
-        $('.menu li a').click(function() { 
-          filter.query_string.query = $(this).text();
-          util.changeCity($(this).text());
+          mapCenterLat: 37.8043637, 
+          mapCenterLon: -122.2711137,
+         zoomControl: true,
+         dataset: "social_services"
         });
-        $('.menu li a:first').click();
-        util.bindAutocomplete($('#search'), filter);
-      });
+        
+        $("input[placeholder]").enablePlaceholder();
+    
+        app.map
+          .fetchResource('cities')
+          .then(function(data) {
+            util.render('cityDropdown', 'showbar', {data: {options: data.docs}, append: true});
+            $("#filter_select_1").sSelect();
+            var filter = {
+              "query_string" : {
+                "default_field" : "city"
+              }
+            };
+            $('.menu li a').click(function() { 
+              filter.query_string.query = $(this).text();
+              util.changeCity($(this).text());
+            });
+            $('.menu li a:first').click();
+            util.bindAutocomplete($('#search'), filter);
+          });
   },
   upload: function() {
     app.map = mapUtil.createMap({zoomControl: true});

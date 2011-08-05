@@ -158,18 +158,14 @@
             <div class="loading"></div>
             <ul id="search-list" class="optionsMenu search-list" data-role="listview" data-inset="true" data-theme="c"></ul>
           </div>
-          <div class="fullscreen"></div>
+          <!--<div class="showbarItem" id="savedLocations">Saved Locations{{#savedLocations}}&nbsp;({{.}}){{/savedLocations}}</div>
+          <div class="showbarItem" id="separator"></div>-->
+          <div class="showbarItem" id="fullscreen">Fullscreen</div>
         </div>
       </div>
       <div id="wrapper">
         <div id="left">
-          <div class="sidebar">
-            <div class="top">
-              <div class="title"></div>
-            </div>
-            <div class="bottom">
-            </div>
-          </div>
+
         </div>
         <div id="right">
           <div id="mapContainer" class="mapContainer">
@@ -178,7 +174,25 @@
       </div>
     </div>
   </script>
-
+  
+  <script id="sidebarTemplate" type="text/mustache">
+    <div class="sidebar">
+      <div class="top">        
+        {{#name}}<div class="title">{{name}}</div>{{/name}}
+        {{#description}}<div class="description">{{description}}</div>{{/description}}
+        {{#source}}<div class="datasource"><span class="strong">DATASOURCE:</span>{{source}}</div>{{/source}}
+      </div>
+      <div class="bottom">
+      {{#properties}}
+        <div class="property">
+          <div class="key">{{key}}:</div>
+          <div class="value {{classStyle}}">{{value}}</div>
+        </div>
+      {{/properties}}
+      </div>
+    </div>
+  </script>
+  
   <script id="cityDropdownTemplate" type="text/mustache">
     <div class="dropdown_filter">
       <span class='show_me'>Showing:</span>

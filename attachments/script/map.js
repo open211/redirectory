@@ -40,7 +40,7 @@ var mapUtil = function() {
     }
 
     // TODO scope selector
-    $('.fullscreen').click(function() {
+    $('#fullscreen').click(function() {
       $('.directory').toggleClass('fullscreen');
       app.map.instance.invalidateSize();
     })

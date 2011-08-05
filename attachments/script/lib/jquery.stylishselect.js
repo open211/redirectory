@@ -14,15 +14,6 @@ Dual licensed under the MIT and GPL licenses.
     //add class of js to html tag
     $('html').addClass('stylish-select');
 
-    //create cross-browser indexOf
-    Array.prototype.indexOf = function (obj, start) {
-        for (var i = (start || 0); i < this.length; i++) {
-            if (this[i] == obj) {
-                return i;
-            }
-        }
-    }
-  
     //utility methods
     $.fn.extend({
         getSetSSValue: function(value){

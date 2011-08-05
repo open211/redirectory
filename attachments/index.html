@@ -35,6 +35,14 @@
 </head>
 <body>
   <!-- <div id="management_banner">woo<a class="so" href="#">Sign out</a></div> -->
+  <div class="popup-overlay hidden" style="z-index: 101; ">&nbsp;</div>
+  <div class="popup hidden">
+    <div class="arrow-border"></div>
+    <div class="arrow"></div>
+    <div class="popupWrapper">
+      <div id="popupContainer"></div>
+    </div>
+  </div>
   <div id="container" class="container_12">
     <div id="page_header">
       <div id="header_content">
@@ -158,21 +166,23 @@
             <div class="loading"></div>
             <ul id="search-list" class="optionsMenu search-list" data-role="listview" data-inset="true" data-theme="c"></ul>
           </div>
-          <!--<div class="showbarItem" id="savedLocations">Saved Locations{{#savedLocations}}&nbsp;({{.}}){{/savedLocations}}</div>
-          <div class="showbarItem" id="separator"></div>-->
-          <div class="showbarItem" id="fullscreen">Fullscreen</div>
+          <div id="showbarItems"></div>
         </div>
       </div>
       <div id="wrapper">
-        <div id="left">
-
-        </div>
+        <div id="left"></div>
         <div id="right">
           <div id="mapContainer" class="mapContainer">
           </div>
         </div>
       </div>
     </div>
+  </script>
+  
+  <script id="showbarItemsTemplate" type="text/mustache">
+    <div class="showbarItem" id="savedLocations">Saved Locations{{#count}}&nbsp;({{count}}){{/count}}</div>
+    <div class="showbarItem" id="separator"></div>
+    <div class="showbarItem" id="fullscreen">Fullscreen</div>
   </script>
   
   <script id="sidebarTemplate" type="text/mustache">
@@ -538,6 +548,27 @@
         <div></div>
       </td>
     </tr>
+  </script>
+  
+  <script type="text/mustache" id="popupTemplate"> 
+    {{#locations}}
+      <div class="location">
+        <div class="locationTitle">{{name}}</div>
+        <div class="locationSubtitle">{{address}}</div>
+      </div>
+    {{/locations}}
+    {{#hasContent}}
+      <div class="buttonContainer">
+        <div class="actionButton">Printable list</div>
+        <div class="resetButton">Clear list</div>
+      </div>
+    {{/hasContent}}
+    {{^hasContent}}
+      <div class="location">
+        <div class="locationTitle">You have no saved locations</div>
+        <div class="locationSubtitle">Print your saved locations from here later</div>
+      </div>
+    {{/hasContent}}
   </script>
 
   <script type="text/javascript">

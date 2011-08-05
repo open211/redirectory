@@ -35,6 +35,30 @@ var util = function() {
     }
     return exists;
   }
+  
+  function show( thing ) {
+    $('.' + thing ).show();
+    $('.' + thing + '-overlay').show();
+  }
+
+  function hide( thing ) {
+    $('.' + thing ).hide();
+    $('.' + thing + '-overlay').hide();
+    if (thing === "dialog") app.emitter.clear('esc'); // todo more elegant solution
+  }
+  
+  function position( thing, elem, offset ) {
+    var position = elem.offset();
+    if (offset) {
+      if (offset.top) position.top += offset.top;
+      if (offset.left) position.left += offset.left;
+    }
+    $('.' + thing + '-overlay').show().click(function(e) {
+      $(e.target).addClass('hidden');
+      $('.' + thing).addClass('hidden');
+    });
+    $('.' + thing).show().css({top: position.top + elem.height(), left: position.left});
+  }
 
   function render( template, target, options ) {
     if ( !options ) options = {data: {}};
@@ -110,6 +134,29 @@ var util = function() {
     $('html, body').animate({
       scrollTop: target.offset().top
     }, 1000);
+  }
+  
+  var bucket = {
+    everything: function() {
+      var list = localStorage.getItem("savedLocations");
+      if (list) list = JSON.parse(list);
+      if (!list) list = [];
+      return list;
+    },
+    fetch: function(id) {
+      return _.detect(bucket.everything(), function(doc){ return doc._id === id; })
+    },
+    add: function(newDoc) {
+      var list = bucket.everything();
+      if (bucket.fetch(newDoc._id)) return;
+      list.push(newDoc);
+      localStorage.setItem("savedLocations", JSON.stringify(list));
+    },
+    remove: function(id) {
+      var list = _.reject(bucket.everything(), function(doc){ return doc._id === id })
+      localStorage.setItem("savedLocations", JSON.stringify(list));
+    },
+    clear: function() { localStorage.removeItem("savedLocations") }
   }
   
   var persist = {
@@ -340,6 +387,9 @@ var util = function() {
     Emitter: Emitter,
     cacheView: cacheView,
     inURL: inURL,
+    show: show,
+    hide: hide,
+    position: position,
     render: render,
     formatMetadata:formatMetadata,
     getBaseURL:getBaseURL,
@@ -353,6 +403,7 @@ var util = function() {
     search: search,
     bindAutocomplete: bindAutocomplete,
     delay: delay,
+    bucket: bucket,
     persist: persist,
     changeCity: changeCity
   };

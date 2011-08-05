@@ -38,12 +38,6 @@ var mapUtil = function() {
         showDataset(config.dataset);
       }) 
     }
-
-    // TODO scope selector
-    $('#fullscreen').click(function() {
-      $('.directory').toggleClass('fullscreen');
-      app.map.instance.invalidateSize();
-    })
     
     function listAddresses(results, status) {
       $('#address').removeClass('loading');

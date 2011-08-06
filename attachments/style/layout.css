@@ -308,9 +308,6 @@ input:-moz-placeholder { color:#fff; };
   border-top: 1px solid #d9d9d9;
   margin: 0; padding: 0; }
 
-
-
-  
 .popup .location { padding: 10px 0px; border-top: 1px solid #ccd9d7; }
 .popup .location:first-child { border-top: none !important; }
 .popup .location:hover { background-color: #fffce8; border-top: 1px solid #ece9d8; cursor: pointer; cursor: hand }
@@ -319,6 +316,7 @@ input:-moz-placeholder { color:#fff; };
 
 .buttonContainer {margin: 5px 13px 0px 13px; padding-bottom: 15px; overflow-y: auto; overflow-x: hidden;}
 .actionButton, .resetButton {float: left; padding: 10px 0; width: 180px; text-align: center}
+.actionButton:hover, .resetButton:hover {cursor: pointer; cursor: hand}
 .actionButton {background-color: #daeed0; color: #588439; font-family: "Lucida Grande"; font-size: 14px; border: 1px solid #d2dfdd}
 .resetButton {background-color: #ececec; color: #636363; font-family: "Lucida Grande"; font-size: 14px; margin-left: 10px; border: 1px solid #ccd9d7}
 .largeActionButton {background-color: #daeed0; color: #588439; font-family: "Lucida Grande"; font-size: 14px; border: 1px solid #d2dfdd; width: 270px; margin-top: 10px; padding: 20px 0; text-align: center; cursor: pointer; cursor: hand}

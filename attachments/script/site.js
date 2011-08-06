@@ -130,6 +130,11 @@ app.after = {
       $('.popup-overlay').addClass('hidden');
       util.render('showbarItems', 'showbarItems', {count: util.bucket.everything().length})
     })
+    $('.actionButton').click(function(e) {
+      $('.popup').addClass('hidden');
+      $('.popup-overlay').addClass('hidden');
+      util.popup('print');
+    })
   },
   upload: function() {
     app.map = mapUtil.createMap({zoomControl: true});

@@ -575,6 +575,27 @@
       </div>
     {{/hasContent}}
   </script>
+  
+  <script type="text/mustache" id="printTemplate"> 
+    <html>
+      <head>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="style/popup-print.css" media="print" />
+        <link rel="stylesheet" href="style/popup-preview.css" media="screen" />
+      </head>
+      <body>
+        <form class="controls" style="">
+          <input type="button" value="Print this page" onClick="window.print()">
+        </form>
+        {{#locations}}
+          <div class="location">
+            <div class="locationTitle">{{name}}</div>
+            <div class="locationSubtitle">{{address}}</div>
+          </div>
+        {{/locations}}
+      </body>
+    </html>
+  </script>
 
   <script type="text/javascript">
 

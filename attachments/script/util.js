@@ -385,6 +385,14 @@ var util = function() {
     })
   }
   
+  function popup(template) {
+    var popupWindow = window.open('','name','height=400,width=600');
+    var doc = popupWindow.document;
+    var html = $.mustache( $( "#" + template + "Template" ).html(), {locations: util.bucket.everything()})
+    doc.write(html);
+    doc.close();
+  }
+  
   return {
     Emitter: Emitter,
     cacheView: cacheView,
@@ -407,6 +415,7 @@ var util = function() {
     delay: delay,
     bucket: bucket,
     persist: persist,
-    changeCity: changeCity
+    changeCity: changeCity,
+    popup: popup
   };
 }();

@@ -45,6 +45,9 @@ table.nonlayout * { padding: 0.5em; border: 1px black solid; }
 
 #notification-flag-download {float: right; margin: 0px 20px}
 
+
+/*ROLLOVER GREEN BUTTON: d0e3c6*/
+
 .directory {position: relative; min-height: 450px}
 .directory.fullscreen {position: absolute; top: 0px; right: 0px; left: 0px; bottom: 0px}
 .directory.fullscreen #fullscreen {background-image: url('images/fullscreen_exit.png');}
@@ -389,7 +392,8 @@ ul.optionsMenu {
 
 .autocompleter {float: right; margin: 0px 20px 0px 10px; display: inline-block;}
 .autocompleter input {
-  background: #0A5469 url('images/search.png') no-repeat scroll 3px 5px;
+  /*MOAR PADDING?*/
+  background: #0A5469 url('images/search.png') no-repeat scroll 5px 5px;
   color: white;
   height: 26px;
   line-height: 14px;

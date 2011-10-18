@@ -30,6 +30,7 @@ module Rest
     end
 
     def request(req)
+      res.basic_auth options.user options.pass if options.user && options.pass
       res = Net::HTTP.start(@host, @port) { |http|http.request(req) }
       unless res.kind_of?(Net::HTTPSuccess)
         handle_error(req, res)
@@ -45,7 +46,6 @@ module Rest
   end
 end
 
-@search = Rest::Server.new "open211.org", 80
 @cities = {
   "12063970792" => "Seattle",
   "14158898462" => "San Francisco",
@@ -53,45 +53,83 @@ end
   "15035759494" => "Portland"
 }
 
-def search(query)
+@search = Rest::Server.new "open211.org", 80
+@numbers = Rest::Server.new "yourcouch", 80, {"user" => "user", "pass" => "pass"}
+
+@number = $currentCall.callerID.to_s
+@query = $currentCall.initialText.downcase
+@last_search = false
+
+def get_last_search
+  res = @numbers.get "/open211_messages/" + @number
+  if res.kind_of?(Net::HTTPNotFound)
+    @last_search = false 
+  else
+    @last_search = JSON.parse res.body
+  end
+  @last_search
+end
+
+def update_last_search(data)
+  @last_search = get_last_search unless @last_search
+  new_search = @query != "next"
+  data = {"page" => 1, "query" => @query} if new_search
+  data['query'] = @last_search['query'] if @last_search && !new_search
+  data['_rev'] = @last_search['_rev'] if @last_search
+  data['_id'] = @number
+  p data
+  res = @numbers.post "/open211_messages/", data.to_json
+  JSON.parse res.body
+end
+
+def search(query, offset)
   query_json = {
-    "size" => 5,
+    "size" => offset.to_i,
     "query" => {
       "query_string" => {
-          "fields" => ["name", "description"],
-          "query" => query
+        "fields" => ["name", "description"],
+        "query" => query
       }
-    }
-  }
-  if @cities[$currentCall.calledID.to_s]
-    query_json['filter'] = {
+    },
+    "filter" => {
       "query" => {
         "query_string" => {
-            "default_field" => "city",
-            "query" => @cities[$currentCall.calledID.to_s]
+          "default_field" => "city",
+          "query" => @cities[$currentCall.calledID.to_s]
         }
       }
     }
-  end
+  }
   response = @search.post "/api/search", query_json.to_json
   JSON.parse response.body
 end
 
-unless $message
-  if $currentCall.channel == "TEXT"
-    input = $currentCall.initialText
-    network = $currentCall.network
-    begin
-      results = search(input)
-      hit = results['hits']['hits'][0]['_source']
-      response = hit['name']
-      %w(phone address hours).each do |attr|
-        response << ", #{hit[attr]}" if hit[attr]
-      end
-      say response
-    rescue
-      log "Error while processing #{$currentCall.initialText} from #{$currentCall.callerID}"
+if $currentCall.channel == "TEXT"
+  begin
+    results = search(@query)
+    
+    if @last_search = get_last_search
+      @page = @last_search['page']
+    else
+      @page = 1
     end
+
+    if @query == "next"
+      results = search @last_search['query'], @page
+    else
+      results = search @query, @page
+    end
+
+    hit = results['hits']['hits'][-1]['_source']
+    response = hit['name']
+    %w(phone address hours).each do |attr|
+      response << ", #{hit[attr]}" if hit[attr]
+    end
+    say response
+    
+    update_last_search("page" => @page + 1, "query" => @query)
+  rescue
+    log "Error while processing #{$currentCall.initialText} from #{$currentCall.callerID}"
   end
 end
 

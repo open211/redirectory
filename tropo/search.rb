@@ -3,12 +3,12 @@ require 'net/http'
 require 'json'
 
 module Rest
-  # from http://wiki.apache.org/couchdb/Getting_started_with_Ruby
+  # adapted from http://wiki.apache.org/couchdb/Getting_started_with_Ruby
   class Server
     def initialize(host, port, options = nil)
       @host = host
       @port = port
-      @options = options
+      @options = options || {}
     end
 
     def get(uri)
@@ -30,21 +30,12 @@ module Rest
     end
 
     def request(req)
-      res.basic_auth options.user options.pass if options.user && options.pass
-      res = Net::HTTP.start(@host, @port) { |http|http.request(req) }
-      unless res.kind_of?(Net::HTTPSuccess)
-        handle_error(req, res)
-      end
-      res
-    end
-
-    private
-
-    def handle_error(req, res)
-      log "ERROR! #{res.code}:#{res.message}\nMETHOD:#{req.method}\nURI:#{req.path}\n#{res.body}"
+      req.basic_auth @options['user'], @options['pass'] if (@options['user'] && @options['pass'])
+      Net::HTTP.start(@host, @port) { |http| http.request(req) }
     end
   end
 end
+
 
 @cities = {
   "12063970792" => "Seattle",
@@ -55,7 +46,6 @@ end
 
 @search = Rest::Server.new "open211.org", 80
 @numbers = Rest::Server.new "yourcouch", 80, {"user" => "user", "pass" => "pass"}
-
 @number = $currentCall.callerID.to_s
 @query = $currentCall.initialText.downcase
 @last_search = false
@@ -72,12 +62,11 @@ end
 
 def update_last_search(data)
   @last_search = get_last_search unless @last_search
-  new_search = @query != "next"
+  new_search =  %w{next n N NEXT Next}.include? @query
   data = {"page" => 1, "query" => @query} if new_search
   data['query'] = @last_search['query'] if @last_search && !new_search
   data['_rev'] = @last_search['_rev'] if @last_search
   data['_id'] = @number
-  p data
   res = @numbers.post "/open211_messages/", data.to_json
   JSON.parse res.body
 end
@@ -87,15 +76,15 @@ def search(query, offset)
     "size" => offset.to_i,
     "query" => {
       "query_string" => {
-        "fields" => ["name", "description"],
-        "query" => query
+          "fields" => ["name", "description"],
+          "query" => query
       }
     },
     "filter" => {
       "query" => {
         "query_string" => {
           "default_field" => "city",
-          "query" => @cities[$currentCall.calledID.to_s]
+          "query" => "Oakland"
         }
       }
     }
@@ -104,10 +93,9 @@ def search(query, offset)
   JSON.parse response.body
 end
 
+
 if $currentCall.channel == "TEXT"
   begin
-    results = search(@query)
-    
     if @last_search = get_last_search
       @page = @last_search['page']
     else
@@ -121,10 +109,16 @@ if $currentCall.channel == "TEXT"
     end
 
     hit = results['hits']['hits'][-1]['_source']
-    response = hit['name']
-    %w(phone address hours).each do |attr|
-      response << ", #{hit[attr]}" if hit[attr]
+    response = ""
+    %w(name organization phone address hours).each do |attribute|
+      if hit[attribute]
+        msg = hit[attribute]
+        msg = msg[0..50] + "..." if hit[attribute].length > 40
+        response << "#{msg} " if msg.length > 0 && !response.match(msg)
+      end
     end
+    
+    response = "#{response}. reply NEXT for more"
     say response
     
     update_last_search("page" => @page + 1, "query" => @query)

@@ -1,0 +1,18 @@
+{
+  "size": 1,
+  "query": {
+    "query_string": {
+      "fields": ["name", "description"],
+      "query": "food"
+    }
+  },
+  "filter": {
+    "query": {
+      "query_string": {
+        "default_field": "city",
+        "query": "Oakland"
+      }
+    }
+  }
+}
+ 

@@ -48,6 +48,7 @@ end
 @numbers = Rest::Server.new "yourcouch", 80, {"user" => "user", "pass" => "pass"}
 @number = $currentCall.callerID.to_s
 @query = $currentCall.initialText.downcase
+@next_page = %w{next n N NEXT Next}.include? @query
 @last_search = false
 
 def get_last_search
@@ -62,9 +63,8 @@ end
 
 def update_last_search(data)
   @last_search = get_last_search unless @last_search
-  new_search =  %w{next n N NEXT Next}.include? @query
-  data = {"page" => 1, "query" => @query} if new_search
-  data['query'] = @last_search['query'] if @last_search && !new_search
+  data = {"page" => 1, "query" => @query} unless @next_page
+  data['query'] = @last_search['query'] if @last_search && @next_page
   data['_rev'] = @last_search['_rev'] if @last_search
   data['_id'] = @number
   res = @numbers.post "/open211_messages/", data.to_json
@@ -102,7 +102,7 @@ if $currentCall.channel == "TEXT"
       @page = 1
     end
 
-    if @query == "next"
+    if @next_page
       results = search @last_search['query'], @page
     else
       results = search @query, @page
@@ -118,7 +118,7 @@ if $currentCall.channel == "TEXT"
       end
     end
     
-    response = "#{response}. reply NEXT for more"
+    response = "#{response}. txt back n for more"
     say response
     
     update_last_search("page" => @page + 1, "query" => @query)

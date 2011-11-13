@@ -36,7 +36,6 @@ module Rest
   end
 end
 
-
 @cities = {
   "12063970792" => "Seattle",
   "14158898462" => "San Francisco",
@@ -46,10 +45,9 @@ end
 
 @search = Rest::Server.new "open211.org", 80
 @numbers = Rest::Server.new "yourcouch", 80, {"user" => "user", "pass" => "pass"}
-@number = $currentCall.callerID.to_s
-@query = $currentCall.initialText.downcase
-@next_page = %w{next n N NEXT Next}.include? @query
-@last_search = false
+@number = #$currentCall.callerID.to_s
+@initialText = #$currentCall.initialText.downcase
+@next_page = %w{next n N NEXT Next}.include? @initialText
 
 def get_last_search
   res = @numbers.get "/open211_messages/" + @number
@@ -59,6 +57,22 @@ def get_last_search
     @last_search = JSON.parse res.body
   end
   @last_search
+end
+
+def get_page_number
+  if @last_search = get_last_search
+    return @last_search['page']
+  else
+    return 1
+  end
+end
+
+def get_query
+  if @next_page
+    return @last_search['query']
+  else
+    return  @initialText
+  end
 end
 
 def update_last_search(data)
@@ -76,8 +90,8 @@ def search(query, offset)
     "size" => offset.to_i,
     "query" => {
       "query_string" => {
-          "fields" => ["name", "description"],
-          "query" => query
+        "fields" => ["name", "description"],
+        "query" => query
       }
     },
     "filter" => {
@@ -90,38 +104,35 @@ def search(query, offset)
     }
   }
   response = @search.post "/api/search", query_json.to_json
-  JSON.parse response.body
+  results = JSON.parse response.body
+  results['hits']['hits'][-1]['_source']
 end
 
+def compose_response(hit)
+  response = ""
+  %w(name organization phone address hours).each do |attribute|
+    if hit[attribute]
+      msg = hit[attribute]
+      msg = msg[0..50] + "..." if hit[attribute].length > 40
+      response << "#{msg} " if msg.length > 0 && !response.match(msg)
+    end
+  end
+  
+  response = "#{response}. txt back n for more"
+end
+
+def perform_search
+  @page = get_page_number
+  @query = get_query
+  hit = search @query, @page
+  response = compose_response hit
+  say response
+  update_last_search("page" => @page + 1, "query" => @query)
+end
 
 if $currentCall.channel == "TEXT"
   begin
-    if @last_search = get_last_search
-      @page = @last_search['page']
-    else
-      @page = 1
-    end
-
-    if @next_page
-      results = search @last_search['query'], @page
-    else
-      results = search @query, @page
-    end
-
-    hit = results['hits']['hits'][-1]['_source']
-    response = ""
-    %w(name organization phone address hours).each do |attribute|
-      if hit[attribute]
-        msg = hit[attribute]
-        msg = msg[0..50] + "..." if hit[attribute].length > 40
-        response << "#{msg} " if msg.length > 0 && !response.match(msg)
-      end
-    end
-    
-    response = "#{response}. txt back n for more"
-    say response
-    
-    update_last_search("page" => @page + 1, "query" => @query)
+    perform_search
   rescue
     log "Error while processing #{$currentCall.initialText} from #{$currentCall.callerID}"
   end

@@ -45,8 +45,8 @@ end
 
 @search = Rest::Server.new "open211.org", 80
 @numbers = Rest::Server.new "yourcouch", 80, {"user" => "user", "pass" => "pass"}
-@number = #$currentCall.callerID.to_s
-@initialText = #$currentCall.initialText.downcase
+@number = $currentCall.callerID.to_s
+@initialText = $currentCall.initialText.downcase
 @next_page = %w{next n N NEXT Next}.include? @initialText
 
 def get_last_search

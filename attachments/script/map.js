@@ -91,7 +91,7 @@ var mapUtil = function() {
       if (feature.properties) marker.properties = feature.properties;
       map.addLayer(marker);
       marker.on('click', function(e) {
-        app.emitter.emit("select", e.target.properties._id);
+        app.emitter.emit("select", e.target);
       });
     }
 

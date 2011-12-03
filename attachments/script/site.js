@@ -24,7 +24,10 @@ app.emitter.bind('select', function(id) {
         app.cache['social_services'][id] = doc;
         app.map.showPoint({
           type: "Feature",
-          geometry: {"type": "Point", "coordinates": [doc.longitude, doc.latitude]},
+          geometry: {
+            "type": "Point",
+            "coordinates": [doc.longitude, doc.latitude]
+          },
           properties: doc
         });
         util.switchInfo("social_services", id);

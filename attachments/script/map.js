@@ -90,7 +90,9 @@ var mapUtil = function() {
           marker = new L.Marker(markerLocation, {icon: markerDot});
       if (feature.properties) marker.properties = feature.properties;
       map.addLayer(marker);
-      marker.on('click', function(e){ app.emitter.emit("select", e.target.properties._id); });
+      marker.on('click', function(e) {
+        app.emitter.emit("select", e.target.properties._id);
+      });
     }
 
     function showDataset(name) {

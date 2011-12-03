@@ -14,22 +14,28 @@ var app = {
 };
 
 app.emitter.bind('select', function(id) {
-  if (!(id in app.cache['social_services'])) {
-    var ajaxOpts = {
-      url: app.config.baseURL + "api/social_services/" + id,
-      dataType: 'json'
-    };
-    $.when($.ajax(ajaxOpts)).then(function(doc) {
-      app.cache['social_services'][id] = doc;
-      app.map.showPoint({
-        type: "Feature",
-        geometry: {"type": "Point", "coordinates": [doc.longitude, doc.latitude]},
-        properties: doc
+  if (app.cache['social_services']) {
+    if (!(id in app.cache['social_services'])) {
+      var ajaxOpts = {
+        url: app.config.baseURL + "api/social_services/" + id,
+        dataType: 'json'
+      };
+      $.when($.ajax(ajaxOpts)).then(function(doc) {
+        app.cache['social_services'][id] = doc;
+        app.map.showPoint({
+          type: "Feature",
+          geometry: {"type": "Point", "coordinates": [doc.longitude, doc.latitude]},
+          properties: doc
+        });
+        util.switchInfo("social_services", id);
       });
+    } else {
       util.switchInfo("social_services", id);
-    });
-  } else {
-    util.switchInfo("social_services", id);
+    }
+  } else if (app.cache['cities']) {
+    if (id in app.cache['cities']) {
+      // TODO visit the city
+    }
   }
 });
 

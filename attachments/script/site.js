@@ -13,8 +13,12 @@ var app = {
   }
 };
 
-app.emitter.bind('select', function(id) {
-  if (app.cache['social_services']) {
+app.emitter.bind('select', function(target) {
+  var id = target.properties._id;
+  var type = target.properties.type;
+  if (type == 'city') {
+    // TODO visit the city
+  } else {
     if (!(id in app.cache['social_services'])) {
       var ajaxOpts = {
         url: app.config.baseURL + "api/social_services/" + id,
@@ -34,10 +38,6 @@ app.emitter.bind('select', function(id) {
       });
     } else {
       util.switchInfo("social_services", id);
-    }
-  } else if (app.cache['cities']) {
-    if (id in app.cache['cities']) {
-      // TODO visit the city
     }
   }
 });

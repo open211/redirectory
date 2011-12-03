@@ -2,7 +2,7 @@ var couchapp = require('couchapp')
   , path = require('path')
   ;
 
-ddoc = { _id:'_design/social_services'}
+var ddoc = { _id:'_design/social_services'};
 
 ddoc.views = {
 
@@ -30,22 +30,22 @@ ddoc.views = {
 
 };
 
-ddoc.spatial = { 
+ddoc.spatial = {
   by_name: function(doc) {
-    if(doc.name && doc.geometry) {        
+    if(doc.name && doc.geometry) {
       emit(doc.geometry, doc.name);
     }
   },
-  
+
   full: function(doc){
   	if(doc.geometry){
   		emit(doc.geometry, doc);
   	}
   }
-}
+};
 
 ddoc.lists = {
-  
+
   geojson: function(head, req) {
       var row, out, sep = '\n';
 
@@ -58,7 +58,7 @@ ddoc.lists = {
       if ('callback' in req.query) send(req.query['callback'] + "(");
 
       send('{"type": "FeatureCollection", "features":[');
-      while (row = getRow()) {
+      while ((row = getRow())) {
           out = '{"type": "Feature", "geometry": ' + JSON.stringify(row.value.geometry);
           delete row.value.geometry;
           out += ', "properties": ' + JSON.stringify(row.value) + '}';

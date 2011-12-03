@@ -2,7 +2,7 @@ var couchapp = require('couchapp')
   , path = require('path')
   ;
 
-ddoc =
+var ddoc =
   { "_id":"_design/app"
   , "rewrites" :
     [ {"from":"/", "to":"index.html"}
@@ -18,13 +18,13 @@ ddoc =
   }
   ;
 
-ddoc.spatial = { 
+ddoc.spatial = {
   cities: function(doc) {
-    if(doc.name && doc.geometry && doc.type == "city") {        
+    if(doc.name && doc.geometry && doc.type == "city") {
       emit(doc.geometry, doc);
     }
   }
-}
+};
 
 ddoc.validate_doc_update = function (newDoc, oldDoc, userCtx) {
   if (oldDoc && userCtx.roles.indexOf('_admin') === -1) {

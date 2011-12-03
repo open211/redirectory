@@ -2,7 +2,7 @@ var couchapp = require('couchapp')
   , path = require('path')
   ;
 
-ddoc = { _id:'_design/zipcodes'};
+var ddoc = { _id:'_design/zipcodes'};
 
 ddoc.views = {
 
@@ -16,8 +16,8 @@ ddoc.views = {
         var p1, p2;
 
         for (var i=0; i < points.length; j = i++) {
-          var p1 = {x: points[i][1], y: points[i][0]};
-          var p2 = {x: points[j][1], y: points[j][0]};
+          p1 = {x: points[i][1], y: points[i][0]};
+          p2 = {x: points[j][1], y: points[j][0]};
           area += p1.x * p2.y;
           area -= p1.y * p2.x;
         }
@@ -35,8 +35,8 @@ ddoc.views = {
         var p1, p2;
 
         for (var i=0; i < points.length; j = i++) {
-          var p1 = {x: points[i][1], y: points[i][0]};
-          var p2 = {x: points[j][1], y: points[j][0]};
+          p1 = {x: points[i][1], y: points[i][0]};
+          p2 = {x: points[j][1], y: points[j][0]};
           f = p1.x * p2.y - p2.x * p1.y;
           x += (p1.x + p2.x) * f;
           y += (p1.y + p2.y) * f;
@@ -45,14 +45,14 @@ ddoc.views = {
         f = area(polygon) * 6;
         return { 'type': 'Point', 'coordinates': [y/f, x/f] };
       };
-      
-      if(doc.zipcode && doc.geometry) {       
+
+      if(doc.zipcode && doc.geometry) {
         var one_mile = 1;
         var centroid = centroid(doc.geometry);
         var lat = centroid.coordinates[1]
           , lon = centroid.coordinates[0];
-        bbox = (lon - one_mile) + "," + (lat - one_mile) + "," + (lon + one_mile) + "," + (lat + one_mile)
-        
+        var bbox = (lon - one_mile) + "," + (lat - one_mile) + "," + (lon + one_mile) + "," + (lat + one_mile);
+
         emit(doc.zipcode, {centroid: centroid, bbox: bbox});
       }
     }

@@ -20,12 +20,12 @@ var util = function() {
     });
     return o;
   };
-  
+
   function cacheView(view, data) {
     if (!(view in app.cache)) app.cache[view] = {};
-    _.map(data.rows, function(doc) { 
+    _.map(data.rows, function(doc) {
       app.cache[view][doc.value._id] = doc.value;
-    })
+    });
   }
 
   function inURL(url, str) {
@@ -35,7 +35,7 @@ var util = function() {
     }
     return exists;
   }
-  
+
   function show( thing ) {
     $('.' + thing ).show();
     $('.' + thing + '-overlay').show();
@@ -46,7 +46,7 @@ var util = function() {
     $('.' + thing + '-overlay').hide();
     if (thing === "dialog") app.emitter.clear('esc'); // todo more elegant solution
   }
-  
+
   function position( thing, elem, offset ) {
     var position = elem.offset();
     if (offset) {
@@ -82,7 +82,7 @@ var util = function() {
         if (key == 'properties') {
           $.each(val, function(attr, value){
             out = out + '<dt>' + attr + '<dd>' + value;
-          })
+          });
         } else {
           out = out + '<dt>' + key + '<dd>' + val.join(', ');
         }
@@ -108,36 +108,36 @@ var util = function() {
     }
     return baseURL;
   }
-  
+
   function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
   }
-  
+
   function switchInfo( name, id ) {
     var properties = app.cache[name][id];
     app.selectedDoc = properties;
-    var data = {properties: []}
+    var data = {properties: []};
     _.each(_.keys(properties), function(prop) {
       if (_.include(["name", "description", "source"], prop)) {
         data[prop] = properties[prop];
       } else if (_.include(["_id", "_rev", "geometry", "latitude", "longitude", "type"], prop)) {
         return;
       } else {
-        var formatted = {key: capitalize(prop), value: properties[prop]}
+        var formatted = {key: capitalize(prop), value: properties[prop]};
         if (_.include(["link", "website"], prop)) formatted.classStyle = "link";
         data.properties.push(formatted);
       }
-    })
+    });
     if (data.properties.length > 0) data.hasProperties = true;
     util.render('sidebar', 'left', data);
   }
-  
+
   function scrollDown(target){
     $('html, body').animate({
       scrollTop: target.offset().top
     }, 1000);
   }
-  
+
   var bucket = {
     everything: function() {
       var list = localStorage.getItem("savedLocations");
@@ -146,7 +146,7 @@ var util = function() {
       return list;
     },
     fetch: function(id) {
-      return _.detect(bucket.everything(), function(doc){ return doc._id === id; })
+      return _.detect(bucket.everything(), function(doc){ return doc._id === id; });
     },
     add: function(newDoc) {
       var list = bucket.everything();
@@ -155,18 +155,18 @@ var util = function() {
       localStorage.setItem("savedLocations", JSON.stringify(list));
     },
     remove: function(id) {
-      var list = _.reject(bucket.everything(), function(doc){ return doc._id === id })
+      var list = _.reject(bucket.everything(), function(doc){ return doc._id === id; });
       localStorage.setItem("savedLocations", JSON.stringify(list));
     },
-    clear: function() { localStorage.removeItem("savedLocations") }
-  }
-  
+    clear: function() { localStorage.removeItem("savedLocations"); }
+  };
+
   var persist = {
     restore: function() {
       $('.persist').each(function(i, el) {
         var inputId = $(el).attr('id');
         if(localStorage.getItem(inputId)) $('#' + inputId).val(localStorage.getItem(inputId));
-      })
+      });
     },
     save: function(id) {
       localStorage.setItem(id, $('#' + id).val());
@@ -174,7 +174,7 @@ var util = function() {
     clear: function() {
       $('.persist').each(function(i, el) {
         localStorage.removeItem($(el).attr('id'));
-      })
+      });
     },
     init: function() {
       if (Modernizr.localstorage) {
@@ -183,11 +183,11 @@ var util = function() {
         $('.persist').keyup(function(e) {
           var inputId = $(e.target).attr('id');
           util.persist.save(inputId);
-        })
+        });
       }
     }
-  }
-  
+  };
+
   // simple debounce adapted from underscore.js
   function delay(func, wait) {
     return function() {
@@ -196,10 +196,10 @@ var util = function() {
         delete app.timeout;
         func.apply(context, args);
       };
-      if (!app.timeout) app.timeout = setTimeout(throttler, wait);      
+      if (!app.timeout) app.timeout = setTimeout(throttler, wait);
     };
   };
-  
+
   function resetForm(form) {
     $(':input', form)
      .not(':button, :submit, :reset, :hidden')
@@ -207,7 +207,7 @@ var util = function() {
      .removeAttr('checked')
      .removeAttr('selected');
   }
-  
+
   function bindGeocoder(input) {
     input.keyup(function() {
       input.addClass('loading');
@@ -216,24 +216,24 @@ var util = function() {
       }, 2000)();
     });
   }
-  
+
   function bindFormUpload(form) {
     form.submit(function(e) {
       e.preventDefault();
-      
+
       if (Modernizr.localstorage) util.persist.clear();
-        
+
       //TODO useful validation
       // if (app.map.lastCoordinates) {
       //   alert('Please enter an address first');
       //   return;
       // }
-      
+
       var data = form.serializeObject();
       _.map(_.keys(data), function(key) {
         if (data[key] === "") delete data[key];
-      })
-      
+      });
+
       $.extend(data, {"verified": false, "created_at": new Date()});
       if (app.map && app.map.lastCoordinates) $.extend(data, {"geometry": {"type": "Point", "coordinates": app.map.lastCoordinates}});
 
@@ -241,30 +241,30 @@ var util = function() {
         uri: app.config.baseURL + "api",
         method: "POST",
         headers: {"Content-type": "application/json"}
-      }
-      
+      };
+
       if (app.currentDoc) {
         $.extend(reqOpts, {
           uri: app.config.baseURL + "api/" + app.currentDoc._id,
           method: "PUT"
-        })
+        });
         $.extend(data, {"_rev": app.currentDoc._rev, "_attachments": app.currentDoc._attachments});
       }
-      
+
       reqOpts.body = JSON.stringify(data);
       $.request(reqOpts, function(err, resp, body) {
         resetForm(form);
         window.scrollTo(0, 0);
         alert('Thanks! Your submission was successfully uploaded');
-      })
-    })
+      });
+    });
   }
 
   function bindAttachmentUpload(form) {
-    currentFileName = {};
+    var currentFileName = {};
     uploadSequence = [];
 
-    $.getJSON( '/_uuids', function( data ) { 
+    $.getJSON( '/_uuids', function( data ) {
       app.docURL = app.config.baseURL + "api/" + data.uuids[ 0 ] + "/";
     });
 
@@ -275,7 +275,7 @@ var util = function() {
       var next = this[index];
       currentFileName = fileName;
       var url = app.docURL + fileName;
-      if (!rev && app.currentDoc && app.currentDoc._rev) var rev = app.currentDoc._rev;
+      if (!rev && app.currentDoc && app.currentDoc._rev) rev = app.currentDoc._rev;
       if (rev) url = url + "?rev=" + rev;
       next(url);
       this[index] = null;
@@ -311,10 +311,10 @@ var util = function() {
           var reqOpts = {
             uri: app.config.baseURL + "api/" + handler.response.id,
             headers: {"Content-type": "application/json"}
-          }
+          };
           $.request(reqOpts, function(err, resp, body) {
             app.currentDoc = JSON.parse(body);
-          })
+          });
         }
       },
       onAbort: function (event, files, index, xhr, handler) {
@@ -324,7 +324,7 @@ var util = function() {
       }
     });
   }
-  
+
   function search(term, filter, options) {
     var postData = {
       "fields": ["name", "latitude", "longitude", "_id"],
@@ -356,13 +356,13 @@ var util = function() {
             latitude: item.fields.latitude,
             name: item.fields.name,
             id: item.fields._id
-          }
+          };
         });
         return JSON.stringify(hits);
       }
     }).promise();
   }
-  
+
   function bindAutocomplete(input, filter) {
     input.keyup(function() {
       input.siblings('.loading').show();
@@ -374,7 +374,7 @@ var util = function() {
       }, 1000)();
     });
   }
-  
+
   function changeCity(name) {
     var cities = app.cache.cities;
     $.each(cities, function(i, city) {
@@ -382,17 +382,17 @@ var util = function() {
         util.switchInfo("cities", city._id);
         app.map.instance.setView(new L.LatLng(city.geometry.coordinates[1], city.geometry.coordinates[0]), 15);
       }
-    })
+    });
   }
-  
+
   function popup(template) {
     var popupWindow = window.open('','name','height=400,width=600');
     var doc = popupWindow.document;
-    var html = $.mustache( $( "#" + template + "Template" ).html(), {locations: util.bucket.everything()})
+    var html = $.mustache( $( "#" + template + "Template" ).html(), {locations: util.bucket.everything()});
     doc.write(html);
     doc.close();
   }
-  
+
   return {
     Emitter: Emitter,
     cacheView: cacheView,

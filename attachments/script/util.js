@@ -74,7 +74,7 @@ var util = function() {
   }
 
   function formatMetadata(data) {
-    out = '<dl>';
+    var out = '<dl>';
     $.each(data, function(key, val) {
       if (typeof(val) == 'string' && key[0] != '_') {
         out = out + '<dt>' + key + '<dd>' + val;
@@ -179,7 +179,6 @@ var util = function() {
     init: function() {
       if (Modernizr.localstorage) {
         util.persist.restore();
-
         $('.persist').keyup(function(e) {
           var inputId = $(e.target).attr('id');
           util.persist.save(inputId);
